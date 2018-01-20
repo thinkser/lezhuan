@@ -1,0 +1,91 @@
+package com.thinkser.core.base;
+
+import android.app.Dialog;
+import android.app.Fragment;
+import android.databinding.DataBindingUtil;
+import android.databinding.OnRebindCallback;
+import android.databinding.ViewDataBinding;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.transition.TransitionManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.thinkser.core.R;
+import com.thinkser.core.utils.MarkedUtil;
+
+/**
+ * 所有fragment继承此类。
+ */
+
+public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragment {
+
+    protected D data;
+    private Dialog dialog;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        data = getData();
+        B binding = DataBindingUtil.inflate(inflater, getLayout(), container, false);
+        binding.setVariable(com.thinkser.core.BR.data, data);
+        binding.setVariable(com.thinkser.core.BR.presenter, this);
+        //添加动画效果
+        binding.addOnRebindCallback(new OnRebindCallback() {
+            @Override
+            public boolean onPreBind(ViewDataBinding binding) {
+                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(sceneRoot);
+                }
+                return true;
+            }
+        });
+        initView(binding);
+        initData();
+        return binding.getRoot();
+    }
+
+    protected abstract int getLayout();
+
+    protected abstract D getData();
+
+    protected abstract void initView(B binding);
+
+    protected void initData() {
+
+    }
+
+    protected void toast(String message) {
+        Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void toast(int code) {
+        Toast.makeText(this.getActivity(), MarkedUtil.getMessage(code), Toast.LENGTH_SHORT).show();
+    }
+
+    protected void log(String message) {
+        Log.e(this.getClass().getName(), message);
+    }
+
+    public void showProgressDialog(String text, boolean cancelable) {
+        if (dialog == null)
+            dialog = new Dialog(this.getContext());
+        dialog.show();
+        dialog.setContentView(R.layout.dialog_progress);
+        ((TextView) dialog.findViewById(R.id.textview)).setText(text);
+        dialog.setCancelable(cancelable);
+    }
+
+    public void cancelProgressDialog() {
+        if (dialog != null) {
+            dialog.setCancelable(false);
+            dialog.cancel();
+        }
+    }
+}

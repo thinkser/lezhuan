@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.BeginActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="@{data.isLogin?View.GONE:View.VISIBLE}">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10" />
+
+        <!--登录按钮-->
+        <TextView
+            style="@style/begin_button"
+            android:onClick="toLogin"
+            android:text="@string/login" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!--注册按钮-->
+        <TextView
+            style="@style/begin_button"
+            android:onClick="toRegister"
+            android:text="@string/register" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+</layout>

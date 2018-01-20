@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.MainActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:fragments="@{data.fragments}"
+            app:manager="@{data.fragmentManager}"
+            app:position="@{data.position}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
+            <!--首页-->
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->presenter.changePager(0)}">
+
+                <include
+                    layout="@layout/item_main"
+                    app:image="@{data.position==0?R.drawable.ic_home_true:R.drawable.ic_home_false}"
+                    app:text="@{@string/home}"
+                    app:textColor="@{data.position==0?@color/colorTheme:@color/colorTextLight}" />
+            </RelativeLayout>
+
+            <!--社交-->
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->presenter.changePager(1)}">
+
+                <include
+                    layout="@layout/item_main"
+                    app:image="@{data.position==1?R.drawable.ic_message_true:R.drawable.ic_message_false}"
+                    app:text="@{@string/message}"
+                    app:textColor="@{data.position==1?@color/colorTheme:@color/colorTextLight}" />
+            </RelativeLayout>
+
+            <!--个人中心-->
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->presenter.changePager(2)}">
+
+                <include
+                    layout="@layout/item_main"
+                    app:image="@{data.position==2?R.drawable.ic_person_true:R.drawable.ic_person_false}"
+                    app:text="@{@string/person}"
+                    app:textColor="@{data.position==2?@color/colorTheme:@color/colorTextLight}" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
