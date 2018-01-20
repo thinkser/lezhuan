@@ -12,9 +12,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.thinkser.core.BR;
 import com.thinkser.core.R;
 import com.thinkser.core.utils.MarkedUtil;
+import com.thinkser.core.utils.SystemBarTintManager;
 
 /**
  * 所有activity继承此类。
@@ -52,8 +55,20 @@ public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding
                 return true;
             }
         });
+        initStatus();
         initView(binding);
         initData();
+    }
+
+    //初始化通知栏
+    private void initStatus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.colorStatus);
     }
 
     protected abstract int getLayout();
@@ -78,15 +93,18 @@ public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding
         Log.e(this.getClass().getName(), message);
     }
 
+    //显示加载中对话框
     public void showProgressDialog(String text, boolean cancelable) {
         if (dialog == null)
             dialog = new Dialog(this);
         dialog.show();
-        dialog.setContentView(R.layout.dialog_progress);
-        ((TextView) dialog.findViewById(R.id.textview)).setText(text);
+        ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_progress, null, false);
+        dialog.setContentView(binding.getRoot());
+        binding.setVariable(BR.content, text);
         dialog.setCancelable(cancelable);
     }
 
+    //取消加载中对话框
     public void cancelProgressDialog() {
         if (dialog != null) {
             dialog.setCancelable(false);
@@ -94,6 +112,9 @@ public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding
         }
     }
 
+    /**
+     *以下方法为点击空白处隐藏键盘
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

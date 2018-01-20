@@ -4,11 +4,4 @@
         <attr name="spanCount" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="Title">
-        <attr name="layoutColor" format="color" />
-        <attr name="backColor" format="color" />
-        <attr name="lineColor" format="color" />
-        <attr name="titleColor" format="color" />
-        <attr name="title" format="string" />
-    </declare-styleable>
 </resources>

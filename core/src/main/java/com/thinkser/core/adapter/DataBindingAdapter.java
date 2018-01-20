@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.thinkser.core.view.MyRecyclerView;
-import com.thinkser.core.view.Title;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,6 +58,18 @@ public class DataBindingAdapter {
                 .into(imageView);
     }
 
+    //设置图片颜色
+    @BindingAdapter("tint")
+    public static void setTint(ImageView imageView, int color) {
+        imageView.setColorFilter(color);
+    }
+
+    //设置背景颜色
+    @BindingAdapter("bgColor")
+    public static void bgColor(View view, int color) {
+        view.setBackgroundColor(color);
+    }
+
     //viewpager显示fragment
     @BindingAdapter({"manager", "fragments", "position"})
     public static void setPosition(ViewPager viewPager, FragmentManager manager,
@@ -76,12 +87,6 @@ public class DataBindingAdapter {
         recycler.setListener(listener);
         if (decoration != null)
             recycler.addDecoration(decoration);
-    }
-
-    //设置标题返回按钮点击事件
-    @BindingAdapter("titleClick")
-    public static void setTitleClick(Title title, View.OnClickListener listener) {
-        title.setOnClick(listener);
     }
 
 }

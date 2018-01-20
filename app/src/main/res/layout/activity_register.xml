@@ -11,10 +11,6 @@
         <variable
             name="presenter"
             type="com.thinkser.lezhuan.activity.RegisterActivity" />
-
-        <variable
-            name="title"
-            type="com.thinkser.core.view.Title" />
     </data>
 
     <LinearLayout
@@ -23,29 +19,21 @@
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
-
         <!--标题栏-->
-        <com.thinkser.core.view.Title
-            android:id="@+id/title"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:backColor="@color/colorTheme"
-            app:layoutColor="@color/colorTab"
-            app:lineColor="@color/colorLine"
-            app:title="@string/forget"
-            app:titleColor="@color/colorTextDark" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine" />
-
-        <EditText
-            style="@style/login_edit"
-            android:hint="@string/phone"
-            android:inputType="number"
-            android:maxLength="11"
-            android:text="@={data.phone}" />
+            <include
+                layout="@layout/title"
+                app:back="@{()->presenter.back()}"
+                app:backColor="@{@color/colorTheme}"
+                app:layoutColor="@{@color/colorTab}"
+                app:lineColor="@{@color/colorLine}"
+                app:title="@{@string/register}"
+                app:titleColor="@{@color/colorTextDark}" />
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
@@ -54,70 +42,95 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorWhite">
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="vertical">
 
+            <!--手机号-->
             <EditText
                 style="@style/login_edit"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:hint="@string/code"
+                android:hint="@string/phone"
                 android:inputType="number"
-                android:maxLength="6"
-                android:text="@={data.code}" />
+                android:maxLength="11"
+                android:text="@={data.phone}" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLine" />
+
+            <!--验证码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorWhite">
+
+                <EditText
+                    style="@style/login_edit"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="@string/code"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:text="@={data.code}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="@{data.getCode.equals(@string/getCode)}"
+                    android:gravity="center"
+                    android:onClick="@{()->presenter.getCode()}"
+                    android:padding="13dp"
+                    android:text="@{data.getCode}"
+                    android:textColor="@{data.getCode.equals(@string/getCode)?@color/colorTheme:@color/colorTextLight}"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorLine" />
+
+            <!--昵称-->
+            <EditText
+                style="@style/login_edit"
+                android:hint="@string/username"
+                android:maxLength="10"
+                android:text="@={data.username}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLine" />
+
+            <!--密码-->
+            <EditText
+                style="@style/login_edit"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:text="@={data.password}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLine" />
+
+            <!--确认密码-->
+            <EditText
+                style="@style/login_edit"
+                android:hint="@string/check"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:text="@={data.check}" />
+
+            <!--注册按钮-->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="@{data.getCode.equals(@string/getCode)}"
-                android:gravity="center"
-                android:onClick="@{()->presenter.getCode()}"
-                android:padding="13dp"
-                android:text="@{data.getCode}"
-                android:textColor="@{data.getCode.equals(@string/getCode)?@color/colorTheme:@color/colorTextLight}"
-                android:textSize="15sp" />
+                style="@style/login_button"
+                android:onClick="@{()->presenter.register()}"
+                android:text="@string/register" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorLine" />
-
-        <EditText
-            style="@style/login_edit"
-            android:hint="@string/username"
-            android:maxLength="10"
-            android:text="@={data.username}" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine" />
-
-        <EditText
-            style="@style/login_edit"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            android:text="@={data.password}" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine" />
-
-        <EditText
-            style="@style/login_edit"
-            android:hint="@string/check"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            android:text="@={data.check}" />
-
-        <TextView
-            style="@style/login_button"
-            android:onClick="@{()->presenter.register()}"
-            android:text="@string/register" />
 
     </LinearLayout>
 </layout>

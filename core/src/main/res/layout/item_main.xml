@@ -4,8 +4,6 @@
 
     <data>
 
-        <import type="com.thinkser.core.R" />
-
         <variable
             name="text"
             type="String" />

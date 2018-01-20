@@ -14,4 +14,6 @@
     <color name="colorTextDark">#333333</color>
     <color name="colorTextLight">#666666</color>
     <color name="colorHint">#999999</color>
+    <!--通知栏颜色-->
+    <color name="colorStatus">#33333333</color>
 </resources>

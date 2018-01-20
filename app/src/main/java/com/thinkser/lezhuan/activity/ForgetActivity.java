@@ -43,7 +43,10 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
 
     @Override
     protected void initView(ActivityForgetBinding binding) {
-        binding.title.setOnClick((view) -> finish());
+    }
+
+    public void back() {
+        finish();
     }
 
     @Override
@@ -124,6 +127,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
             toast(7006);
             return;
         }
+        showProgressDialog("请稍候", false);
         BmobSMS.verifySmsCode(data.phone.get(), data.code.get(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
@@ -139,6 +143,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
                 } else {
                     toast(e.getErrorCode());
                 }
+                cancelProgressDialog();
             }
         });
     }

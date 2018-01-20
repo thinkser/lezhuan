@@ -3,9 +3,7 @@ package com.thinkser.lezhuan.activity;
 import android.content.Intent;
 import android.view.View;
 
-import com.thinkser.core.BR;
 import com.thinkser.core.base.BaseActivity;
-import com.thinkser.core.view.Title;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.ActivityLoginBinding;
@@ -37,7 +35,10 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
 
     @Override
     protected void initView(ActivityLoginBinding binding) {
-        binding.title.setOnClick((view) -> finish());
+    }
+
+    public void back(){
+        finish();
     }
 
     @Override

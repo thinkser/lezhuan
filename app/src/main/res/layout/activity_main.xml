@@ -24,7 +24,7 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="12"
             app:fragments="@{data.fragments}"
             app:manager="@{data.fragmentManager}"
             app:position="@{data.position}" />
@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorTab"
             android:paddingBottom="6dp"
             android:paddingTop="6dp">
 
