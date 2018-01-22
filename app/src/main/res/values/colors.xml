@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorTheme">#ef1313</color>
+    <color name="colorMerchant">#fc993c</color>
+    <color name="colorCustom">#ef1313</color>
+    <color name="colorSystem">#2ccccc</color>
+    <color name="colorOther">#1a86d6</color>
 </resources>

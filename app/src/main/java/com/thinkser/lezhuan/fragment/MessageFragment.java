@@ -18,11 +18,6 @@ public class MessageFragment extends BaseFragment<AppData, FragmentMessageBindin
 
     @Override
     protected AppData getData() {
-        return new AppData();
-    }
-
-    @Override
-    protected void initView(FragmentMessageBinding binding) {
-
+        return AppData.getAppData();
     }
 }

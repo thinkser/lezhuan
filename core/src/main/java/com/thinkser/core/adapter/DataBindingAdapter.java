@@ -27,13 +27,18 @@ public class DataBindingAdapter {
     //显示drawable里的图片
     @BindingAdapter("src")
     public static void setSrc(ImageView imageView, int src) {
-        Bitmap bitmap = BitmapFactory.decodeResource(imageView.getResources(), src);
-        imageView.setImageBitmap(bitmap);
+        if (src != 0) {
+            Bitmap bitmap = BitmapFactory.decodeResource(imageView.getResources(), src);
+            imageView.setImageBitmap(bitmap);
+        }
     }
 
     //显示SD卡里的图片
     @BindingAdapter("src")
     public static void setSrc(ImageView imageView, String src) {
+        if (src == null || src.equals(""))
+            return;
+
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(src);
@@ -58,16 +63,18 @@ public class DataBindingAdapter {
                 .into(imageView);
     }
 
-    //设置图片颜色
-    @BindingAdapter("tint")
-    public static void setTint(ImageView imageView, int color) {
+    //设置矢量图和颜色
+    @BindingAdapter({"src", "tint"})
+    public static void setTint(ImageView imageView, int src, int color) {
+        imageView.setImageDrawable(imageView.getContext().getResources().getDrawable(src));
         imageView.setColorFilter(color);
     }
 
     //设置背景颜色
     @BindingAdapter("bgColor")
     public static void bgColor(View view, int color) {
-        view.setBackgroundColor(color);
+        if (color != 0)
+            view.setBackgroundColor(color);
     }
 
     //viewpager显示fragment

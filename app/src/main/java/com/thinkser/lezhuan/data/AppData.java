@@ -26,8 +26,36 @@ public class AppData extends BaseData {
             code = new ObservableField<>(""),
             getCode = new ObservableField<>("获取验证码");
 
-    //main界面
+    //main
     public final ObservableField<FragmentManager> fragmentManager = new ObservableField<>();
     public final ObservableList<Fragment> fragments = new ObservableArrayList<>();
     public final ObservableInt position = new ObservableInt();
+
+    //person
+    public final ObservableField<String>
+            portrait = new ObservableField<>(""),
+            signature = new ObservableField<>("个性签名");
+
+
+    private static AppData appData;
+
+    private AppData() {
+
+    }
+
+    public static AppData getAppData() {
+        if (appData == null) {
+            synchronized (AppData.class) {
+                if (appData == null) {
+                    appData = new AppData();
+                }
+            }
+        }
+        return appData;
+    }
+
+    public static void clear() {
+        appData = new AppData();
+    }
+
 }

@@ -24,12 +24,13 @@ public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
 
     @Override
     protected AppData getData() {
-        return new AppData();
+        return AppData.getAppData();
     }
 
     @Override
     protected void initView(ActivityMainBinding binding) {
         binding.viewpager.addOnPageChangeListener(this);
+        binding.viewpager.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -52,11 +53,9 @@ public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
     }
 }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="click"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="url"
+            type="String" />
+
+        <variable
+            name="image"
+            type="Integer" />
+
+        <variable
+            name="portrait"
+            type="String" />
+
+        <variable
+            name="placeholder"
+            type="Integer" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="value"
+            type="String" />
+
+        <variable
+            name="showEnter"
+            type="Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item"
+        android:onClick="@{click}"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_weight="2"
+                android:scaleType="centerCrop"
+                android:visibility='@{url==null&amp;image==0?View.GONE:View.VISIBLE}'
+                app:placeholder="@{image}"
+                app:url="@{url}" />
+
+            <com.thinkser.core.view.RoundImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_weight="2"
+                android:scaleType="centerCrop"
+                android:visibility='@{portrait==null&amp;placeholder==0?View.GONE:View.VISIBLE}'
+                app:placeholder="@{placeholder}"
+                app:url="@{portrait}" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:text="@{title}"
+                android:textColor="@color/colorTextDark"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical|end"
+                android:text="@{value}"
+                android:textColor="@color/colorTextLight"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/svg_enter"
+                android:tint="@color/colorHint"
+                android:visibility="@{showEnter?View.VISIBLE:View.GONE}" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
+    </LinearLayout>
+</layout>

@@ -17,4 +17,19 @@
     <string name="home">首页</string>
     <string name="message">社交</string>
     <string name="person">我的</string>
+    <!--person-->
+    <string name="setting">设置</string>
+    <string name="publish">我的发布</string>
+    <string name="transmit">我的转发</string>
+    <string name="collect">我的收藏</string>
+    <string name="wallet">我的钱包</string>
+    <string name="store">我的店铺</string>
+    <string name="card">我的卡片</string>
+    <string name="about">关于</string>
+    <string name="help">帮助</string>
+    <string name="feedback">反馈</string>
+    <string name="join">加入我们</string>
+    <string name="clear">清除缓存</string>
+    <string name="exit">退出登录</string>
+
 </resources>

@@ -56,10 +56,10 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
 
     protected abstract D getData();
 
-    protected abstract void initView(B binding);
+    protected void initView(B binding) {
+    }
 
     protected void initData() {
-
     }
 
     protected void toast(String message) {

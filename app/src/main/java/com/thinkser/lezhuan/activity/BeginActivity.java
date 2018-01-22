@@ -27,11 +27,11 @@ public class BeginActivity extends BaseActivity<AppData, ActivityBeginBinding> {
 
     @Override
     protected AppData getData() {
-        return new AppData();
+        return AppData.getAppData();
     }
 
     @Override
-    protected void initView(ActivityBeginBinding binding) {
+    protected void initData() {
         //初始化各种服务
         BeginService.startBeginService(this);
         begin();

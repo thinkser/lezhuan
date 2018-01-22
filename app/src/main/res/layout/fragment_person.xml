@@ -21,5 +21,230 @@
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
+        <!--标题栏-->
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            app:buttonAction="@{()->presenter.toSetting()}"
+            app:buttonColor="@{@color/colorWhite}"
+            app:buttonText="@{@string/setting}"
+            app:layoutColor="@{@color/colorTheme}"
+            app:title="@{@string/person}"
+            app:titleColor="@{@color/colorWhite}" />
+
+        <!--头像区-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/colorTheme">
+
+            <!--头像-->
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/bg_portrait"
+                android:scaleType="centerInside"
+                app:placeholder="@{R.drawable.img_portrait}"
+                app:url="@{data.portrait}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <!--昵称-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.username}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+                <!--个性签名-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="7dp"
+                    android:text="@{data.signature}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--横向列表-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:background="@color/colorWhite"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <!--我的发布-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toPublish()}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{@color/colorMerchant}"
+                app:title="@{@string/publish}" />
+
+            <!--我的转发-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toTransmit()}"
+                app:img="@{R.drawable.svg_transmit}"
+                app:imgColor="@{@color/colorCustom}"
+                app:title="@{@string/transmit}" />
+
+            <!--我的收藏-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toCollect()}"
+                app:img="@{R.drawable.svg_collect}"
+                app:imgColor="@{@color/colorCustom}"
+                app:title="@{@string/collect}" />
+        </LinearLayout>
+
+        <!--横向列表-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:background="@color/colorWhite"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <!--我的店铺-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toStore()}"
+                app:img="@{R.drawable.svg_store}"
+                app:imgColor="@{@color/colorMerchant}"
+                app:title="@{@string/store}" />
+
+            <!--我的钱包-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toWallet()}"
+                app:img="@{R.drawable.svg_wallet}"
+                app:imgColor="@{@color/colorMerchant}"
+                app:title="@{@string/wallet}" />
+
+            <!--我的卡片-->
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toCard()}"
+                app:img="@{R.drawable.svg_card}"
+                app:imgColor="@{@color/colorCustom}"
+                app:title="@{@string/card}" />
+        </LinearLayout>
+
+        <!--纵向列表-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toAbout()}"
+                app:image="@{R.drawable.svg_about}"
+                app:imageColor="@{@color/colorSystem}"
+                app:showEnter="@{true}"
+                app:title="@{@string/about}" />
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toHelp()}"
+                app:image="@{R.drawable.svg_help}"
+                app:imageColor="@{@color/colorSystem}"
+                app:showEnter="@{true}"
+                app:title="@{@string/help}" />
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toFeedback()}"
+                app:image="@{R.drawable.svg_feedback}"
+                app:imageColor="@{@color/colorSystem}"
+                app:showEnter="@{true}"
+                app:title="@{@string/feedback}" />
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toJoin()}"
+                app:image="@{R.drawable.svg_join}"
+                app:imageColor="@{@color/colorOther}"
+                app:showEnter="@{true}"
+                app:title="@{@string/join}" />
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.clear()}"
+                app:image="@{R.drawable.svg_clear}"
+                app:imageColor="@{@color/colorOther}"
+                app:showEnter="@{true}"
+                app:title="@{@string/clear}" />
+
+            <include
+                layout="@layout/item_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:click="@{()->presenter.exit()}"
+                app:image="@{R.drawable.svg_exit}"
+                app:imageColor="@{@color/colorOther}"
+                app:showEnter="@{true}"
+                app:title="@{@string/exit}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

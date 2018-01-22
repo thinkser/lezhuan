@@ -17,11 +17,6 @@ public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> {
 
     @Override
     protected AppData getData() {
-        return new AppData();
-    }
-
-    @Override
-    protected void initView(FragmentHomeBinding binding) {
-
+        return AppData.getAppData();
     }
 }

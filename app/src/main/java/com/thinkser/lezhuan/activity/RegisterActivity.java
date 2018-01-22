@@ -6,9 +6,9 @@ import com.thinkser.core.base.BaseActivity;
 import com.thinkser.core.utils.BmobUtil;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
-import com.thinkser.lezhuan.data.PreferenceKey;
 import com.thinkser.lezhuan.databinding.ActivityRegisterBinding;
 import com.thinkser.lezhuan.entity.Customer;
+import com.thinkser.lezhuan.model.BeginModel;
 
 import java.util.List;
 import java.util.Timer;
@@ -16,8 +16,6 @@ import java.util.TimerTask;
 
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -27,6 +25,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBinding> {
 
+    private BeginModel model;
     private Timer timer;
     private TimerTask timerTask;
     private int time;
@@ -38,19 +37,16 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
 
     @Override
     protected AppData getData() {
-        return new AppData();
+        return AppData.getAppData();
     }
 
-    @Override
-    protected void initView(ActivityRegisterBinding binding) {
-    }
-
-    public void back(){
+    public void back() {
         finish();
     }
 
     @Override
     protected void initData() {
+        model = new BeginModel();
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override
@@ -83,35 +79,35 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
 
     //检查手机号是否已被注册
     private void verifyPhone(String phone) {
-        new BmobUtil<Customer>()
-                .query(PreferenceKey.phone, phone)
-                .findObjects(new FindListener<Customer>() {
-                    @Override
-                    public void done(List<Customer> list, BmobException e) {
-                        if (e == null) {
-                            data.getCode.set("获取验证码");
-                            toast(7003);
-                        } else {
-                            sendCode();
-                        }
-                    }
-                });
+        model.verifyPhone(phone, new BmobUtil.FindListener<Customer>() {
+            @Override
+            public void success(List<Customer> list) {
+                data.getCode.set("获取验证码");
+                toast(7003);
+            }
+
+            @Override
+            public void failed(BmobException e) {
+                sendCode();
+            }
+        });
     }
 
     //发送验证码
     private void sendCode() {
-        BmobSMS.requestSMSCode(data.phone.get(), "验证码",
-                new QueryListener<Integer>() {
+        new BmobUtil<>()
+                .sendCode(data.phone.get(), new BmobUtil.QueryListener<Integer>() {
                     @Override
-                    public void done(Integer integer, BmobException e) {
-                        if (e == null) {
-                            time = 60;
-                            timer.schedule(timerTask, 0, 1000);
-                            toast("验证码已发送");
-                        } else {
-                            data.getCode.set("获取验证码");
-                            toast(e.getErrorCode());
-                        }
+                    public void success(Integer integer) {
+                        time = 60;
+                        timer.schedule(timerTask, 0, 1000);
+                        toast("验证码已发送");
+                    }
+
+                    @Override
+                    public void failed(BmobException e) {
+                        data.getCode.set("获取验证码");
+                        toast(e.getErrorCode());
                     }
                 });
     }

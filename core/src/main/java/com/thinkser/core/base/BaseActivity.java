@@ -75,10 +75,10 @@ public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding
 
     protected abstract D getData();
 
-    protected abstract void initView(B binding);
+    protected void initView(B binding) {
+    }
 
     protected void initData() {
-
     }
 
     protected void toast(String message) {
@@ -113,7 +113,7 @@ public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding
     }
 
     /**
-     *以下方法为点击空白处隐藏键盘
+     * 以下方法为点击空白处隐藏键盘
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
