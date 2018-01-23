@@ -20,4 +20,9 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
     protected AppData getData() {
         return AppData.getAppData();
     }
+
+    public void back() {
+        finish();
+    }
+
 }

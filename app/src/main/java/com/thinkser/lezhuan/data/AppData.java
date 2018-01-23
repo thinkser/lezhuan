@@ -8,13 +8,11 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
-import com.thinkser.core.base.BaseData;
-
 /**
  * 程序界面数据
  */
 
-public class AppData extends BaseData {
+public class AppData {
 
     //登录和注册
     public final ObservableBoolean isLogin = new ObservableBoolean(true);

@@ -6,9 +6,14 @@ import com.thinkser.core.base.BaseActivity;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.ActivityMainBinding;
+import com.thinkser.lezhuan.entity.Customer;
 import com.thinkser.lezhuan.fragment.HomeFragment;
 import com.thinkser.lezhuan.fragment.MessageFragment;
 import com.thinkser.lezhuan.fragment.PersonFragment;
+import com.thinkser.lezhuan.model.MainModel;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 主界面
@@ -16,6 +21,8 @@ import com.thinkser.lezhuan.fragment.PersonFragment;
 
 public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
         implements ViewPager.OnPageChangeListener {
+
+    MainModel model;
 
     @Override
     protected int getLayout() {
@@ -39,6 +46,28 @@ public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
         data.fragments.add(new HomeFragment());
         data.fragments.add(new MessageFragment());
         data.fragments.add(new PersonFragment());
+        model = new MainModel(this);
+        model.text(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+log(s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     //点击下方按钮切换界面

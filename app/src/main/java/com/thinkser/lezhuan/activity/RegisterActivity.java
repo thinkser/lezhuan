@@ -46,7 +46,7 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
 
     @Override
     protected void initData() {
-        model = new BeginModel();
+        model = new BeginModel(this);
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override

@@ -37,7 +37,7 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
 
     @Override
     protected void initData() {
-        model = new MainModel();
+        model = new MainModel(getActivity());
         String token = new PreferencesUtil(getActivity()).getString(PreferenceKey.token);
         model.getPerson(token, new BmobUtil.QueryListener<Customer>() {
             @Override

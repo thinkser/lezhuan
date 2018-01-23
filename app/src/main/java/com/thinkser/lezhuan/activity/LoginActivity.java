@@ -39,7 +39,7 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
 
     @Override
     protected void initData() {
-        model = new BeginModel();
+        model = new BeginModel(this);
     }
 
     public void login() {

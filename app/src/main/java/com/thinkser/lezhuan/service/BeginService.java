@@ -9,6 +9,8 @@ import com.thinkser.lezhuan.data.Marked;
 
 import cn.bmob.v3.Bmob;
 
+import static com.thinkser.lezhuan.data.StaticData.APP_KEY;
+
 /**
  * 应用启动时初始化各种服务
  */
@@ -40,7 +42,7 @@ public class BeginService extends IntentService {
     //初始化各种服务
     private void InitService() {
         //初始化bmob
-        Bmob.initialize(getApplicationContext(), "6dd8e7d83d557e31cf723d60ffe05b69");
+        Bmob.initialize(getApplicationContext(), APP_KEY);
         Marked.initMarked();//初始化提示语
     }
 }

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thinkser.core.BR;
@@ -27,7 +26,7 @@ import com.thinkser.core.utils.MarkedUtil;
 public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragment {
 
     protected D data;
-    private Dialog dialog;
+    protected Dialog dialog;
 
     @Nullable
     @Override

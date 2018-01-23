@@ -2,19 +2,18 @@ package com.thinkser.lezhuan.entity;
 
 import android.app.Activity;
 
+import com.thinkser.core.base.BaseEntity;
 import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.lezhuan.data.PreferenceKey;
-
-import cn.bmob.v3.BmobObject;
 
 /**
  * 用户实体类
  */
 
-public class Customer extends BmobObject {
+public class Customer extends BaseEntity {
 
     private String username, phone, password,
-            portrait = "", sex = "男";
+            portrait = "", sex = "男", signature = "个性签名";
 
     public String getPortrait() {
         return portrait;

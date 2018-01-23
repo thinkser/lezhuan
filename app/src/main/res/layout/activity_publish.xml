@@ -22,5 +22,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!--标题栏-->
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:back="@{()->presenter.back()}"
+            app:backColor="@{@color/colorWhite}"
+            app:layoutColor="@{@color/colorTheme}"
+            app:lineColor="@{@color/colorWhite}"
+            app:title="@{@string/login}"
+            app:titleColor="@{@color/colorWhite}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
+
+
     </LinearLayout>
 </layout>

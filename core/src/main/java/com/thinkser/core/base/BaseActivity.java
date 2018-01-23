@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thinkser.core.BR;
@@ -31,11 +30,11 @@ import com.thinkser.core.utils.SystemBarTintManager;
  * 所有activity继承此类。
  */
 
-public abstract class BaseActivity<D extends BaseData, B extends ViewDataBinding>
+public abstract class BaseActivity<D, B extends ViewDataBinding>
         extends Activity {
 
     protected D data;
-    private Dialog dialog;
+    protected Dialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
