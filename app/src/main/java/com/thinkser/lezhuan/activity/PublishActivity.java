@@ -18,7 +18,7 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
 
     @Override
     protected AppData getData() {
-        return AppData.getAppData();
+        return new AppData();
     }
 
     public void back() {

@@ -1,14 +1,14 @@
 package com.thinkser.lezhuan.data;
 
 /**
- * Preference的key
+ * 所有自定义的key
  */
 
-public class PreferenceKey {
+public class CustomKey {
 
     public static final String
             isLogin = "isLogin",
-            token = "token",
+            id = "id",
             username = "username",
             phone = "phone",
             password = "password",

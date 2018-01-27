@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.thinkser.core.base.BaseEntity;
 import com.thinkser.core.utils.PreferencesUtil;
-import com.thinkser.lezhuan.data.PreferenceKey;
+import com.thinkser.lezhuan.data.CustomKey;
 
 /**
  * 用户实体类
@@ -56,30 +56,21 @@ public class Customer extends BaseEntity {
     }
 
     //保存用户信息
-    public void saveData(Activity activity) {
+    public void saveUser(Activity activity) {
         new PreferencesUtil(activity)
-                .setString(PreferenceKey.token, getObjectId())
-                .setString(PreferenceKey.username, username)
-                .setString(PreferenceKey.phone, phone)
-                .setString(PreferenceKey.sex, sex)
-                .setString(PreferenceKey.portrait, portrait)
-                .save();
-    }
-
-    //缓存当前用户信息
-    public void login(Activity activity) {
-        new PreferencesUtil(activity)
-                .setBoolean(PreferenceKey.isLogin, true)
-                .setString(PreferenceKey.token, getObjectId())
-                .setString(PreferenceKey.username, username)
-                .setString(PreferenceKey.phone, phone)
+                .setBoolean(CustomKey.isLogin, true)
+                .setString(CustomKey.id, getObjectId())
+                .setString(CustomKey.username, username)
+                .setString(CustomKey.phone, phone)
+                .setString(CustomKey.sex, sex)
+                .setString(CustomKey.portrait, portrait)
                 .save();
     }
 
     //用户退出登录
     public void logout(Activity activity) {
         new PreferencesUtil(activity)
-                .setBoolean(PreferenceKey.isLogin, false)
+                .setBoolean(CustomKey.isLogin, false)
                 .save();
     }
 }

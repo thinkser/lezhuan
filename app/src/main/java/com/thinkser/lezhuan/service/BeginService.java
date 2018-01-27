@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 
 import com.thinkser.lezhuan.data.Marked;
 
-import cn.bmob.v3.Bmob;
+import cn.bmob.sms.BmobSMS;
 
-import static com.thinkser.lezhuan.data.StaticData.APP_KEY;
+import static com.thinkser.core.data.StaticData.APP_KEY;
 
 /**
  * 应用启动时初始化各种服务
@@ -41,8 +41,9 @@ public class BeginService extends IntentService {
 
     //初始化各种服务
     private void InitService() {
-        //初始化bmob
-        Bmob.initialize(getApplicationContext(), APP_KEY);
-        Marked.initMarked();//初始化提示语
+        //初始化Bmob短信服务
+        BmobSMS.initialize(this, APP_KEY);
+        //初始化提示语
+        Marked.initMarked();
     }
 }

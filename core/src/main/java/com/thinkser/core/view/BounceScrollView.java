@@ -15,13 +15,9 @@ import android.widget.ScrollView;
 public class BounceScrollView extends ScrollView {
 
     private static final String TAG = "BounceScrollView";
-
     private View inner;// 孩子View
-
-    private float y;// 点击时y坐标  
-
+    private float y;// 点击时y坐标
     private Rect normal = new Rect();// 矩形(这里只是个形式，只是用于判断是否需要动画.)
-
     private boolean isCount = false;// 是否开始计算  
     private float lastX = 0;
     private float lastY = 0;
@@ -33,6 +29,8 @@ public class BounceScrollView extends ScrollView {
 
     public BounceScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setVerticalScrollBarEnabled(false);
+        setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
     /*** 

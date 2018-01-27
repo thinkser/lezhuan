@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:onClick="toForget"
+                    android:onClick="@{()->presenter.toForget()}"
                     android:padding="13dp"
                     android:text="@string/forget"
                     android:textColor="@color/colorTheme"

@@ -1,6 +1,6 @@
 package com.thinkser.core.data;
 
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * 动态全局变量。
  */
 
-public class DynamicData extends MultiDexApplication {
+public class DynamicData extends Application {
 
     public Map<String, Object> preferences;
 
@@ -18,4 +18,5 @@ public class DynamicData extends MultiDexApplication {
         super.onCreate();
         preferences = new HashMap<>();
     }
+
 }

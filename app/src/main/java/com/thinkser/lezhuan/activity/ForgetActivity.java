@@ -3,18 +3,23 @@ package com.thinkser.lezhuan.activity;
 import android.content.Intent;
 
 import com.thinkser.core.base.BaseActivity;
-import com.thinkser.core.utils.BmobUtil;
+import com.thinkser.core.base.BaseObserver;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.ActivityForgetBinding;
+import com.thinkser.lezhuan.dialog.ProgressDialog;
 import com.thinkser.lezhuan.entity.Customer;
 import com.thinkser.lezhuan.model.BeginModel;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.bmob.v3.exception.BmobException;
+import cn.bmob.sms.BmobSMS;
+import cn.bmob.sms.exception.BmobException;
+import cn.bmob.sms.listener.RequestSMSCodeListener;
+import cn.bmob.sms.listener.VerifySMSCodeListener;
 
 /**
  * 忘记密码界面
@@ -23,6 +28,8 @@ import cn.bmob.v3.exception.BmobException;
 public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding> {
 
     private BeginModel model;
+    private ProgressDialog progressDialog;
+
     private Timer timer;
     private TimerTask timerTask;
     private int time;
@@ -35,7 +42,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
 
     @Override
     protected AppData getData() {
-        return AppData.getAppData();
+        return new AppData();
     }
 
     public void back() {
@@ -44,7 +51,9 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
 
     @Override
     protected void initData() {
+        super.initData();
         model = new BeginModel(this);
+        progressDialog = new ProgressDialog(this);
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override
@@ -62,7 +71,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
 
     //获取验证码
     public void getCode() {
-        //检查手机号格式
+        //本地判断
         if (data.phone.get().equals("")) {
             toast(7000);
             return;
@@ -72,88 +81,112 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
             return;
         }
         data.getCode.set("获取中");
-        verifyPhone(data.phone.get());
+        checkPhone();
     }
 
-    //检查手机号是否存在
-    private void verifyPhone(String phone) {
-        model.verifyPhone(phone, new BmobUtil.FindListener<Customer>() {
-            @Override
-            public void success(List<Customer> list) {
-                customer = list.get(0);
-                sendCode();
-            }
-
-            @Override
-            public void failed(BmobException e) {
-                data.getCode.set("获取验证码");
-                toast(7007);
-                toast(e.getErrorCode());
-            }
-        });
-    }
-
-    //发送验证码
-    private void sendCode() {
-        new BmobUtil<>()
-                .sendCode(data.phone.get(), new BmobUtil.QueryListener<Integer>() {
+    //检查手机号是否注册
+    private void checkPhone() {
+        model.login(data.phone.get(),
+                new BaseObserver<Map<String, List<Customer>>>(this, progressDialog.dialog) {
                     @Override
-                    public void success(Integer integer) {
-                        time = 60;
-                        timer.schedule(timerTask, 0, 1000);
-                        toast("验证码已发送");
-                    }
-
-                    @Override
-                    public void failed(BmobException e) {
-                        data.getCode.set("获取验证码");
-                        toast(e.getErrorCode());
+                    protected void onSuccess(Map<String, List<Customer>> map) {
+                        List<Customer> list = map.get("results");
+                        if (list == null || list.size() == 0) {//手机号未注册
+                            toast(7004);
+                            data.getCode.set("获取验证码");
+                        } else {
+                            customer = list.get(0);
+                            sendCode();
+                        }
                     }
                 });
     }
 
-    public void reset() {
-        if (data.password.get().length() < 6) {
-            toast(7005);
-            return;
-        }
-        if (!data.check.get().equals(data.password.get())) {
-            toast(7006);
-            return;
-        }
-        showProgressDialog("请稍候", false);
-        new BmobUtil().verifyCode(data.phone.get(), data.code.get(),
-                new BmobUtil.VerifyListener() {
+    //发送验证码
+    private void sendCode() {
+        BmobSMS.requestSMSCode(this,
+                data.phone.get(), "验证码", new RequestSMSCodeListener() {
                     @Override
-                    public void success() {
-                        customer.setPassword(data.password.get().hashCode() + "");
-                        customer.login(ForgetActivity.this);
-                        updatePassword(customer);
+                    public void done(Integer smsId, BmobException ex) {
+                        if (ex == null) {//验证码发送成功
+                            toast(7006);
+                            time = 60;
+                            timer.schedule(timerTask, 0, 1000);
+                        } else {
+                            toast(7007);
+                            data.getCode.set("获取验证码");
+                        }
                     }
+                });
+    }
 
+    //重置密码
+    public void reset() {
+        //本地判断用户输入信息
+        if (data.phone.get().equals("")) {
+            toast(7000);
+            return;
+        }
+        if (data.phone.get().length() < 11) {
+            toast(7001);
+            return;
+        }
+        if (data.code.get().equals("")) {
+            toast(7013);
+            return;
+        }
+        if (data.code.get().length() < 6) {
+            toast(7014);
+            return;
+        }
+        if (data.password.get().equals("")) {
+            toast(7002);
+            return;
+        }
+        if (data.check.get().equals("")) {
+            toast(7010);
+            return;
+        }
+        if (data.password.get().length() < 6) {
+            toast(7011);
+            return;
+        }
+        if (!data.password.get().equals(data.check.get())) {
+            toast(7012);
+            return;
+        }
+        progressDialog.showProgressDialog("请稍候", false);
+        verifyCode();
+    }
+
+    //检查验证码
+    private void verifyCode() {
+        BmobSMS.verifySmsCode(this,
+                data.phone.get(), data.code.get(), new VerifySMSCodeListener() {
                     @Override
-                    public void failed(BmobException e) {
-                        toast(e.getErrorCode());
-                        cancelProgressDialog();
+                    public void done(BmobException ex) {
+                        if (ex == null) {//短信验证码已验证成功
+                            changeUser();
+                        } else {
+                            toast(7008);
+                            progressDialog.cancelProgressDialog();
+                        }
                     }
                 });
     }
 
     //修改密码
-    public void updatePassword(Customer customer) {
-        model.forget(customer, new BmobUtil.UpdateListener() {
-            @Override
-            public void success() {
-                toMain();
-                cancelProgressDialog();
-            }
-
-            @Override
-            public void failed(BmobException e) {
-                toast(e.getErrorCode());
-                cancelProgressDialog();
-            }
-        });
+    private void changeUser() {
+        customer.setPassword(data.password.get().hashCode() + "");
+        model.forget(customer.getObjectId(), customer,
+                new BaseObserver<Map<String, String>>(this, progressDialog.dialog) {
+                    @Override
+                    protected void onSuccess(Map<String, String> map) {
+                        customer.saveUser(ForgetActivity.this);
+                        toMain();
+                        progressDialog.cancelProgressDialog();
+                    }
+                });
     }
 
     private void toMain() {
@@ -168,6 +201,5 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
         if (timer != null) {
             timer.cancel();
         }
-        data.getCode.set("获取验证码");
     }
 }

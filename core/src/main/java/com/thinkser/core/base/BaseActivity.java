@@ -1,8 +1,9 @@
 package com.thinkser.core.base;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
@@ -10,9 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +34,16 @@ import com.thinkser.core.utils.SystemBarTintManager;
  */
 
 public abstract class BaseActivity<D, B extends ViewDataBinding>
-        extends Activity {
+        extends AppCompatActivity {
 
     protected D data;
-    protected Dialog dialog;
+    public final static int REQUEST_READ_PHONE_STATE = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        data = getData();
         super.onCreate(savedInstanceState);
         B binding = DataBindingUtil.setContentView(this, getLayout());
-        data = getData();
         binding.setVariable(BR.data, data);
         binding.setVariable(BR.presenter, this);
         //添加动画效果
@@ -48,16 +51,19 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
             @Override
             public boolean onPreBind(ViewDataBinding binding) {
                 ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    TransitionManager.beginDelayedTransition(sceneRoot);
-                }
+                TransitionManager.beginDelayedTransition(sceneRoot);
                 return true;
             }
         });
         initStatus();
-        initView(binding);
         initData();
+        initView(binding);
+        getLimit();
     }
+
+    protected abstract int getLayout();
+
+    protected abstract D getData();
 
     //初始化通知栏
     private void initStatus() {
@@ -69,10 +75,6 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorStatus);
     }
-
-    protected abstract int getLayout();
-
-    protected abstract D getData();
 
     protected void initView(B binding) {
     }
@@ -89,25 +91,23 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
     }
 
     protected void log(String message) {
-        Log.e(this.getClass().getName(), message);
+        Log.e(this.getClass().getSimpleName(), message);
     }
 
-    //显示加载中对话框
-    public void showProgressDialog(String text, boolean cancelable) {
-        if (dialog == null)
-            dialog = new Dialog(this);
-        dialog.show();
-        ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_progress, null, false);
-        dialog.setContentView(binding.getRoot());
-        binding.setVariable(BR.content, text);
-        dialog.setCancelable(cancelable);
+    /**
+     * 获取系统权限
+     */
+    private void getLimit() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        }
     }
 
-    //取消加载中对话框
-    public void cancelProgressDialog() {
-        if (dialog != null) {
-            dialog.setCancelable(false);
-            dialog.cancel();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            toast("权限获取失败");
         }
     }
 

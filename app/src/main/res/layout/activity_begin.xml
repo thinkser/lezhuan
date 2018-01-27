@@ -31,7 +31,7 @@
         <!--登录按钮-->
         <TextView
             style="@style/begin_button"
-            android:onClick="toLogin"
+            android:onClick="@{()->presenter.toLogin()}"
             android:text="@string/login" />
 
         <View
@@ -42,7 +42,7 @@
         <!--注册按钮-->
         <TextView
             style="@style/begin_button"
-            android:onClick="toRegister"
+            android:onClick="@{()->presenter.toRegister()}"
             android:text="@string/register" />
 
         <View

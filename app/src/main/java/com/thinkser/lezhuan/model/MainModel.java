@@ -1,20 +1,16 @@
 package com.thinkser.lezhuan.model;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.thinkser.core.base.BaseModel;
-import com.thinkser.core.base.BaseObserver;
-import com.thinkser.core.utils.BmobUtil;
-import com.thinkser.lezhuan.api.BeginAPI;
-import com.thinkser.lezhuan.entity.Customer;
+import com.thinkser.lezhuan.api.MainAPI;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
-
-import static com.thinkser.lezhuan.data.StaticData.APP_KEY;
-import static com.thinkser.lezhuan.data.StaticData.BASE_URL;
-import static com.thinkser.lezhuan.data.StaticData.REST_API;
-import static com.thinkser.lezhuan.data.StaticData.TIME_OUT;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 首页、好友、个人中心的model。
@@ -22,41 +18,24 @@ import static com.thinkser.lezhuan.data.StaticData.TIME_OUT;
 
 public class MainModel extends BaseModel {
 
-
     public MainModel(Activity activity) {
         super(activity);
     }
 
     //获取用户信息
-    public void getPerson(String id, BmobUtil.QueryListener<Customer> listener) {
-        new BmobUtil<Customer>()
-                .getObject(id, listener);
-    }
+    public void getPerson(Observer<String> observer) {
+        netUtil.getInstance(headers, MainAPI.class)
+                .getPerson()
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Log.e("tag", response.body().toString());
+                    }
 
-    public void text( Observer<String> observer){
-        netUtil.getInstance(headers, BeginAPI.class)
-                .text()
-                .compose(netUtil.compose())
-                .subscribe(observer);
-    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-    @Override
-    protected String getBaseUrl() {
-        return BASE_URL;
-    }
-
-    @Override
-    protected String getApplicationID() {
-        return APP_KEY;
-    }
-
-    @Override
-    protected String getRestApiKey() {
-        return REST_API;
-    }
-
-    @Override
-    protected int getTimeOut() {
-        return TIME_OUT;
+                    }
+                });
     }
 }

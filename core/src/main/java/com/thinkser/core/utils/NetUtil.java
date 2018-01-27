@@ -11,6 +11,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +40,7 @@ public class NetUtil {
     }
 
     //获取API的实例
-    public <T> T getInstance(List<Map<String, String>> headers, Class<T> clazz) {
+    public <T> T getInstance(Map<String, String> headers, Class<T> clazz) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 // 添加Gson转换器
@@ -53,19 +55,19 @@ public class NetUtil {
     }
 
     // 创建一个OkHttpClient进行一些配置
-    private OkHttpClient getClient(final List<Map<String, String>> headers) {
+    private OkHttpClient getClient(final Map<String, String> headers) {
         return new OkHttpClient.Builder()
                 // 添加通用的Header
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
-                    for (Map<String, String> header : headers) {
-                        builder.addHeader(header.get("name"), header.get("value"));
+                    for (Map.Entry<String, String> header : headers.entrySet()) {
+                        builder.addHeader(header.getKey(), header.getValue());
                     }
                     return chain.proceed(builder.build());
                 })
                 //添加拦截器方便调试接口
                 .addInterceptor(new HttpLoggingInterceptor(message ->
-                        Log.d("HTTPIntercept", message))
+                        Log.e("HTTPIntercept", message))
                         .setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -76,6 +78,7 @@ public class NetUtil {
         return new GsonBuilder()
                 .serializeNulls()
                 .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
                 // 此处可以添加Gson 自定义TypeAdapter
 //                //.registerTypeAdapter(UserInfo.class, new UserInfoTypeAdapter())
                 .create();
@@ -108,4 +111,5 @@ public class NetUtil {
         }
         return false;
     }
+
 }

@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2.5"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_underline"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
@@ -166,85 +166,78 @@
         </LinearLayout>
 
         <!--纵向列表-->
-        <LinearLayout
+        <com.thinkser.core.view.BounceScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="11"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:layout_weight="10"
+            android:overScrollMode="never">
 
-            <include
-                layout="@layout/item_rectangle"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toAbout()}"
-                app:image="@{R.drawable.svg_about}"
-                app:imageColor="@{@color/colorSystem}"
-                app:showEnter="@{true}"
-                app:title="@{@string/about}" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <include
-                layout="@layout/item_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toHelp()}"
-                app:image="@{R.drawable.svg_help}"
-                app:imageColor="@{@color/colorSystem}"
-                app:showEnter="@{true}"
-                app:title="@{@string/help}" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.toAbout()}"
+                    app:image="@{R.drawable.svg_about}"
+                    app:imageColor="@{@color/colorSystem}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/about}" />
 
-            <include
-                layout="@layout/item_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toFeedback()}"
-                app:image="@{R.drawable.svg_feedback}"
-                app:imageColor="@{@color/colorSystem}"
-                app:showEnter="@{true}"
-                app:title="@{@string/feedback}" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.toHelp()}"
+                    app:image="@{R.drawable.svg_help}"
+                    app:imageColor="@{@color/colorSystem}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/help}" />
 
-            <include
-                layout="@layout/item_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toJoin()}"
-                app:image="@{R.drawable.svg_join}"
-                app:imageColor="@{@color/colorOther}"
-                app:showEnter="@{true}"
-                app:title="@{@string/join}" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.toFeedback()}"
+                    app:image="@{R.drawable.svg_feedback}"
+                    app:imageColor="@{@color/colorSystem}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/feedback}" />
 
-            <include
-                layout="@layout/item_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.clear()}"
-                app:image="@{R.drawable.svg_clear}"
-                app:imageColor="@{@color/colorOther}"
-                app:showEnter="@{true}"
-                app:title="@{@string/clear}" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.toJoin()}"
+                    app:image="@{R.drawable.svg_join}"
+                    app:imageColor="@{@color/colorOther}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/join}" />
 
-            <include
-                layout="@layout/item_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:click="@{()->presenter.exit()}"
-                app:image="@{R.drawable.svg_exit}"
-                app:imageColor="@{@color/colorOther}"
-                app:showEnter="@{true}"
-                app:title="@{@string/exit}" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.clear()}"
+                    app:image="@{R.drawable.svg_clear}"
+                    app:imageColor="@{@color/colorOther}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/clear}" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                <include
+                    layout="@layout/item_rectangle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:click="@{()->presenter.exit()}"
+                    app:image="@{R.drawable.svg_exit}"
+                    app:imageColor="@{@color/colorOther}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/exit}" />
 
-        </LinearLayout>
-
+            </LinearLayout>
+        </com.thinkser.core.view.BounceScrollView>
     </LinearLayout>
 </layout>

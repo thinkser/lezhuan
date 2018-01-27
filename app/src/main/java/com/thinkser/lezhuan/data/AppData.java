@@ -1,12 +1,12 @@
 package com.thinkser.lezhuan.data;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 /**
  * 程序界面数据
@@ -33,27 +33,5 @@ public class AppData {
     public final ObservableField<String>
             portrait = new ObservableField<>(""),
             signature = new ObservableField<>("个性签名");
-
-
-    private static AppData appData;
-
-    private AppData() {
-
-    }
-
-    public static AppData getAppData() {
-        if (appData == null) {
-            synchronized (AppData.class) {
-                if (appData == null) {
-                    appData = new AppData();
-                }
-            }
-        }
-        return appData;
-    }
-
-    public static void clear() {
-        appData = new AppData();
-    }
 
 }
