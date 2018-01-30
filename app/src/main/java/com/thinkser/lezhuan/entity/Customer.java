@@ -55,6 +55,14 @@ public class Customer extends BaseEntity {
         this.password = password;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     //保存用户信息
     public void saveUser(Activity activity) {
         new PreferencesUtil(activity)
@@ -64,6 +72,7 @@ public class Customer extends BaseEntity {
                 .setString(CustomKey.phone, phone)
                 .setString(CustomKey.sex, sex)
                 .setString(CustomKey.portrait, portrait)
+                .setString(CustomKey.signature, signature)
                 .save();
     }
 

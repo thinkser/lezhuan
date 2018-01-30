@@ -21,12 +21,10 @@
         android:orientation="vertical">
 
         <!--标题栏-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
             <include
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 layout="@layout/title"
                 app:back="@{()->presenter.back()}"
                 app:backColor="@{@color/colorTheme}"
@@ -34,7 +32,6 @@
                 app:lineColor="@{@color/colorLine}"
                 app:title="@{@string/login}"
                 app:titleColor="@{@color/colorTextDark}" />
-        </FrameLayout>
 
         <View
             android:layout_width="match_parent"

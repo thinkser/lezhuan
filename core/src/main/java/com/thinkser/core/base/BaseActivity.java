@@ -1,8 +1,8 @@
 package com.thinkser.core.base;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.OnRebindCallback;
@@ -37,7 +37,6 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         extends AppCompatActivity {
 
     protected D data;
-    public final static int REQUEST_READ_PHONE_STATE = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,18 +46,17 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         binding.setVariable(BR.data, data);
         binding.setVariable(BR.presenter, this);
         //添加动画效果
-        binding.addOnRebindCallback(new OnRebindCallback() {
-            @Override
-            public boolean onPreBind(ViewDataBinding binding) {
-                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
-                TransitionManager.beginDelayedTransition(sceneRoot);
-                return true;
-            }
-        });
+//        binding.addOnRebindCallback(new OnRebindCallback() {
+//            @Override
+//            public boolean onPreBind(ViewDataBinding binding) {
+//                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+//                TransitionManager.beginDelayedTransition(sceneRoot);
+//                return true;
+//            }
+//        });
         initStatus();
         initData();
         initView(binding);
-        getLimit();
     }
 
     protected abstract int getLayout();
@@ -94,20 +92,53 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         Log.e(this.getClass().getSimpleName(), message);
     }
 
+    //activity跳转
+    protected void skip(Class activity) {
+        startActivity(new Intent(this, activity));
+    }
+
+    public void back() {
+        finish();
+    }
+
     /**
      * 获取系统权限
      */
-    private void getLimit() {
+    protected boolean getLimit() {
+        boolean b = false;
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+            b = true;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
         }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            b = true;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            b = true;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            b = true;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            b = true;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+        return b;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            toast("权限获取失败");
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length != 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "权限获取失败将导致部分功能无法使用,请允许应用获取权限", Toast.LENGTH_LONG).show();
         }
     }
 

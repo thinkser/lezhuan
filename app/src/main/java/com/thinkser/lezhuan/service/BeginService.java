@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationListener;
 import com.thinkser.lezhuan.data.Marked;
 
 import cn.bmob.sms.BmobSMS;

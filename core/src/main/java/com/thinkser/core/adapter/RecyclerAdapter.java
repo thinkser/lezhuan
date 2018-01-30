@@ -24,8 +24,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.layout = layout;
     }
 
-    public void setData(List data) {
-        this.data = data;
+    public void addMore(List moreData) {
+        data.addAll(moreData);
+        notifyDataSetChanged();
+    }
+
+    public void addNew(List newData) {
+        data = newData;
         notifyDataSetChanged();
     }
 

@@ -20,14 +20,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
+        <com.thinkser.core.view.NoScrollViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="12"
             app:fragments="@{data.fragments}"
             app:manager="@{data.fragmentManager}"
-            app:position="@{data.position}" />
+            app:position="@{data.position}"/>
 
         <View
             android:layout_width="match_parent"
@@ -65,8 +65,8 @@
 
                 <include
                     layout="@layout/item_main"
-                    app:image="@{data.position==1?R.drawable.ic_message_true:R.drawable.ic_message_false}"
-                    app:text="@{@string/message}"
+                    app:image="@{data.position==1?R.drawable.ic_friend_true:R.drawable.ic_friend_false}"
+                    app:text="@{@string/friend}"
                     app:textColor="@{data.position==1?@color/colorTheme:@color/colorTextLight}" />
             </RelativeLayout>
 

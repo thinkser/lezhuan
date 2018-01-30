@@ -45,10 +45,6 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
         return new AppData();
     }
 
-    public void back() {
-        finish();
-    }
-
     @Override
     protected void initData() {
         super.initData();

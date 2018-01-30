@@ -1,5 +1,6 @@
 package com.thinkser.core.base;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
@@ -31,14 +32,14 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
         binding.setVariable(com.thinkser.core.BR.data, data);
         binding.setVariable(com.thinkser.core.BR.presenter, this);
         //添加动画效果
-        binding.addOnRebindCallback(new OnRebindCallback() {
-            @Override
-            public boolean onPreBind(ViewDataBinding binding) {
-                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
-                TransitionManager.beginDelayedTransition(sceneRoot);
-                return true;
-            }
-        });
+//        binding.addOnRebindCallback(new OnRebindCallback() {
+//            @Override
+//            public boolean onPreBind(ViewDataBinding binding) {
+//                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+//                TransitionManager.beginDelayedTransition(sceneRoot);
+//                return true;
+//            }
+//        });
         initData();
         initView(binding);
         return binding.getRoot();
@@ -64,6 +65,10 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
 
     protected void log(String message) {
         Log.e(this.getClass().getName(), message);
+    }
+
+    protected void skip(Class activity) {
+        getActivity().startActivity(new Intent(getActivity(), activity));
     }
 
 }

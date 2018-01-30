@@ -2,6 +2,8 @@ package com.thinkser.lezhuan.activity;
 
 import android.content.Intent;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationListener;
 import com.thinkser.core.base.BaseActivity;
 import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.lezhuan.R;
@@ -34,7 +36,16 @@ public class BeginActivity extends BaseActivity<AppData, ActivityBeginBinding> {
         super.initData();
         //初始化各种服务
         BeginService.startBeginService(this);
-        begin();
+        if (!getLimit()){
+            begin();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0)
+            begin();
     }
 
     private void begin() {

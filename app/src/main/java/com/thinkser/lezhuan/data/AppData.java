@@ -7,12 +7,20 @@ import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+
+import com.thinkser.core.adapter.RecyclerAdapter;
 
 /**
  * 程序界面数据
  */
 
 public class AppData {
+
+    //通用
+    public final ObservableField<RecyclerAdapter> adapter = new ObservableField<>();
+    public final ObservableBoolean isLoading = new ObservableBoolean(false);
+    public final ObservableField<String> district = new ObservableField<>("定位中");
 
     //登录和注册
     public final ObservableBoolean isLogin = new ObservableBoolean(true);
@@ -32,6 +40,6 @@ public class AppData {
     //person
     public final ObservableField<String>
             portrait = new ObservableField<>(""),
-            signature = new ObservableField<>("个性签名");
+            signature = new ObservableField<>("");
 
 }

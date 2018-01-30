@@ -1,6 +1,5 @@
 package com.thinkser.core.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -16,7 +15,7 @@ public class PreferencesUtil {
     private SharedPreferences.Editor editor;
     private DynamicData dynamicData;
 
-    public PreferencesUtil(Activity activity) {
+    public PreferencesUtil(Context activity) {
         preferences = activity.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         dynamicData = (DynamicData) activity.getApplicationContext();//全局变量
         editor = preferences.edit();

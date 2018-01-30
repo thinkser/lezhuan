@@ -29,22 +29,20 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView
+        <com.thinkser.core.view.BindingImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:scaleType="centerInside"
-            app:src="@{img}"
-            app:tint="@{imgColor}" />
+            android:src="@{img}"
+            android:tint="@{imgColor}" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@{title}"
-            android:textColor="@color/colorTextDark"
+            android:textColor="@color/colorTextLight"
             android:textSize="13sp" />
     </LinearLayout>
 </layout>

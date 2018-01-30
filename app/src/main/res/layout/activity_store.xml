@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.StoreActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
+
+        <!--标题栏-->
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:back="@{()->presenter.back()}"
+            app:backColor="@{@color/colorWhite}"
+            app:buttonAction="@{()->presenter.toCreateStore()}"
+            app:buttonColor="@{@color/colorWhite}"
+            app:buttonText="@{@string/create}"
+            app:layoutColor="@{@color/colorTheme}"
+            app:lineColor="@{@color/colorWhite}"
+            app:title="@{@string/store}"
+            app:titleColor="@{@color/colorWhite}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8" />
+
+    </LinearLayout>
+</layout>

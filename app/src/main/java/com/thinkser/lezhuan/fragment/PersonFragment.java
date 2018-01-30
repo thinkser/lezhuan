@@ -1,12 +1,13 @@
 package com.thinkser.lezhuan.fragment;
 
-import android.content.Intent;
-
 import com.thinkser.core.base.BaseFragment;
+import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.activity.BeginActivity;
 import com.thinkser.lezhuan.activity.PublishActivity;
+import com.thinkser.lezhuan.activity.StoreActivity;
 import com.thinkser.lezhuan.data.AppData;
+import com.thinkser.lezhuan.data.CustomKey;
 import com.thinkser.lezhuan.databinding.FragmentPersonBinding;
 import com.thinkser.lezhuan.dialog.HintDialog;
 import com.thinkser.lezhuan.entity.Customer;
@@ -36,6 +37,15 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
         super.initData();
         model = new MainModel(getActivity());
         hintDialog = new HintDialog(getActivity());
+        showPerson();
+    }
+
+    //显示用户信息
+    private void showPerson() {
+        PreferencesUtil util = new PreferencesUtil(getActivity());
+        data.username.set(util.getString(CustomKey.username));
+        data.portrait.set(util.getString(CustomKey.portrait));
+        data.signature.set(util.getString(CustomKey.signature));
     }
 
     public void toSetting() {
@@ -43,7 +53,7 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     }
 
     public void toPublish() {
-        statActivity(PublishActivity.class);
+        skip(PublishActivity.class);
     }
 
     public void toTransmit() {
@@ -55,7 +65,7 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     }
 
     public void toStore() {
-
+        skip(StoreActivity.class);
     }
 
     public void toWallet() {
@@ -92,13 +102,11 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
                     if (view.getId() == R.id.tv_hint_ensure) {
                         Customer customer = new Customer();
                         customer.logout(getActivity());
-                        statActivity(BeginActivity.class);
+                        skip(BeginActivity.class);
                         getActivity().finish();
                     }
                 });
     }
 
-    private void statActivity(Class activity) {
-        getActivity().startActivity(new Intent(getActivity(), activity));
-    }
+
 }

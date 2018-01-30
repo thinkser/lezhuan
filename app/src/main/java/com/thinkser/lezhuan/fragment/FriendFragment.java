@@ -3,17 +3,17 @@ package com.thinkser.lezhuan.fragment;
 import com.thinkser.core.base.BaseFragment;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
-import com.thinkser.lezhuan.databinding.FragmentMessageBinding;
+import com.thinkser.lezhuan.databinding.FragmentFriendBinding;
 
 /**
  * 社交
  */
 
-public class MessageFragment extends BaseFragment<AppData, FragmentMessageBinding> {
+public class FriendFragment extends BaseFragment<AppData, FragmentFriendBinding> {
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_message;
+        return R.layout.fragment_friend;
     }
 
     @Override

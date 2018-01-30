@@ -6,8 +6,8 @@ import com.thinkser.core.base.BaseActivity;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.ActivityMainBinding;
+import com.thinkser.lezhuan.fragment.FriendFragment;
 import com.thinkser.lezhuan.fragment.HomeFragment;
-import com.thinkser.lezhuan.fragment.MessageFragment;
 import com.thinkser.lezhuan.fragment.PersonFragment;
 
 /**
@@ -30,16 +30,17 @@ public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
     @Override
     protected void initView(ActivityMainBinding binding) {
         super.initView(binding);
+        binding.viewpager.setOffscreenPageLimit(3);
         binding.viewpager.addOnPageChangeListener(this);
-        binding.viewpager.setOffscreenPageLimit(2);
     }
 
     @Override
     protected void initData() {
         super.initData();
+        getLimit();
         data.fragmentManager.set(getSupportFragmentManager());
         data.fragments.add(new HomeFragment());
-        data.fragments.add(new MessageFragment());
+        data.fragments.add(new FriendFragment());
         data.fragments.add(new PersonFragment());
     }
 
@@ -49,15 +50,17 @@ public class MainActivity extends BaseActivity<AppData, ActivityMainBinding>
     }
 
     @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
     public void onPageSelected(int position) {
         data.position.set(position);
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
     public void onPageScrollStateChanged(int state) {
+
     }
 }

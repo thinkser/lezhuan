@@ -13,6 +13,12 @@ public class CustomKey {
             phone = "phone",
             password = "password",
             sex = "sex",
-            portrait = "portrait";
+            portrait = "portrait",
+            signature = "signature",
+            latitude = "latitude",
+            longitude = "longitude",
+            province = "province",
+            city = "city",
+            district = "district";
 
 }

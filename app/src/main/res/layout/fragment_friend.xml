@@ -12,13 +12,13 @@
 
         <variable
             name="presenter"
-            type="com.thinkser.lezhuan.fragment.MessageFragment" />
+            type="com.thinkser.lezhuan.fragment.FriendFragment" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/colorTheme"
         android:orientation="vertical">
 
     </LinearLayout>

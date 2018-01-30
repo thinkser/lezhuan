@@ -21,5 +21,151 @@
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
+        <!--标题栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@color/colorTheme"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@{data.district}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <!--搜索框-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/bg_search"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp">
+
+                    <com.thinkser.core.view.BindingImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/svg_search"
+                        android:tint="@color/colorTextLight" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/search"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!--扫码按钮-->
+                <com.thinkser.core.view.BindingImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/svg_scan"
+                    android:tint="@color/colorWhite" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--分类列表-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toClasses(@string/food)}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{0}"
+                app:title="@{@string/food}" />
+
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toClasses(@string/clothing)}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{0}"
+                app:title="@{@string/clothing}" />
+
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toClasses(@string/service)}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{0}"
+                app:title="@{@string/service}" />
+
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toClasses(@string/entertainment)}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{0}"
+                app:title="@{@string/entertainment}" />
+
+            <include
+                layout="@layout/item_square"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:click="@{()->presenter.toClasses(@string/nearby)}"
+                app:img="@{R.drawable.svg_publish}"
+                app:imgColor="@{0}"
+                app:title="@{@string/nearby}" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_underline"
+            android:gravity="center"
+            android:text="@string/friend_transmit"
+            android:textColor="@color/colorTextDark"
+            android:textSize="13sp" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11">
+
+            <com.thinkser.core.view.MyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

@@ -1,8 +1,10 @@
 <resources>
     <!--常用字符串-->
     <string name="app_name">乐转</string>
-    <string name="cancel">取消</string>
-    <string name="ensure">确认</string>
+    <string name="cancel">取 消</string>
+    <string name="ensure">确 认</string>
+    <string name="create">新建</string>
+
     <!--login-->
     <string name="login">登 录</string>
     <string name="phone">请输入手机号</string>
@@ -18,8 +20,16 @@
     <string name="commit">提交</string>
     <!--main-->
     <string name="home">首页</string>
-    <string name="message">社交</string>
+    <string name="friend">好友</string>
     <string name="person">我的</string>
+    <!--home-->
+    <string name="search">搜索</string>
+    <string name="food">美食</string>
+    <string name="clothing">服装首饰</string>
+    <string name="service">生活服务</string>
+    <string name="entertainment">休闲娱乐</string>
+    <string name="nearby">附近</string>
+    <string name="friend_transmit">好友转发</string>
     <!--person-->
     <string name="setting">设置</string>
     <string name="publish">我的发布</string>
@@ -34,5 +44,8 @@
     <string name="join">加入我们</string>
     <string name="clear">清除缓存</string>
     <string name="exit">退出登录</string>
+
+    <!--publish-->
+    <string name="AD_publish">广告发布</string>
 
 </resources>

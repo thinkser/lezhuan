@@ -1,21 +1,28 @@
 package com.thinkser.core.adapter;
 
 import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.thinkser.core.BR;
 import com.thinkser.core.view.MyRecyclerView;
+import com.thinkser.core.view.NoScrollViewPager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,20 +70,6 @@ public class DataBindingAdapter {
                 .into(imageView);
     }
 
-    //设置矢量图和颜色
-    @BindingAdapter({"src", "tint"})
-    public static void setTint(ImageView imageView, int src, int color) {
-        imageView.setImageDrawable(imageView.getContext().getResources().getDrawable(src));
-        imageView.setColorFilter(color);
-    }
-
-    //设置背景颜色
-    @BindingAdapter("bgColor")
-    public static void bgColor(View view, int color) {
-        if (color != 0)
-            view.setBackgroundColor(color);
-    }
-
     //viewpager显示fragment
     @BindingAdapter({"manager", "fragments", "position"})
     public static void setPosition(ViewPager viewPager, FragmentManager manager,
@@ -86,14 +79,42 @@ public class DataBindingAdapter {
     }
 
     //下拉加载列表
-    @BindingAdapter({"isLoading", "decoration", "listener"})
-    public static void setRecycler(MyRecyclerView recycler, boolean isLoading,
+    @BindingAdapter({"adapter", "isLoading", "decoration", "listener"})
+    public static void setRecycler(MyRecyclerView recycler,
+                                   RecyclerAdapter adapter,
+                                   boolean isLoading,
                                    RecyclerView.ItemDecoration decoration,
                                    MyRecyclerView.OnRecyclerScrollListener listener) {
         recycler.setLoading(isLoading);
         recycler.setListener(listener);
+        recycler.setAdapter(adapter);
         if (decoration != null)
             recycler.addDecoration(decoration);
     }
 
+    @BindingAdapter({"spanCount", "data", "size", "layout"})
+    public static void setList(LinearLayout viewGroup, int spanCount, List data, int size, int layout) {
+        viewGroup.setOrientation(LinearLayout.VERTICAL);
+        List<LinearLayout> layouts = new ArrayList<>();
+        LinearLayout item = null;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
+        if (size == 0) {
+            size = data.size();
+        }
+        for (int i = 0; i < size; i++) {
+            if (i % spanCount == 0) {
+                item = new LinearLayout(viewGroup.getContext());
+                layouts.add(item);
+            }
+            ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()),
+                    layout, null, false);
+            if (data != null)
+                binding.setVariable(BR.presenter, data.get(i));
+            item.addView(binding.getRoot(), ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+        for (LinearLayout linearLayout : layouts) {
+            viewGroup.addView(linearLayout, params);
+        }
+    }
 }

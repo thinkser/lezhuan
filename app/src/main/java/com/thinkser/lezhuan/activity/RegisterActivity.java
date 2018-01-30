@@ -44,10 +44,6 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
         return new AppData();
     }
 
-    public void back() {
-        finish();
-    }
-
     @Override
     protected void initData() {
         super.initData();

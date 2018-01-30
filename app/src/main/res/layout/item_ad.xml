@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.item.ADItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/bg_item"
+        android:onClick="@{()->presenter.click()}"
+        android:padding="13dp">
+
+        <!--图片-->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            app:placeholder="@{R.drawable.img_placeholder}"
+            app:url="@{presenter.url}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="13dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!--标题-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{presenter.title}"
+                android:textColor="@color/colorTextDark"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <!--奖励-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:data="@{presenter.prize}"
+                    app:layout="@{R.layout.item_prize}"
+                    app:size="@{0}"
+                    app:spanCount="@{5}" />
+
+                <!--距离-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/colorLine"
+                    android:text="@{presenter.distance}"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!--分类-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{presenter.label}"
+                android:textColor="@color/colorTextLight"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

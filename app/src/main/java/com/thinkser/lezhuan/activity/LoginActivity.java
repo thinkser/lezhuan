@@ -33,10 +33,6 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
         return new AppData();
     }
 
-    public void back() {
-        finish();
-    }
-
     @Override
     protected void initData() {
         super.initData();

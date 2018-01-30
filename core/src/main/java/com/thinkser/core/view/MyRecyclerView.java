@@ -95,6 +95,8 @@ public class MyRecyclerView extends RecyclerView {
 
     //设置滑动监听
     public void setListener(OnRecyclerScrollListener listener) {
+        if (listener == null)
+            return;
         setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

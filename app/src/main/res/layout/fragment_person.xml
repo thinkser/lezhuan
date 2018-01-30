@@ -79,97 +79,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--横向列表-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.5"
-            android:background="@color/colorWhite"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <!--我的发布-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toPublish()}"
-                app:img="@{R.drawable.svg_publish}"
-                app:imgColor="@{@color/colorMerchant}"
-                app:title="@{@string/publish}" />
-
-            <!--我的转发-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toTransmit()}"
-                app:img="@{R.drawable.svg_transmit}"
-                app:imgColor="@{@color/colorCustom}"
-                app:title="@{@string/transmit}" />
-
-            <!--我的收藏-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toCollect()}"
-                app:img="@{R.drawable.svg_collect}"
-                app:imgColor="@{@color/colorCustom}"
-                app:title="@{@string/collect}" />
-        </LinearLayout>
-
-        <!--横向列表-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.5"
-            android:background="@drawable/bg_underline"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <!--我的店铺-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toStore()}"
-                app:img="@{R.drawable.svg_store}"
-                app:imgColor="@{@color/colorMerchant}"
-                app:title="@{@string/store}" />
-
-            <!--我的钱包-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toWallet()}"
-                app:img="@{R.drawable.svg_wallet}"
-                app:imgColor="@{@color/colorMerchant}"
-                app:title="@{@string/wallet}" />
-
-            <!--我的卡片-->
-            <include
-                layout="@layout/item_square"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:click="@{()->presenter.toCard()}"
-                app:img="@{R.drawable.svg_card}"
-                app:imgColor="@{@color/colorCustom}"
-                app:title="@{@string/card}" />
-        </LinearLayout>
-
-        <!--纵向列表-->
+        <!--按钮区-->
         <com.thinkser.core.view.BounceScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="11"
             android:overScrollMode="never">
 
             <LinearLayout
@@ -177,13 +91,98 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!--横向列表-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <!--我的发布-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toPublish()}"
+                        app:img="@{R.drawable.svg_publish}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/publish}" />
+
+                    <!--我的转发-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toTransmit()}"
+                        app:img="@{R.drawable.svg_transmit}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/transmit}" />
+
+                    <!--我的收藏-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toCollect()}"
+                        app:img="@{R.drawable.svg_collect}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/collect}" />
+                </LinearLayout>
+
+                <!--横向列表-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_underline"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <!--我的店铺-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toStore()}"
+                        app:img="@{R.drawable.svg_store}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/store}" />
+
+                    <!--我的钱包-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toWallet()}"
+                        app:img="@{R.drawable.svg_wallet}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/wallet}" />
+
+                    <!--我的卡片-->
+                    <include
+                        layout="@layout/item_square"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:click="@{()->presenter.toCard()}"
+                        app:img="@{R.drawable.svg_card}"
+                        app:imgColor="@{0}"
+                        app:title="@{@string/card}" />
+                </LinearLayout>
+
+                <!--纵向列表-->
                 <include
                     layout="@layout/item_rectangle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.toAbout()}"
                     app:image="@{R.drawable.svg_about}"
-                    app:imageColor="@{@color/colorSystem}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/about}" />
 
@@ -193,7 +192,7 @@
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.toHelp()}"
                     app:image="@{R.drawable.svg_help}"
-                    app:imageColor="@{@color/colorSystem}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/help}" />
 
@@ -203,7 +202,7 @@
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.toFeedback()}"
                     app:image="@{R.drawable.svg_feedback}"
-                    app:imageColor="@{@color/colorSystem}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/feedback}" />
 
@@ -213,7 +212,7 @@
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.toJoin()}"
                     app:image="@{R.drawable.svg_join}"
-                    app:imageColor="@{@color/colorOther}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/join}" />
 
@@ -223,7 +222,7 @@
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.clear()}"
                     app:image="@{R.drawable.svg_clear}"
-                    app:imageColor="@{@color/colorOther}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/clear}" />
 
@@ -233,10 +232,9 @@
                     android:layout_height="wrap_content"
                     app:click="@{()->presenter.exit()}"
                     app:image="@{R.drawable.svg_exit}"
-                    app:imageColor="@{@color/colorOther}"
+                    app:imageColor="@{0}"
                     app:showEnter="@{true}"
                     app:title="@{@string/exit}" />
-
             </LinearLayout>
         </com.thinkser.core.view.BounceScrollView>
     </LinearLayout>

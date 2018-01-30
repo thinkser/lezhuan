@@ -1,8 +1,8 @@
 package com.thinkser.core.adapter;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * 通用的FragmentPagerAdapter。
  */
 
-public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
     private String[] titles;
