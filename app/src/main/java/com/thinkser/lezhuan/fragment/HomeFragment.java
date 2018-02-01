@@ -14,6 +14,8 @@ import com.thinkser.lezhuan.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> implements AMapLocationListener {
 
+    private LocationUtil locationUtil;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_home;
@@ -27,8 +29,8 @@ public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> imp
     @Override
     protected void initData() {
         super.initData();
-        new LocationUtil().getLocation(getActivity(), this);
-
+        locationUtil = new LocationUtil();
+        locationUtil.getLocation(getActivity(), this);
     }
 
     @Override
@@ -36,23 +38,23 @@ public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> imp
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
                 data.district.set(aMapLocation.getDistrict());
-
+                locationUtil.stopLocation();
                 //获取纬度
-                aMapLocation.getLatitude();
+//                aMapLocation.getLatitude();
                 //获取经度
-                aMapLocation.getLongitude();
-                aMapLocation.getProvince();
-                aMapLocation.getCity();
-                aMapLocation.getDistrict();
+//                aMapLocation.getLongitude();
+//                aMapLocation.getProvince();
+//                aMapLocation.getCity();
+//                aMapLocation.getDistrict();
             }
         }
     }
 
-    public void toSearch(){
+    public void toSearch() {
 
     }
 
-    public void toScan(){
+    public void toScan() {
 
     }
 

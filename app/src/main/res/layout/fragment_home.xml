@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/colorTheme"
         android:orientation="vertical">
 
         <!--标题栏-->
@@ -95,7 +95,8 @@
         <!--分类列表-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
 
             <include
                 layout="@layout/item_square"
@@ -103,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:click="@{()->presenter.toClasses(@string/food)}"
-                app:img="@{R.drawable.svg_publish}"
+                app:img="@{R.drawable.svg_food}"
                 app:imgColor="@{0}"
                 app:title="@{@string/food}" />
 
@@ -143,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:click="@{()->presenter.toClasses(@string/nearby)}"
-                app:img="@{R.drawable.svg_publish}"
+                app:img="@{R.drawable.svg_nearby}"
                 app:imgColor="@{0}"
                 app:title="@{@string/nearby}" />
         </LinearLayout>
@@ -165,7 +166,8 @@
 
             <com.thinkser.core.view.MyRecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.StoreCreateActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
+
+        <!--标题栏-->
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:back="@{()->presenter.back()}"
+            app:backColor="@{@color/colorWhite}"
+            app:layoutColor="@{@color/colorTheme}"
+            app:lineColor="@{@color/colorWhite}"
+            app:title="@{@string/store_create}"
+            app:titleColor="@{@color/colorWhite}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="vertical">
+
+            <!--店铺名-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_underline">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/store_name"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorTransparent"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:maxLength="10"
+                    android:text="@={data.storeName}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!--手机号-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_underline">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/store_phone"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorTransparent"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:text="@={data.storePhone}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <!--系统定位-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_underline">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@{data.storeLocation}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/store_hint"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!--详细地址-->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_underline"
+                android:hint="@string/store_address"
+                android:inputType="text"
+                android:padding="10dp"
+                android:text="@={data.storeAddress}"
+                android:textColor="@color/colorTextDark"
+                android:textColorHint="@color/colorHint"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/login_button"
+                android:onClick="@{()->presenter.save()}"
+                android:text="@string/save" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

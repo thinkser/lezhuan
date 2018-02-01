@@ -45,8 +45,8 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    protected void initData(Intent intent) {
+        super.initData(intent);
         model = new BeginModel(this);
         progressDialog = new ProgressDialog(this);
         timer = new Timer();
@@ -82,7 +82,7 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
     //检查手机号是否注册
     private void checkPhone() {
         model.login(data.phone.get(),
-                new BaseObserver<Map<String, List<Customer>>>(this, progressDialog.dialog) {
+                new BaseObserver<Map<String, List<Customer>>>(progressDialog.dialog) {
                     @Override
                     protected void onSuccess(Map<String, List<Customer>> map) {
                         List<Customer> list = map.get("results");
@@ -183,7 +183,7 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
         user.setPhone(data.phone.get());
         user.setPassword(data.password.get().hashCode() + "");
         user.setUsername(data.username.get());
-        model.register(user, new BaseObserver<Customer>(this, progressDialog.dialog) {
+        model.register(user, new BaseObserver<Customer>(progressDialog.dialog) {
             @Override
             protected void onSuccess(Customer customer) {
                 user.setObjectId(customer.getObjectId());

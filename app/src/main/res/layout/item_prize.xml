@@ -8,7 +8,7 @@
 
         <variable
             name="presenter"
-            type="com.thinkser.lezhuan.item.PrizeItem" />
+            type="Boolean" />
     </data>
 
     <LinearLayout
@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:scaleType="centerInside"
             android:src="@drawable/svg_ticket"
-            android:tint="@{presenter.hasTicket?@color/colorTicket:@color/colorHint}" />
+            android:tint="@{presenter?@color/colorTicket:@color/colorHint}" />
 
     </LinearLayout>
 </layout>

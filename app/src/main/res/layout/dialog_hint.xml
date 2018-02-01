@@ -9,10 +9,10 @@
         android:id="@+id/tv_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginTop="40dp"
+        android:paddingBottom="40dp"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:paddingTop="40dp"
         android:textColor="@color/colorTextDark"
         android:textSize="17sp" />
 
@@ -36,7 +36,7 @@
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorTheme"
+            android:textColor="@color/colorTextLight"
             android:textSize="15sp" />
 
         <View

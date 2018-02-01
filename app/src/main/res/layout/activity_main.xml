@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="12"
-            app:fragments="@{data.fragments}"
-            app:manager="@{data.fragmentManager}"
+            app:adapter="@{data.fragmentPagerAdapter}"
             app:position="@{data.position}"/>
 
         <View

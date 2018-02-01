@@ -48,4 +48,12 @@
     <!--publish-->
     <string name="AD_publish">广告发布</string>
 
+    <!--store-->
+    <string name="store_create">店铺入住</string>
+    <string name="store_name">店铺名</string>
+    <string name="store_phone">手机号</string>
+    <string name="store_address">请输入店铺详细地址</string>
+    <string name="store_hint">系统定位用于显示距离\n请确保当前所在位置为店铺位置</string>
+    <string name="save">保 存</string>
+
 </resources>

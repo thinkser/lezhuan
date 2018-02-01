@@ -2,8 +2,8 @@ package com.thinkser.lezhuan.item;
 
 import android.app.Activity;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 
 /**
@@ -13,7 +13,8 @@ import android.databinding.ObservableList;
 public class ADItem {
 
     private Activity activity;
-    public final ObservableList<PrizeItem> prize = new ObservableArrayList<>();
+
+    public final ObservableList<Boolean> prize = new ObservableArrayList<>();
     public final ObservableField<String>
             title = new ObservableField<>(""),
             distance = new ObservableField<>(""),

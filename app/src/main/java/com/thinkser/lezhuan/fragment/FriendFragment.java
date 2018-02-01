@@ -6,7 +6,7 @@ import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.FragmentFriendBinding;
 
 /**
- * 社交
+ * 好友
  */
 
 public class FriendFragment extends BaseFragment<AppData, FragmentFriendBinding> {

@@ -1,8 +1,6 @@
 package com.thinkser.lezhuan.activity;
 
-import android.databinding.BindingMethod;
-import android.databinding.BindingMethods;
-import android.widget.ImageView;
+import android.content.Intent;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -10,7 +8,6 @@ import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.ActivityPublishBinding;
 import com.thinkser.lezhuan.item.ADItem;
-import com.thinkser.lezhuan.item.PrizeItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +29,8 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    protected void initData(Intent intent) {
+        super.initData(intent);
         List<ADItem> list = new ArrayList<>();
         showList(list);
         data.adapter.set(new RecyclerAdapter(R.layout.item_ad));
@@ -51,12 +48,12 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
 
     private void showPrize(ADItem adItem, int size) {
         for (int i = 0; i < 10; i++) {
-            adItem.prize.add(new PrizeItem(i < size));
+            adItem.prize.add(i < size);
         }
     }
 
     public void toCreatePublish() {
-        skip(CreatePublishActivity.class);
+        skip(PublishCreateActivity.class);
     }
 
 }

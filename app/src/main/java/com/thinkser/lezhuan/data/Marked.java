@@ -10,13 +10,6 @@ public class Marked {
 
     public static void initMarked() {
         customMarked();
-
-
-//        MarkedUtil.addMark(7005, "昵称不能为空");
-//        MarkedUtil.addMark(7006, "密码必须大于6位");
-//        MarkedUtil.addMark(7007, "确认密码与密码不一致");
-//        MarkedUtil.addMark(7008, "该手机号不存在");
-
     }
 
     //自定义提示语
@@ -38,5 +31,8 @@ public class Marked {
         MarkedUtil.addMark(7012, "密码与确认密码不一致");
         MarkedUtil.addMark(7013, "验证码不能为空");
         MarkedUtil.addMark(7014, "验证码必须为6位数字");
+        //店铺入住
+        MarkedUtil.addMark(7015, "店铺名不能为空");
+        MarkedUtil.addMark(7016, "店铺地址不能为空");
     }
 }

@@ -39,10 +39,14 @@
             app:title="@{@string/store}"
             app:titleColor="@{@color/colorWhite}" />
 
-        <View
+        <com.thinkser.core.view.MyRecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8" />
+            android:layout_weight="8"
+            app:adapter="@{data.adapter}"
+            app:decoration="@{null}"
+            app:isLoading="@{true}"
+            app:listener="@{null}" />
 
     </LinearLayout>
 </layout>

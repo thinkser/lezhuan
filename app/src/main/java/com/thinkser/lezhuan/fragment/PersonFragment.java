@@ -1,7 +1,10 @@
 package com.thinkser.lezhuan.fragment;
 
+import android.view.View;
+
 import com.thinkser.core.base.BaseFragment;
 import com.thinkser.core.utils.PreferencesUtil;
+import com.thinkser.core.view.CustomDialog;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.activity.BeginActivity;
 import com.thinkser.lezhuan.activity.PublishActivity;
@@ -20,7 +23,6 @@ import com.thinkser.lezhuan.model.MainModel;
 public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding> {
 
     private MainModel model;
-    private HintDialog hintDialog;
 
     @Override
     protected int getLayout() {
@@ -36,7 +38,6 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     protected void initData() {
         super.initData();
         model = new MainModel(getActivity());
-        hintDialog = new HintDialog(getActivity());
         showPerson();
     }
 
@@ -97,9 +98,17 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     }
 
     public void exit() {
-        hintDialog.showHintDialog("确定要退出吗？", true,
-                (dialog, view) -> {
-                    if (view.getId() == R.id.tv_hint_ensure) {
+        new HintDialog(getActivity(), "确定要退出吗？")
+                .setCancelable(true)
+                .setRightButton("退 出", R.color.colorTheme)
+                .setOnHintClickListener(new HintDialog.OnClickListener() {
+                    @Override
+                    public void onLeftClick(CustomDialog dialog) {
+
+                    }
+
+                    @Override
+                    public void onRightClick(CustomDialog dialog) {
                         Customer customer = new Customer();
                         customer.logout(getActivity());
                         skip(BeginActivity.class);
@@ -107,6 +116,4 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
                     }
                 });
     }
-
-
 }

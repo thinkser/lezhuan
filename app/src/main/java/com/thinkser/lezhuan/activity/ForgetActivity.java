@@ -46,8 +46,8 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    protected void initData(Intent intent) {
+        super.initData( intent);
         model = new BeginModel(this);
         progressDialog = new ProgressDialog(this);
         timer = new Timer();
@@ -83,7 +83,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
     //检查手机号是否注册
     private void checkPhone() {
         model.login(data.phone.get(),
-                new BaseObserver<Map<String, List<Customer>>>(this, progressDialog.dialog) {
+                new BaseObserver<Map<String, List<Customer>>>(progressDialog.dialog) {
                     @Override
                     protected void onSuccess(Map<String, List<Customer>> map) {
                         List<Customer> list = map.get("results");
@@ -175,7 +175,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
     private void changeUser() {
         customer.setPassword(data.password.get().hashCode() + "");
         model.forget(customer.getObjectId(), customer,
-                new BaseObserver<Map<String, String>>(this, progressDialog.dialog) {
+                new BaseObserver<Map<String, String>>(progressDialog.dialog) {
                     @Override
                     protected void onSuccess(Map<String, String> map) {
                         customer.saveUser(ForgetActivity.this);

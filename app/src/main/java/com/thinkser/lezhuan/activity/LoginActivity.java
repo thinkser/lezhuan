@@ -34,8 +34,8 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    protected void initData(Intent intent) {
+        super.initData(intent);
         model = new BeginModel(this);
         progressDialog = new ProgressDialog(this);
     }
@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
     private void getUser() {
         progressDialog.showProgressDialog("请稍候", false);
         model.login(data.phone.get(),
-                new BaseObserver<Map<String, List<Customer>>>(this, progressDialog.dialog) {
+                new BaseObserver<Map<String, List<Customer>>>(progressDialog.dialog) {
                     @Override
                     protected void onSuccess(Map<String, List<Customer>> map) {
                         disposeUser(map);

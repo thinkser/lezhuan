@@ -1,14 +1,10 @@
 package com.thinkser.lezhuan.data;
 
-import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.databinding.ObservableList;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 
+import com.thinkser.core.adapter.FragmentPagerAdapter;
 import com.thinkser.core.adapter.RecyclerAdapter;
 
 /**
@@ -33,13 +29,19 @@ public class AppData {
             getCode = new ObservableField<>("获取验证码");
 
     //main
-    public final ObservableField<FragmentManager> fragmentManager = new ObservableField<>();
-    public final ObservableList<Fragment> fragments = new ObservableArrayList<>();
+    public final ObservableField<FragmentPagerAdapter> fragmentPagerAdapter = new ObservableField<>();
     public final ObservableInt position = new ObservableInt();
 
     //person
     public final ObservableField<String>
             portrait = new ObservableField<>(""),
             signature = new ObservableField<>("");
+
+    //store
+    public final ObservableField<String>
+            storeName = new ObservableField<>(""),
+            storeLocation = new ObservableField<>("正在获取位置信息"),
+            storeAddress = new ObservableField<>(""),
+            storePhone = new ObservableField<>("");
 
 }
