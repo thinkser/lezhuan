@@ -17,7 +17,6 @@ public class LocationUtil {
 
     public void getLocation(Context context, AMapLocationListener locationListener){
             AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-            mLocationOption.setHttpTimeOut(2000);
             mLocationClient = new AMapLocationClient(context.getApplicationContext());
             mLocationClient.setLocationListener(locationListener);
             mLocationClient.setLocationOption(mLocationOption);

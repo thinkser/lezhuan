@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,11 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -55,7 +52,7 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
 //            }
 //        });
         initStatus();
-        initData();
+        initData(getIntent());
         initView(binding);
     }
 
@@ -77,7 +74,7 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
     protected void initView(B binding) {
     }
 
-    protected void initData() {
+    protected void initData(Intent intent) {
     }
 
     protected void toast(String message) {

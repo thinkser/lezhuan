@@ -10,12 +10,17 @@ import android.widget.Toast;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.thinkser.core.base.BaseApplication;
 
-import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.util.List;
+import java.security.cert.CertificateException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,21 +33,20 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-import static com.thinkser.core.data.StaticData.BASE_URL;
-import static com.thinkser.core.data.StaticData.TIME_OUT;
-
 public class NetUtil {
 
     private Activity activity;
+    private BaseApplication baseApplication;
 
     public NetUtil(Activity activity) {
         this.activity = activity;
+        baseApplication = (BaseApplication) activity.getApplication();
     }
 
     //获取API的实例
     public <T> T getInstance(Map<String, String> headers, Class<T> clazz) {
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(baseApplication.baseUrl)
                 // 添加Gson转换器
                 .addConverterFactory(GsonConverterFactory.create(buildGson()))
                 // 添加Retrofit到RxJava的转换器
@@ -54,9 +58,41 @@ public class NetUtil {
                 .create(clazz);
     }
 
+    private static SSLSocketFactory getSocketFactory() throws Exception {
+        final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] chain,
+                    String authType) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] chain,
+                    String authType) throws CertificateException {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[0];
+            }
+        }};
+        final SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+        return sslContext.getSocketFactory();
+    }
+
     // 创建一个OkHttpClient进行一些配置
     private OkHttpClient getClient(final Map<String, String> headers) {
+        SSLSocketFactory sslSocketFactory = null;
+        try {
+            sslSocketFactory = getSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new OkHttpClient.Builder()
+                .sslSocketFactory(sslSocketFactory)
+                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                 // 添加通用的Header
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
@@ -69,8 +105,8 @@ public class NetUtil {
                 .addInterceptor(new HttpLoggingInterceptor(message ->
                         Log.e("HTTPIntercept", message))
                         .setLevel(HttpLoggingInterceptor.Level.BASIC))
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build();
     }
 
@@ -111,5 +147,4 @@ public class NetUtil {
         }
         return false;
     }
-
 }

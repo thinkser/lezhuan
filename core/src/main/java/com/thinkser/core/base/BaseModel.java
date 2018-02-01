@@ -11,9 +11,6 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-import static com.thinkser.core.data.StaticData.APP_KEY;
-import static com.thinkser.core.data.StaticData.REST_API;
-
 /**
  * 所有model继承此类
  */
@@ -21,18 +18,20 @@ import static com.thinkser.core.data.StaticData.REST_API;
 public abstract class BaseModel {
 
     protected NetUtil netUtil;
+    private BaseApplication application;
     protected Map<String, String> headers;
 
     public BaseModel(Activity activity) {
         netUtil = new NetUtil(activity);
         headers = new HashMap<>();
+        application = (BaseApplication) activity.getApplication();
         initHeader();
     }
 
     //添加常用header
     private void initHeader() {
-        headers.put("X-Bmob-Application-Id", APP_KEY);
-        headers.put("X-Bmob-REST-API-Key", REST_API);
+        headers.put("X-Bmob-Application-Id", application.APP_KEY);
+        headers.put("X-Bmob-REST-API-Key", application.REST_API);
         headers.put("Content-Type", "application/json");
     }
 

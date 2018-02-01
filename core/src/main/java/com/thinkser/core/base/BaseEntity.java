@@ -1,32 +1,16 @@
 package com.thinkser.core.base;
 
+import java.io.Serializable;
+
 /**
  * 所有实体类继承此类
  */
 
-public class BaseEntity {
+public class BaseEntity implements Serializable {
 
-    private Integer code = 0;
-    private String error;
     private String createdAt;
     private String objectId;
     private String updateAt;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -50,5 +34,11 @@ public class BaseEntity {
 
     public void setUpdateAt(String updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public void clearSystemData() {
+        objectId = null;
+        updateAt = null;
+        createdAt = null;
     }
 }

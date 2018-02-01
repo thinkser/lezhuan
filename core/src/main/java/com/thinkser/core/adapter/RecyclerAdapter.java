@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.thinkser.core.BR;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public RecyclerAdapter(int layout) {
         this.layout = layout;
+        data = new ArrayList();
     }
 
     public void addMore(List moreData) {

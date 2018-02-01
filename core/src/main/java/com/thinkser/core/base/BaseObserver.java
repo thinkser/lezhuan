@@ -1,23 +1,24 @@
 package com.thinkser.core.base;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.thinkser.core.utils.MarkedUtil;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 public abstract class BaseObserver<T> implements Observer<T> {
 
-    private static final String TAG = "BaseObserver";
-    private Context context;
     private Dialog dialog;
+    private static final String TAG = "BaseObserver";
 
-    protected BaseObserver(Context context, Dialog dialog) {
-        this.context = context.getApplicationContext();
+    protected BaseObserver(Dialog dialog) {
         this.dialog = dialog;
     }
 
@@ -28,25 +29,36 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
+        cancelDialog();
         onSuccess(t);
     }
 
     @Override
     public void onError(Throwable e) {
-        cancelDialog();
-        Log.e(TAG, e.getMessage());
-        onFailed();
+        if (e instanceof HttpException) {
+            cancelDialog();
+            ResponseBody body = ((HttpException) e).response().errorBody();
+            try {
+                HashMap map = new Gson().fromJson(body.string(), HashMap.class);
+                String msg = (String) map.get("error");
+                onFailed((Double) map.get("code"));
+                log(msg);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onComplete() {
         cancelDialog();
-        Log.e(TAG, "onComplete");
+        log("onComplete");
     }
 
     protected abstract void onSuccess(T t);
 
-    protected void onFailed() {
+    protected void onFailed(double code) {
+        log(String.valueOf(code));
     }
 
     //取消加载中对话框
@@ -55,6 +67,10 @@ public abstract class BaseObserver<T> implements Observer<T> {
             dialog.setCancelable(false);
             dialog.cancel();
         }
+    }
+
+    private void log(String s) {
+        Log.e(TAG, s);
     }
 
 }

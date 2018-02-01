@@ -10,7 +10,7 @@ import java.util.List;
  * 通用的FragmentPagerAdapter。
  */
 
-public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
+public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
     private List<Fragment> fragments;
     private String[] titles;

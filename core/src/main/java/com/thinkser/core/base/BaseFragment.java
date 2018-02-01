@@ -2,12 +2,10 @@ package com.thinkser.core.base;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +21,13 @@ import com.thinkser.core.utils.MarkedUtil;
 public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragment {
 
     protected D data;
+    protected B binding;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         data = getData();
-        B binding = DataBindingUtil.inflate(inflater, getLayout(), container, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), getLayout(), null, false);
         binding.setVariable(com.thinkser.core.BR.data, data);
         binding.setVariable(com.thinkser.core.BR.presenter, this);
         //添加动画效果
@@ -41,7 +40,27 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
 //            }
 //        });
         initData();
-        initView(binding);
+        initView();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+//        data = getData();
+//        B binding = DataBindingUtil.inflate(inflater, getLayout(), container, false);
+//        binding.setVariable(com.thinkser.core.BR.data, data);
+//        binding.setVariable(com.thinkser.core.BR.presenter, this);
+        //添加动画效果
+//        binding.addOnRebindCallback(new OnRebindCallback() {
+//            @Override
+//            public boolean onPreBind(ViewDataBinding binding) {
+//                ViewGroup sceneRoot = (ViewGroup) binding.getRoot();
+//                TransitionManager.beginDelayedTransition(sceneRoot);
+//                return true;
+//            }
+//        });
+//        initData();
+//        initView(binding);
         return binding.getRoot();
     }
 
@@ -49,7 +68,7 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
 
     protected abstract D getData();
 
-    protected void initView(B binding) {
+    protected void initView() {
     }
 
     protected void initData() {

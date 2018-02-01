@@ -10,7 +10,7 @@
 
         <variable
             name="data"
-            type="com.thinkser.core.data.DynamicData" />
+            type="com.thinkser.core.base.BaseApplication" />
     </data>
 
     <LinearLayout

@@ -71,11 +71,10 @@ public class DataBindingAdapter {
     }
 
     //viewpager显示fragment
-    @BindingAdapter({"manager", "fragments", "position"})
-    public static void setPosition(ViewPager viewPager, FragmentManager manager,
-                                   List<Fragment> fragments, int position) {
-        viewPager.setAdapter(new FragmentPagerAdapter(manager, fragments));
-        viewPager.setCurrentItem(position);
+    @BindingAdapter({"adapter", "position"})
+    public static void setPosition(ViewPager viewPager, FragmentPagerAdapter adapter, int position) {
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(position,false);
     }
 
     //下拉加载列表
