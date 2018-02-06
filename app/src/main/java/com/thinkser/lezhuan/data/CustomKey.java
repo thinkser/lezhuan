@@ -8,7 +8,7 @@ public class CustomKey {
 
     public static final String
             isLogin = "isLogin",
-            id = "id",
+            userId = "userId",
             username = "username",
             phone = "phone",
             password = "password",
@@ -19,6 +19,7 @@ public class CustomKey {
             longitude = "longitude",
             province = "province",
             city = "city",
-            district = "district";
+            district = "district",
+            info = "info";
 
 }

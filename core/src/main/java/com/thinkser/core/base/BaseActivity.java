@@ -1,6 +1,7 @@
 package com.thinkser.core.base;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.thinkser.core.BR;
 import com.thinkser.core.R;
 import com.thinkser.core.utils.MarkedUtil;
+import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.core.utils.SystemBarTintManager;
 
 /**
@@ -34,11 +37,15 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         extends AppCompatActivity {
 
     protected D data;
+    protected Activity activity;
+    protected PreferencesUtil preferencesUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        data = getData();
         super.onCreate(savedInstanceState);
+        data = getData();
+        activity = this;
+        preferencesUtil = new PreferencesUtil(this);
         B binding = DataBindingUtil.setContentView(this, getLayout());
         binding.setVariable(BR.data, data);
         binding.setVariable(BR.presenter, this);
@@ -94,8 +101,17 @@ public abstract class BaseActivity<D, B extends ViewDataBinding>
         startActivity(new Intent(this, activity));
     }
 
+    //返回事件
     public void back() {
         finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            back();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**

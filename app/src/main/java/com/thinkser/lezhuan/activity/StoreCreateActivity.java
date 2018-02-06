@@ -7,7 +7,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.thinkser.core.base.BaseActivity;
 import com.thinkser.core.base.BaseObserver;
 import com.thinkser.core.utils.LocationUtil;
-import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.core.view.CustomDialog;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
@@ -30,9 +29,8 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
     private StoreModel model;
     private LocationUtil locationUtil;
     private ProgressDialog progressDialog;
-    private PreferencesUtil preferencesUtil;
 
-    private String id;
+    private String id;//店铺id
     private Store store;
     private boolean isSave;
 
@@ -52,9 +50,8 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
         model = new StoreModel(this);
         progressDialog = new ProgressDialog(this);
         locationUtil = new LocationUtil();
-        preferencesUtil = new PreferencesUtil(this);
         //接收从列表传过来的店铺信息
-        store = (Store) intent.getSerializableExtra("info");
+        store = (Store) intent.getSerializableExtra(CustomKey.info);
         if (store != null) {
             id = store.getObjectId();
             data.storeAddress.set(store.getStoreAddress());
@@ -63,7 +60,7 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
         } else {
             store = new Store();
         }
-
+        //启动定位
         locationUtil.getLocation(this, this);
     }
 
@@ -80,7 +77,7 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
 
                     @Override
                     public void onRightClick(CustomDialog dialog) {
-                        StoreCreateActivity.this.finish();
+                        activity.finish();
                     }
                 });
     }
@@ -106,7 +103,7 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
         isSave = true;
         locationUtil.getLocation(this, this);
         progressDialog.showProgressDialog("请稍候", false);
-        store.setUserId(preferencesUtil.getString(CustomKey.id));
+        store.setUserId(preferencesUtil.getString(CustomKey.userId));
     }
 
     @Override
@@ -129,6 +126,7 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
         }
     }
 
+    //将输入信息保存到实体类中
     private void saveStoreInfo() {
         store.setStoreName(data.storeName.get());
         store.setStorePhone(data.storePhone.get());
@@ -148,8 +146,8 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
                     @Override
                     protected void onSuccess(Store store) {
                         progressDialog.cancelProgressDialog();
-                        StoreCreateActivity.this.setResult(7);
-                        StoreCreateActivity.this.finish();
+                        activity.setResult(RESULT_OK);
+                        activity.finish();
                     }
                 });
     }
@@ -161,8 +159,8 @@ public class StoreCreateActivity extends BaseActivity<AppData, ActivityStoreCrea
                     @Override
                     protected void onSuccess(Map<String, String> map) {
                         progressDialog.cancelProgressDialog();
-                        StoreCreateActivity.this.setResult(7);
-                        StoreCreateActivity.this.finish();
+                        activity.setResult(RESULT_OK);
+                        activity.finish();
                     }
                 });
     }

@@ -47,6 +47,13 @@
 
     <!--publish-->
     <string name="AD_publish">广告发布</string>
+    <string name="money">金额</string>
+    <string name="money_sign">￥</string>
+    <string name="pay">去支付</string>
+    <string name="AD_title">标题：</string>
+    <string name="AD_content">请输入一段描述性文字</string>
+    <string name="AD_store">选择店铺</string>
+    <string name="AD_prize">奖品数量：</string>
 
     <!--store-->
     <string name="store_create">店铺入住</string>

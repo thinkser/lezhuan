@@ -4,10 +4,15 @@ import android.content.Intent;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
+import com.thinkser.core.base.BaseObserver;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
+import com.thinkser.lezhuan.data.CustomKey;
 import com.thinkser.lezhuan.databinding.ActivityPublishBinding;
+import com.thinkser.lezhuan.entity.Publish;
 import com.thinkser.lezhuan.item.ADItem;
+import com.thinkser.lezhuan.item.PrizeItem;
+import com.thinkser.lezhuan.model.PublishModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +22,12 @@ import java.util.List;
  */
 
 public class PublishActivity extends BaseActivity<AppData, ActivityPublishBinding> {
+
+    private PublishModel model;
+    private List<ADItem> list;
+
+    private int publishCount = -1;//广告数量
+    private static final int REQUEST_CREATE = 1;
 
     @Override
     protected int getLayout() {
@@ -31,29 +42,72 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
     @Override
     protected void initData(Intent intent) {
         super.initData(intent);
-        List<ADItem> list = new ArrayList<>();
-        showList(list);
+        list = new ArrayList<>();
+        model = new PublishModel(this);
         data.adapter.set(new RecyclerAdapter(R.layout.item_ad));
-        data.adapter.get().addNew(list);
+        getList();
     }
 
-    private void showList(List<ADItem> list) {
-        ADItem adItem = new ADItem(this);
-        adItem.distance.set("100m");
-        adItem.title.set("这是广告");
-        adItem.label.set("美食|东港区");
-        showPrize(adItem, 4);
-        list.add(adItem);
-    }
-
-    private void showPrize(ADItem adItem, int size) {
-        for (int i = 0; i < 10; i++) {
-            adItem.prize.add(i < size);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //新建或修改信息后返回
+        if (requestCode == REQUEST_CREATE && resultCode == RESULT_OK) {
+            getList();
         }
     }
 
+    //获取我的发布列表数据
+    private void getList() {
+        model.getStoreList(preferencesUtil.getString(CustomKey.userId),
+                new BaseObserver<List<Publish>>(null) {
+                    @Override
+                    protected void onSuccess(List<Publish> publishes) {
+                        if (publishes == null || publishes.size() == 0) {
+                            publishCount = 0;
+                            return;
+                        }
+                        publishCount = publishes.size();
+                        list.clear();
+                        for (Publish publish : publishes) {
+                            showList(publish);
+                        }
+                        data.adapter.get().addNew(list);
+                    }
+                });
+    }
+
+    //显示发布列表
+    private void showList(Publish publish) {
+        List<PrizeItem> prizes = new ArrayList<>();
+        //显示奖品列表
+        for (int i = 0; i < 10; i++) {
+            PrizeItem item = new PrizeItem();
+            item.hasPrize.set(i < publish.getPrizeCount());
+            prizes.add(item);
+        }
+        ADItem adItem = new ADItem(prizes);
+        adItem.title.set(publish.getTitle());
+        adItem.integral.set("今日积分：" + publish.getIntegral());
+        //设置列表项点击事件
+        Intent intent = new Intent(activity, PublishCreateActivity.class);
+        intent.putExtra(CustomKey.info, publish);
+        adItem.setADItemClickListener(() -> activity.startActivityForResult(intent, REQUEST_CREATE));
+        list.add(adItem);
+    }
+
+    //跳转到新建发布界面
     public void toCreatePublish() {
-        skip(PublishCreateActivity.class);
+//        if (publishCount == -1) {
+//            toast("正在获取列表信息，请稍候");
+//            return;
+//        }
+//        if (publishCount >= 5) {
+//            toast("最多发布五条广告");
+//            return;
+//        }
+        startActivityForResult(new Intent(this,
+                PublishCreateActivity.class), REQUEST_CREATE);
     }
 
 }

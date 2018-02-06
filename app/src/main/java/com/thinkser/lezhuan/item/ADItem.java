@@ -1,10 +1,13 @@
 package com.thinkser.lezhuan.item;
 
-import android.app.Activity;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
+
+import com.thinkser.core.adapter.RecyclerAdapter;
+import com.thinkser.lezhuan.R;
+
+import java.util.List;
 
 /**
  * 广告列表项
@@ -12,20 +15,29 @@ import android.databinding.ObservableList;
 
 public class ADItem {
 
-    private Activity activity;
+    private OnADItemClickListener listener;
 
-    public final ObservableList<Boolean> prize = new ObservableArrayList<>();
     public final ObservableField<String>
             title = new ObservableField<>(""),
             distance = new ObservableField<>(""),
             url = new ObservableField<>(""),
-            label = new ObservableField<>("");
+            integral = new ObservableField<>("");
+    public final ObservableField<RecyclerAdapter> adapter = new ObservableField<>();
 
-    public ADItem(Activity activity) {
-        this.activity = activity;
+    public ADItem(List<PrizeItem> data){
+        adapter.set(new RecyclerAdapter(R.layout.item_prize));
+        adapter.get().addNew(data);
     }
 
     public void click() {
-//        activity.startActivity(new Intent(activity, ));
+        listener.click();
+    }
+
+    public interface OnADItemClickListener{
+        void click();
+    }
+
+    public void setADItemClickListener(OnADItemClickListener listener){
+        this.listener = listener;
     }
 }

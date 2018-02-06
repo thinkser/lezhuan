@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.item.PublishImageItem" />
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:onClick="@{()->presenter.click()}">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:file="@{presenter.file}"
+            app:placeholder="@{R.drawable.img_add}" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:visibility="@{presenter.file==null?View.GONE:View.VISIBLE}"
+            app:src="@{position==0?R.drawable.img_main:R.drawable.img_remove}" />
+
+    </FrameLayout>
+</layout>

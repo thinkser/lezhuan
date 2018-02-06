@@ -30,11 +30,16 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:back="@{()->presenter.back()}"
-            app:backColor="@{@color/colorWhite}"
-            app:layoutColor="@{@color/colorTheme}"
-            app:lineColor="@{@color/colorWhite}"
+            app:backColor="@{@color/colorTheme}"
+            app:layoutColor="@{@color/colorTab}"
+            app:lineColor="@{@color/colorLine}"
             app:title="@{@string/store_create}"
-            app:titleColor="@{@color/colorWhite}" />
+            app:titleColor="@{@color/colorTextDark}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
 
         <LinearLayout
             android:layout_width="match_parent"

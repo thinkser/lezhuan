@@ -60,7 +60,7 @@ public class BeginActivity extends BaseActivity<AppData, ActivityBeginBinding> {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(BeginActivity.this, MainActivity.class));
+                startActivity(new Intent(activity, MainActivity.class));
                 finish();
             }
         }, 2000);

@@ -1,5 +1,6 @@
 package com.thinkser.core.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.thinkser.core.utils.MarkedUtil;
+import com.thinkser.core.utils.PreferencesUtil;
 
 /**
  * 所有fragment继承此类。
@@ -22,11 +24,15 @@ public abstract class BaseFragment<D, B extends ViewDataBinding> extends Fragmen
 
     protected D data;
     protected B binding;
+    protected Activity activity;
+    protected PreferencesUtil preferencesUtil;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getData();
+        activity = getActivity();
+        preferencesUtil = new PreferencesUtil(activity);
         binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), getLayout(), null, false);
         binding.setVariable(com.thinkser.core.BR.data, data);
         binding.setVariable(com.thinkser.core.BR.presenter, this);

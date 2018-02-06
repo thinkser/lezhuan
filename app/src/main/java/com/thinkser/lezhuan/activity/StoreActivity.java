@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
 import com.thinkser.core.base.BaseObserver;
-import com.thinkser.core.utils.PreferencesUtil;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.data.CustomKey;
@@ -21,13 +20,15 @@ import java.util.List;
  * 我的店铺
  */
 
-public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding> {
+public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
+        implements StoreItem.OnStoreItemClickListener {
 
     private List<StoreItem> list;
     private StoreModel model;
-    private PreferencesUtil preferencesUtil;
 
-    private int storeCount = -1;
+    private int storeCount = -1;//-1代表未获取到数据
+    public String titleText = "";
+    private static final int REQUEST_CREATE_STORE = 1;
 
     @Override
     protected int getLayout() {
@@ -42,9 +43,9 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding> {
     @Override
     protected void initData(Intent intent) {
         super.initData(intent);
+        titleText = intent.getStringExtra("titleText");
         list = new ArrayList<>();
         model = new StoreModel(this);
-        preferencesUtil = new PreferencesUtil(this);
         data.adapter.set(new RecyclerAdapter(R.layout.item_store));
         getList();
     }
@@ -52,21 +53,26 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 7) {
+        if (requestCode == REQUEST_CREATE_STORE && resultCode == RESULT_OK) {
             getList();
         }
     }
 
     //获取店铺列表信息
     private void getList() {
-        model.getStoreList(preferencesUtil.getString(CustomKey.id),
+        model.getStoreList(preferencesUtil.getString(CustomKey.userId),
                 new BaseObserver<List<Store>>(null) {
                     @Override
                     protected void onSuccess(List<Store> stores) {
-                        storeCount = stores.size();
+                        if (stores==null||stores.size()==0){
+                            storeCount = 0;
+                            return;
+                        }
+                        storeCount=stores.size();
                         list.clear();
                         for (Store store : stores) {
-                            StoreItem storeItem = new StoreItem(StoreActivity.this, store);
+                            StoreItem storeItem = new StoreItem(store);
+                            storeItem.setListener(StoreActivity.this);
                             list.add(storeItem);
                         }
                         data.adapter.get().addNew(list);
@@ -74,6 +80,7 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding> {
                 });
     }
 
+    //点击新建按钮
     public void toCreateStore() {
         if (storeCount == -1) {
             toast("正在获取列表信息，请稍候");
@@ -83,7 +90,20 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding> {
             toast("最多创建三个店铺");
             return;
         }
-        startActivityForResult(new Intent(this, StoreCreateActivity.class), 1);
+        startActivityForResult(new Intent(this, StoreCreateActivity.class), REQUEST_CREATE_STORE);
     }
 
+    @Override
+    public void onClick(Store store) {
+        if (titleText.equals("选择店铺")) {
+            Intent intent = new Intent();
+            intent.putExtra(CustomKey.info, store);
+            activity.setResult(RESULT_OK, intent);
+            activity.finish();
+        } else {
+            Intent intent = new Intent(activity, StoreCreateActivity.class);
+            intent.putExtra(CustomKey.info, store);
+            activity.startActivityForResult(intent, REQUEST_CREATE_STORE);
+        }
+    }
 }

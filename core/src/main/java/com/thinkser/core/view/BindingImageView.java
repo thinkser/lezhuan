@@ -40,9 +40,11 @@ public class BindingImageView extends AppCompatImageView {
         }
     }
 
-    public void setSrc(int drawable){
-        Drawable drawable1 = getResources().getDrawable(drawable);
-        setImageDrawable(drawable1);
+    public void setSrc(int src) {
+        if (src != 0) {
+            Drawable drawable = getResources().getDrawable(src);
+            setImageDrawable(drawable);
+        }
     }
 
 }

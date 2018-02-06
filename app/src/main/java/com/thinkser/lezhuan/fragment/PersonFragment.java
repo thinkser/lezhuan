@@ -1,6 +1,6 @@
 package com.thinkser.lezhuan.fragment;
 
-import android.view.View;
+import android.content.Intent;
 
 import com.thinkser.core.base.BaseFragment;
 import com.thinkser.core.utils.PreferencesUtil;
@@ -66,7 +66,9 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     }
 
     public void toStore() {
-        skip(StoreActivity.class);
+        Intent intent = new Intent(activity, StoreActivity.class);
+        intent.putExtra("titleText", "我的店铺");
+        startActivity(intent);
     }
 
     public void toWallet() {

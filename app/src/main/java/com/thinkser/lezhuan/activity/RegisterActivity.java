@@ -187,7 +187,7 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
             @Override
             protected void onSuccess(Customer customer) {
                 user.setObjectId(customer.getObjectId());
-                user.saveUser(RegisterActivity.this);
+                user.saveUser(activity);
                 toMain();
                 progressDialog.cancelProgressDialog();
             }
@@ -196,7 +196,7 @@ public class RegisterActivity extends BaseActivity<AppData, ActivityRegisterBind
 
     //跳转到主界面
     private void toMain() {
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class)
+        Intent intent = new Intent(activity, MainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

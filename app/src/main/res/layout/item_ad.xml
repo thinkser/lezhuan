@@ -48,31 +48,31 @@
                 android:layout_weight="1">
 
                 <!--奖励-->
-                <LinearLayout
+                <com.thinkser.core.view.MyRecyclerView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:data="@{presenter.prize}"
-                    app:layout="@{R.layout.item_prize}"
-                    app:size="@{0}"
-                    app:spanCount="@{5}" />
+                    app:adapter="@{presenter.adapter}"
+                    app:decoration="@{null}"
+                    app:isLoading="@{true}"
+                    app:listener="@{null}"
+                    app:spanCount="5" />
 
                 <!--距离-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/colorLine"
                     android:text="@{presenter.distance}"
                     android:textColor="@color/colorTextLight"
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!--分类-->
+            <!--积分-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{presenter.label}"
+                android:text="@{presenter.integral}"
                 android:textColor="@color/colorTextLight"
                 android:textSize="13sp" />
 

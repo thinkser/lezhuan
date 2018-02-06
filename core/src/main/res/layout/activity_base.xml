@@ -11,6 +11,10 @@
         <variable
             name="data"
             type="com.thinkser.core.base.BaseApplication" />
+
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <LinearLayout

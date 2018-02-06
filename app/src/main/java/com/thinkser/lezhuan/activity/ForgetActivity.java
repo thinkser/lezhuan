@@ -178,7 +178,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
                 new BaseObserver<Map<String, String>>(progressDialog.dialog) {
                     @Override
                     protected void onSuccess(Map<String, String> map) {
-                        customer.saveUser(ForgetActivity.this);
+                        customer.saveUser(activity);
                         toMain();
                         progressDialog.cancelProgressDialog();
                     }
@@ -186,7 +186,7 @@ public class ForgetActivity extends BaseActivity<AppData, ActivityForgetBinding>
     }
 
     private void toMain() {
-        Intent intent = new Intent(ForgetActivity.this, MainActivity.class)
+        Intent intent = new Intent(activity, MainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

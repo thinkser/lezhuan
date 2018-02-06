@@ -67,7 +67,7 @@ public class Customer extends BaseEntity {
     public void saveUser(Activity activity) {
         new PreferencesUtil(activity)
                 .setBoolean(CustomKey.isLogin, true)
-                .setString(CustomKey.id, getObjectId())
+                .setString(CustomKey.userId, getObjectId())
                 .setString(CustomKey.username, username)
                 .setString(CustomKey.phone, phone)
                 .setString(CustomKey.sex, sex)

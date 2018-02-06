@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity<AppData, ActivityLoginBinding> {
     }
 
     private void toMain() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class)
+        Intent intent = new Intent(activity, MainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

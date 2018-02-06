@@ -32,10 +32,10 @@ public interface BeginAPI {
             @Body RequestBody body
     );
 
-    @PUT("classes/{table}/{id}")
+    @PUT("classes/{table}/{userId}")
     Observable<Map<String, String>> forget(
             @Path("table") String table,
-            @Path("id") String id,
+            @Path("userId") String id,
             @Body RequestBody body
     );
 

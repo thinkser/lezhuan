@@ -1,11 +1,14 @@
 package com.thinkser.lezhuan.data;
 
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.databinding.ObservableList;
 
 import com.thinkser.core.adapter.FragmentPagerAdapter;
 import com.thinkser.core.adapter.RecyclerAdapter;
+import com.thinkser.lezhuan.item.PublishImageItem;
 
 /**
  * 程序界面数据
@@ -43,5 +46,15 @@ public class AppData {
             storeLocation = new ObservableField<>("正在获取位置信息"),
             storeAddress = new ObservableField<>(""),
             storePhone = new ObservableField<>("");
+
+    //publish
+    public final ObservableField<String>
+            publishTitle = new ObservableField<>(""),
+            content = new ObservableField<>("");
+    public final ObservableInt
+            prizeCount = new ObservableInt(),
+            money = new ObservableInt();
+    public final ObservableBoolean showStore = new ObservableBoolean();
+    public final ObservableList<PublishImageItem> photos = new ObservableArrayList<>();
 
 }

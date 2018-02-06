@@ -28,6 +28,8 @@ import com.xys.zxing.zxing.activity.CaptureActivity;
 import com.xys.zxing.zxing.camera.CameraManager;
 import com.xys.zxing.zxing.decode.DecodeThread;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * This class handles all the messaging which comprises the state machine for
  * capture.
@@ -71,7 +73,7 @@ public class CaptureActivityHandler extends Handler {
             cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 
         } else if (message.what == R.id.return_scan_result) {
-            activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
+            activity.setResult(RESULT_OK, (Intent) message.obj);
             activity.finish();
 
         }

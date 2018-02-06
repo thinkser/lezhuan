@@ -1,6 +1,5 @@
 package com.thinkser.lezhuan.api;
 
-import com.thinkser.lezhuan.entity.Customer;
 import com.thinkser.lezhuan.entity.Store;
 
 import java.util.List;
@@ -26,10 +25,10 @@ public interface StoreAPI {
             @Path("table") String table,
             @Body RequestBody body);
 
-    @PUT("classes/{table}/{id}")
+    @PUT("classes/{table}/{userId}")
     Observable<Map<String, String>> changeStore(
             @Path("table") String table,
-            @Path("id") String id,
+            @Path("userId") String id,
             @Body RequestBody body
     );
 

@@ -36,7 +36,7 @@
             app:buttonText="@{@string/create}"
             app:layoutColor="@{@color/colorTheme}"
             app:lineColor="@{@color/colorWhite}"
-            app:title="@{@string/store}"
+            app:title="@{presenter.titleText}"
             app:titleColor="@{@color/colorWhite}" />
 
         <com.thinkser.core.view.MyRecyclerView

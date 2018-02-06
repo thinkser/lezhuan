@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 public class Store extends BaseEntity implements Serializable {
 
-    private String userId = "", storeName = "", storeAddress = "",
-            storePhone = "", district = "";
+    private String userId, storeName, storeAddress, storePhone, district;
     private Double latitude, longitude;
 
     public String getUserId() {

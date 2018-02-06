@@ -5,10 +5,12 @@ import android.app.Activity;
 import com.google.gson.Gson;
 import com.thinkser.core.utils.NetUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
@@ -43,5 +45,14 @@ public abstract class BaseModel {
         return RequestBody.create(
                 MediaType.parse("application/json; charset=utf-8"),
                 new Gson().toJson(o));
+    }
+
+    public MultipartBody.Part getPart(String fileName, File file) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        return MultipartBody.Part.createFormData("file", fileName, requestFile);
+    }
+
+    public MultipartBody.Part getPart(String name, String value) {
+        return MultipartBody.Part.createFormData(name, value);
     }
 }

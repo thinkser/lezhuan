@@ -8,9 +8,9 @@ import retrofit2.http.Path;
 
 public interface MainAPI {
 
-    @GET("classes/{table}/{id}")
+    @GET("classes/{table}/{userId}")
     Observable<Customer> getPeron(
             @Path("table") String table,
-            @Path("id") String id
+            @Path("userId") String id
     );
 }

@@ -18,8 +18,9 @@ import com.thinkser.core.R;
 
 public class MyRecyclerView extends RecyclerView {
 
-    private boolean isLoading = false;//是否正在加载
+    private boolean isLoading;//是否正在加载
     private int spanCount;
+    private boolean scrollEnable;
 
     public interface OnRecyclerScrollListener {
         void loadMore(MyRecyclerView view);
@@ -39,12 +40,23 @@ public class MyRecyclerView extends RecyclerView {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.MyRecyclerView, defStyle, 0);
         spanCount = typedArray.getInt(R.styleable.MyRecyclerView_spanCount, 1);
+        scrollEnable = typedArray.getBoolean(R.styleable.MyRecyclerView_scrollEnable, true);
         typedArray.recycle();
         RecyclerView.LayoutManager manager;
         if (spanCount > 1) {
-            manager = new GridLayoutManager(getContext(), spanCount);
+            manager = new GridLayoutManager(getContext(), spanCount) {
+                @Override
+                public boolean canScrollVertically() {
+                    return scrollEnable && super.canScrollVertically();
+                }
+            };
         } else {
-            manager = new LinearLayoutManager(getContext());
+            manager = new LinearLayoutManager(getContext()) {
+                @Override
+                public boolean canScrollVertically() {
+                    return scrollEnable && super.canScrollVertically();
+                }
+            };
         }
         //设置布局管理器
         setLayoutManager(manager);

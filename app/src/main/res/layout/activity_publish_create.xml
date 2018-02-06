@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="com.thinkser.lezhuan.R" />
+
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.thinkser.lezhuan.data.AppData" />
@@ -26,11 +30,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:back="@{()->presenter.back()}"
-            app:backColor="@{@color/colorWhite}"
-            app:layoutColor="@{@color/colorTheme}"
-            app:lineColor="@{@color/colorWhite}"
+            app:backColor="@{@color/colorTheme}"
+            app:layoutColor="@{@color/colorTab}"
+            app:lineColor="@{@color/colorLine}"
             app:title="@{@string/AD_publish}"
-            app:titleColor="@{@color/colorWhite}" />
+            app:titleColor="@{@color/colorTextDark}" />
 
         <View
             android:layout_width="match_parent"
@@ -40,13 +44,191 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8">
+            android:layout_weight="7">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--标题区-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_underline">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/AD_title"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/bg_underline"
+                        android:gravity="center_vertical"
+                        android:text="@={data.publishTitle}"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!--描述性文字-->
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:gravity="left|top"
+                    android:hint="@string/AD_content"
+                    android:minHeight="110dp"
+                    android:padding="10dp"
+                    android:text="@={data.content}"
+                    android:textColor="@color/colorTextDark"
+                    android:textColorHint="@color/colorHint"
+                    android:textSize="15sp" />
+
+                <!--图片区-->
+                <com.thinkser.core.view.MyRecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@color/colorWhite"
+                    android:paddingBottom="10dp"
+                    app:adapter="@{data.adapter}"
+                    app:decoration="@{null}"
+                    app:isLoading="@{true}"
+                    app:listener="@{null}"
+                    app:scrollEnable="false"
+                    app:spanCount="4" />
+
+                <!--选择店铺-->
+                <include
+                    layout="@layout/item_rectangle"
+                    app:click="@{()->presenter.selectStore()}"
+                    app:showEnter="@{true}"
+                    app:title="@{@string/AD_store}" />
+
+                <!--店铺信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:visibility="@{data.showStore?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storeName}"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storePhone}"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storeAddress}"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <!--奖品-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/AD_prize"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:onClick="@{()->presenter.subtract()}"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/svg_remove"
+                        android:tint="@color/colorTextDark" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@{String.valueOf(data.prizeCount)}"
+                        android:textColor="@color/colorTheme"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:onClick="@{()->presenter.plus()}"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/svg_add"
+                        android:tint="@color/colorTextDark" />
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
+
+        <!--支付金额-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/money"
+                android:textColor="@color/colorTextDark"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text='@{@string/money_sign+String.valueOf(data.money)}'
+                android:textColor="@color/colorTheme"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTheme"
+                android:gravity="center"
+                android:onClick="@{()->presenter.pay()}"
+                android:padding="15dp"
+                android:text="@string/pay"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

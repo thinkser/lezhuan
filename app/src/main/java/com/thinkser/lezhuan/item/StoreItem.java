@@ -1,10 +1,7 @@
 package com.thinkser.lezhuan.item;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.ObservableField;
 
-import com.thinkser.lezhuan.activity.StoreCreateActivity;
 import com.thinkser.lezhuan.entity.Store;
 
 /**
@@ -13,16 +10,15 @@ import com.thinkser.lezhuan.entity.Store;
 
 public class StoreItem {
 
-    private Activity activity;
     private Store store;
+    private OnStoreItemClickListener listener;
 
     public final ObservableField<String>
             storeName = new ObservableField<>(""),
             storeAddress = new ObservableField<>(""),
             storePhone = new ObservableField<>("");
 
-    public StoreItem(Activity activity, Store store) {
-        this.activity = activity;
+    public StoreItem(Store store) {
         this.store = store;
         storeName.set(store.getStoreName());
         storePhone.set(store.getStorePhone());
@@ -30,8 +26,14 @@ public class StoreItem {
     }
 
     public void click() {
-        Intent intent = new Intent(activity, StoreCreateActivity.class);
-        intent.putExtra("info", store);
-        activity.startActivityForResult(intent,1);
+        listener.onClick(store);
+    }
+
+    public interface OnStoreItemClickListener {
+        void onClick(Store store);
+    }
+
+    public void setListener(OnStoreItemClickListener listener) {
+        this.listener = listener;
     }
 }

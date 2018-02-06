@@ -50,6 +50,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.getBinding().setVariable(BR.presenter, data.get(position));
+        holder.getBinding().setVariable(BR.position, position);
         holder.getBinding().executePendingBindings();
     }
 
