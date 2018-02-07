@@ -25,10 +25,10 @@ public interface StoreAPI {
             @Path("table") String table,
             @Body RequestBody body);
 
-    @PUT("classes/{table}/{userId}")
+    @PUT("classes/{table}/{id}")
     Observable<Map<String, String>> changeStore(
             @Path("table") String table,
-            @Path("userId") String id,
+            @Path("id") String id,
             @Body RequestBody body
     );
 

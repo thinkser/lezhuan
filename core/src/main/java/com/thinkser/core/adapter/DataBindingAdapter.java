@@ -3,6 +3,7 @@ package com.thinkser.core.adapter;
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

@@ -12,13 +12,13 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <com.thinkser.core.view.BindingImageView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/svg_ticket"
             android:tint="@{presenter.hasPrize?@color/colorTicket:@color/colorHint}" />

@@ -1,6 +1,7 @@
 package com.thinkser.core.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,31 +10,44 @@ import android.view.ViewGroup;
 
 import com.thinkser.core.BR;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 通用的RecyclerAdapter。
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    private List data;
     private int layout;
+    private ObservableList data;
 
-    public RecyclerAdapter(int layout) {
+    public RecyclerAdapter(int layout, ObservableList data) {
         this.layout = layout;
-        data = new ArrayList();
-    }
+        this.data = data;
+        data.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList>() {
+            @Override
+            public void onChanged(ObservableList observableList) {
+                RecyclerAdapter.this.notifyDataSetChanged();
+            }
 
-    public void addMore(List moreData) {
-        data.addAll(moreData);
-        notifyDataSetChanged();
-    }
+            @Override
+            public void onItemRangeChanged(ObservableList observableList, int i, int i1) {
+                RecyclerAdapter.this.notifyDataSetChanged();
+            }
 
-    public void addNew(List newData) {
-        data = newData;
-        notifyDataSetChanged();
+            @Override
+            public void onItemRangeInserted(ObservableList observableList, int i, int i1) {
+                RecyclerAdapter.this.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList observableList, int i, int i1, int i2) {
+                RecyclerAdapter.this.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList observableList, int i, int i1) {
+                RecyclerAdapter.this.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

@@ -20,6 +20,8 @@ public class CustomKey {
             province = "province",
             city = "city",
             district = "district",
-            info = "info";
+            info = "info",
+            photos = "photos",
+            findUrls = "findUrls";
 
 }

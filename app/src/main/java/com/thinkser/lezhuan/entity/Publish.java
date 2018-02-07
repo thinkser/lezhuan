@@ -2,7 +2,7 @@ package com.thinkser.lezhuan.entity;
 
 import com.thinkser.core.base.BaseEntity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 广告实体类
@@ -11,8 +11,8 @@ import java.util.List;
 public class Publish extends BaseEntity {
 
     private String userId, storeId, title, content;
-    private Integer prizeCount, integral;
-    private List<String> photos;
+    private Integer prizeCount = 0, integral = 0;
+    private ArrayList<String> photos, findUrls;
 
     public String getUserId() {
         return userId;
@@ -62,11 +62,19 @@ public class Publish extends BaseEntity {
         this.integral = integral;
     }
 
-    public List<String> getPhotos() {
+    public ArrayList<String> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<String> photos) {
+    public void setPhotos(ArrayList<String> photos) {
         this.photos = photos;
+    }
+
+    public ArrayList<String> getFindUrls() {
+        return findUrls;
+    }
+
+    public void setFindUrls(ArrayList<String> findUrls) {
+        this.findUrls = findUrls;
     }
 }

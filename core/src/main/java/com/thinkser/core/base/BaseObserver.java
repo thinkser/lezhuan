@@ -40,8 +40,9 @@ public abstract class BaseObserver<T> implements Observer<T> {
             ResponseBody body = ((HttpException) e).response().errorBody();
             try {
                 HashMap map = new Gson().fromJson(body.string(), HashMap.class);
-                String msg = (String) map.get("error");
-                onFailed((Double) map.get("code"));
+                String msg = String.valueOf(map.get("error"));
+                String code = String.valueOf(map.get("code"));
+                onFailed(Double.valueOf(code));
                 log(msg);
             } catch (IOException ex) {
                 ex.printStackTrace();

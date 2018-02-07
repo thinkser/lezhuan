@@ -49,14 +49,19 @@
 
                 <!--奖励-->
                 <com.thinkser.core.view.MyRecyclerView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     app:adapter="@{presenter.adapter}"
                     app:decoration="@{null}"
                     app:isLoading="@{true}"
                     app:listener="@{null}"
+                    app:scrollEnable="false"
                     app:spanCount="5" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
                 <!--距离-->
                 <TextView

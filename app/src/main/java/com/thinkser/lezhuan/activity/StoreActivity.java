@@ -1,6 +1,8 @@
 package com.thinkser.lezhuan.activity;
 
 import android.content.Intent;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -13,7 +15,6 @@ import com.thinkser.lezhuan.entity.Store;
 import com.thinkser.lezhuan.item.StoreItem;
 import com.thinkser.lezhuan.model.StoreModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ import java.util.List;
 public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
         implements StoreItem.OnStoreItemClickListener {
 
-    private List<StoreItem> list;
     private StoreModel model;
+    private ObservableList<StoreItem> list;
 
     private int storeCount = -1;//-1代表未获取到数据
     public String titleText = "";
@@ -44,9 +45,9 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
     protected void initData(Intent intent) {
         super.initData(intent);
         titleText = intent.getStringExtra("titleText");
-        list = new ArrayList<>();
         model = new StoreModel(this);
-        data.adapter.set(new RecyclerAdapter(R.layout.item_store));
+        list = new ObservableArrayList<>();
+        data.adapter.set(new RecyclerAdapter(R.layout.item_store, list));
         getList();
     }
 
@@ -64,18 +65,17 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
                 new BaseObserver<List<Store>>(null) {
                     @Override
                     protected void onSuccess(List<Store> stores) {
-                        if (stores==null||stores.size()==0){
+                        if (stores == null || stores.size() == 0) {
                             storeCount = 0;
                             return;
                         }
-                        storeCount=stores.size();
+                        storeCount = stores.size();
                         list.clear();
                         for (Store store : stores) {
                             StoreItem storeItem = new StoreItem(store);
                             storeItem.setListener(StoreActivity.this);
                             list.add(storeItem);
                         }
-                        data.adapter.get().addNew(list);
                     }
                 });
     }

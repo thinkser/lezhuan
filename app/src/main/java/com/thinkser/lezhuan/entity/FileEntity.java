@@ -6,29 +6,31 @@ package com.thinkser.lezhuan.entity;
 
 public class FileEntity {
 
-    private String width;//图片的宽
-    private String height;// 图片的高
-    private String type;
-    private String size;//图片大小(单位:字节)
-    private String ubburl;//图片UBB引用代码
-    private String linkurl;//图片原图地址
-    private String htmlurl;//图片HTML引用代码
-    private String s_url;//图片展示图地址
-    private String t_url;//图片缩略图地址
+    private double width;//图片宽度
+    private double height;//图片高度
+    private String type;//图片类型
+    private double size;//图片大小（字节）
+    private String ubburl;
+    private String linkurl;//原图链接
+    private String htmlurl;
+    private String markdown;
+    private String s_url;
+    private String t_url;
+    private String findurl;//获取pid的url
 
-    public String getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public void setWidth(String width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 
-    public String getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -40,11 +42,11 @@ public class FileEntity {
         this.type = type;
     }
 
-    public String getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(double size) {
         this.size = size;
     }
 
@@ -72,6 +74,14 @@ public class FileEntity {
         this.htmlurl = htmlurl;
     }
 
+    public String getMarkdown() {
+        return markdown;
+    }
+
+    public void setMarkdown(String markdown) {
+        this.markdown = markdown;
+    }
+
     public String getS_url() {
         return s_url;
     }
@@ -86,5 +96,13 @@ public class FileEntity {
 
     public void setT_url(String t_url) {
         this.t_url = t_url;
+    }
+
+    public String getFindurl() {
+        return findurl;
+    }
+
+    public void setFindurl(String findurl) {
+        this.findurl = findurl;
     }
 }

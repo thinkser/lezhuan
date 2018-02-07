@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thinkser.core.base.BaseApplication;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.security.cert.CertificateException;
 import java.util.Map;
@@ -25,8 +26,10 @@ import javax.net.ssl.X509TrustManager;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -84,15 +87,8 @@ public class NetUtil {
 
     // 创建一个OkHttpClient进行一些配置
     private OkHttpClient getClient(final Map<String, String> headers) {
-        SSLSocketFactory sslSocketFactory = null;
-        try {
-            sslSocketFactory = getSocketFactory();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String cookie = "r_login=1; uid=628457; hm=112a271c02659e6bf501b02dbb1ede25; username=thinkser; ver_t=421d0e1dd675a60e706e986f79a87f4b; default_email=994771336%40qq.com; think_language=zh-CN; PHPSESSID=ppus3c77b98785d7ickc2m2j47; l_ip=1; Hm_lvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=1517988241,1517992107; Hm_lpvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=1517992875";
         return new OkHttpClient.Builder()
-                .sslSocketFactory(sslSocketFactory)
-                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                 // 添加通用的Header
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
@@ -105,6 +101,7 @@ public class NetUtil {
                 .addInterceptor(new HttpLoggingInterceptor(message ->
                         Log.e("HTTPIntercept", message))
                         .setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new AddCookiesInterceptor(cookie))
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
@@ -146,5 +143,23 @@ public class NetUtil {
             }
         }
         return false;
+    }
+
+    //添加cookie的拦截器
+    public class AddCookiesInterceptor implements Interceptor {
+
+        private String cookie;
+
+        public AddCookiesInterceptor(String cookie) {
+            super();
+            this.cookie = cookie;
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request.Builder builder = chain.request().newBuilder();
+            builder.addHeader("Cookie", cookie);
+            return chain.proceed(builder.build());
+        }
     }
 }

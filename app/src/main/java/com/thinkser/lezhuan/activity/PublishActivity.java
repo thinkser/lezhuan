@@ -1,6 +1,8 @@
 package com.thinkser.lezhuan.activity;
 
 import android.content.Intent;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -14,7 +16,6 @@ import com.thinkser.lezhuan.item.ADItem;
 import com.thinkser.lezhuan.item.PrizeItem;
 import com.thinkser.lezhuan.model.PublishModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
 public class PublishActivity extends BaseActivity<AppData, ActivityPublishBinding> {
 
     private PublishModel model;
-    private List<ADItem> list;
+    private ObservableList<ADItem> list;
 
     private int publishCount = -1;//广告数量
     private static final int REQUEST_CREATE = 1;
@@ -42,9 +43,9 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
     @Override
     protected void initData(Intent intent) {
         super.initData(intent);
-        list = new ArrayList<>();
         model = new PublishModel(this);
-        data.adapter.set(new RecyclerAdapter(R.layout.item_ad));
+        list = new ObservableArrayList<>();
+        data.adapter.set(new RecyclerAdapter(R.layout.item_ad, list));
         getList();
     }
 
@@ -72,14 +73,13 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
                         for (Publish publish : publishes) {
                             showList(publish);
                         }
-                        data.adapter.get().addNew(list);
                     }
                 });
     }
 
     //显示发布列表
     private void showList(Publish publish) {
-        List<PrizeItem> prizes = new ArrayList<>();
+        ObservableList<PrizeItem> prizes = new ObservableArrayList<>();
         //显示奖品列表
         for (int i = 0; i < 10; i++) {
             PrizeItem item = new PrizeItem();
@@ -98,14 +98,14 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
 
     //跳转到新建发布界面
     public void toCreatePublish() {
-//        if (publishCount == -1) {
-//            toast("正在获取列表信息，请稍候");
-//            return;
-//        }
-//        if (publishCount >= 5) {
-//            toast("最多发布五条广告");
-//            return;
-//        }
+        if (publishCount == -1) {
+            toast("正在获取列表信息，请稍候");
+            return;
+        }
+        if (publishCount >= 5) {
+            toast("最多发布五条广告");
+            return;
+        }
         startActivityForResult(new Intent(this,
                 PublishCreateActivity.class), REQUEST_CREATE);
     }

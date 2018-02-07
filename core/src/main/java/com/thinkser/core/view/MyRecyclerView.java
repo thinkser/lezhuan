@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import com.thinkser.core.R;
 
@@ -45,6 +46,7 @@ public class MyRecyclerView extends RecyclerView {
         RecyclerView.LayoutManager manager;
         if (spanCount > 1) {
             manager = new GridLayoutManager(getContext(), spanCount) {
+
                 @Override
                 public boolean canScrollVertically() {
                     return scrollEnable && super.canScrollVertically();
@@ -130,5 +132,11 @@ public class MyRecyclerView extends RecyclerView {
         } else {
             addItemDecoration(decoration);
         }
+    }
+
+    //取消所有点击事件
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        return false;
     }
 }

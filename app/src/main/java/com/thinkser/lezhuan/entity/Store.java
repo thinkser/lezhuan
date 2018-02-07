@@ -2,13 +2,11 @@ package com.thinkser.lezhuan.entity;
 
 import com.thinkser.core.base.BaseEntity;
 
-import java.io.Serializable;
-
 /**
  * 店铺信息
  */
 
-public class Store extends BaseEntity implements Serializable {
+public class Store extends BaseEntity {
 
     private String userId, storeName, storeAddress, storePhone, district;
     private Double latitude, longitude;

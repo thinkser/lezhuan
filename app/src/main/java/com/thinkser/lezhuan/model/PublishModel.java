@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MultipartBody;
-
 /**
  * 我的发布model
  */
@@ -32,7 +30,6 @@ public class PublishModel extends BaseModel {
         netUtil.getInstance(headers, PublishAPI.class)
                 .getPublishList(Publish.class.getSimpleName(), new Gson().toJson(where))
                 .map(map -> map.get("results"))
-                .filter(list -> list != null && list.size() > 0)
                 .compose(netUtil.compose())
                 .subscribe(baseObserver);
     }
@@ -44,6 +41,13 @@ public class PublishModel extends BaseModel {
                 .subscribe(baseObserver);
     }
 
+    public void changePublish(String publishId, Publish publish, BaseObserver<Map<String, String>> baseObserver) {
+        netUtil.getInstance(headers, PublishAPI.class)
+                .changePublish(Publish.class.getSimpleName(), publishId, getBody(publish))
+                .compose(netUtil.compose())
+                .subscribe(baseObserver);
+    }
+
     public void uploadFile(String userId, File file, BaseObserver<FileEntity> baseObserver) {
         String token = "c70bc993f42d87c33d728b50052981de531de4c7:HipDHuSQHhMNklx_v1iT1-NaOKM=:eyJkZWFkbGluZSI6MTUxNzkyMzczOCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNjI4NDU3IiwiYWlkIjoiMTQwNzg1OCIsImZyb20iOiJmaWxlIn0=";
         netUtil.getInstance(headers, PublishAPI.class)
@@ -51,4 +55,19 @@ public class PublishModel extends BaseModel {
                 .compose(netUtil.compose())
                 .subscribe(baseObserver);
     }
+
+    public void deleteFile(String findUrl, BaseObserver<Map<String, String>> baseObserver) {
+        netUtil.getInstance(headers, PublishAPI.class)
+                .getPid(findUrl)
+                .map(responseBody -> {
+                    String[] html = responseBody.string().split("pid", 2);
+                    String[] pid = html[1].split("\'", 3);
+                    return pid[1];
+                })
+                .flatMap(s -> netUtil.getInstance(headers, PublishAPI.class)
+                        .deleteFiles(Integer.valueOf(s)))
+                .compose(netUtil.compose())
+                .subscribe(baseObserver);
+    }
+
 }

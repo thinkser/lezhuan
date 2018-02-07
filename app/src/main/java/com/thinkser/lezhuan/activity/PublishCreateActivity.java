@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
-import com.google.gson.Gson;
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
 import com.thinkser.core.base.BaseObserver;
@@ -28,6 +27,7 @@ import com.zhihu.matisse.MimeType;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新建/编辑广告
@@ -39,8 +39,10 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
     private ProgressDialog progressDialog;
 
     private Publish publish;
-    private List<String> photos;//图片链接
+    private ArrayList<String> photos, findUrl;//图片链接
     private String storeId;//对应店铺的id
+    private String publishId;//广告id
+    private boolean isSave;//记录数据是否上传
     private static final int PHOTO_MAX_SIZE = 4;
     private static final int REQUEST_SELECT_STORE = 1;
     private static final int REQUEST_SELECT_IMAGE = 2;
@@ -64,21 +66,16 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         publish = (Publish) intent.getSerializableExtra(CustomKey.info);
         if (publish == null) {
             publish = new Publish();
-            data.adapter.set(new RecyclerAdapter(R.layout.item_publish_image));
-            data.photos.add(getItem(null));
-            data.adapter.get().addNew(data.photos);
         } else {
             data.publishTitle.set(publish.getTitle());
             data.content.set(publish.getContent());
             data.prizeCount.set(publish.getPrizeCount());
+            publishId = publish.getObjectId();
             showStore(publish.getStoreId());
-            showPhotos(publish.getPhotos());
+            showPhotos(publish.getPhotos(), publish.getFindUrls());
         }
-    }
-
-    //显示图片
-    private void showPhotos(List<String> photos) {
-
+        data.adapter.set(new RecyclerAdapter(R.layout.item_publish_image, data.photos));
+        data.photos.add(getItem(null));
     }
 
     //显示店铺信息
@@ -86,24 +83,34 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     }
 
-    //清空服务器上的图片
-    private void clearPhohts() {
-
+    //显示图片
+    private void showPhotos(ArrayList<String> photos, ArrayList<String> findUrls) {
+        for (int i = 0; i < photos.size(); i++) {
+//        for (String url:photos) {
+//            data.photos.add()
+//        }
+            deletePhoto(findUrls.get(i));
+        }
     }
 
+    //删除服务器上的图片
+    private void deletePhoto(String findUrl) {
+        model.deleteFile(findUrl, new BaseObserver<Map<String, String>>(null) {
+            @Override
+            protected void onSuccess(Map<String, String> map) {
+                log(map.get("info"));
+            }
+        });
+    }
 
     //获取图片列表项
     private PublishImageItem getItem(File file) {
         PublishImageItem item = new PublishImageItem(file);
-        item.setListener(new PublishImageItem.OnPublishImageItemClickListener() {
-            @Override
-            public void onClick() {
-                if (file == null) {//添加图片
-                    toSelect();
-                } else {// 删除图片
-                    data.photos.remove(item);
-                    data.adapter.get().addNew(data.photos);
-                }
+        item.setListener(() -> {
+            if (file == null) {//添加图片
+                toSelect();
+            } else {// 删除图片
+                data.photos.remove(item);
             }
         });
         return item;
@@ -139,16 +146,10 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK) {
             List<Uri> selected = Matisse.obtainResult(intent);
             for (Uri uri : selected) {
-                String path = SrcUtil.getPath(this, uri);
-                if (data.photos.size() == PHOTO_MAX_SIZE) {//最后一个直接替换
-                    int position = PHOTO_MAX_SIZE - 1;
-                    data.photos.set(position, getItem(new File(path)));
-                } else {
-                    int position = data.photos.size() - 1;
-                    data.photos.add(position, getItem(new File(path)));
-                }
+                String path = SrcUtil.getPath(this, uri);//获取图片地址
+                int position = data.photos.size() - 1;
+                data.photos.add(position, getItem(new File(path)));
             }
-            data.adapter.get().addNew(data.photos);
         }
     }
 
@@ -203,36 +204,53 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     //去支付
     public void pay() {
-        savePhotos();
-//        if (data.money.get() == 0) {
-//            savePhotos();
-//        } else {
-//
-//        }
+        //判空操作
+        if (data.money.get() == 0) {
+            savePhotos();
+        } else {
+
+        }
     }
 
     //上传图片
     private void savePhotos() {
         progressDialog.showProgressDialog("请稍候", false);
         photos = new ArrayList<>();
+        findUrl = new ArrayList<>();
         for (PublishImageItem item : data.photos) {
             File file = item.file.get();
             if (file != null) {
                 model.uploadFile(preferencesUtil.getString(CustomKey.userId), file,
-                        new BaseObserver<FileEntity>(progressDialog.dialog) {
+                        new BaseObserver<FileEntity>(null) {
                             @Override
                             protected void onSuccess(FileEntity fileEntity) {
-                                log("" + new Gson().toJson(fileEntity));
+                                photos.add(fileEntity.getLinkurl());
+                                findUrl.add(fileEntity.getFindurl());
+                                if (photos.size() == data.photos.size() - 1) {//图片上传完成
+                                    commit();
+                                }
                             }
                         });
             }
         }
-
-
-//        savePublish();
     }
 
-    //将发布信息上传至后台
+    //提交数据
+    private void commit() {
+        //避免重复提交
+        synchronized (this) {
+            if (!isSave) {
+                isSave = true;
+                if (publishId == null) {
+                    savePublish();
+                } else {
+                    changePublish();
+                }
+            }
+        }
+    }
+
+    //保存广告信息
     private void savePublish() {
         publish.setUserId(preferencesUtil.getString(CustomKey.userId));
         publish.setTitle(data.publishTitle.get());
@@ -240,6 +258,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         publish.setStoreId(storeId);
         publish.setPrizeCount(data.prizeCount.get());
         publish.setPhotos(photos);
+        publish.setFindUrls(findUrl);
         model.createPublish(publish, new BaseObserver<Publish>(progressDialog.dialog) {
             @Override
             protected void onSuccess(Publish publish) {
@@ -247,6 +266,26 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
                 activity.finish();
             }
         });
+    }
+
+    //修改广告信息
+    private void changePublish() {
+        isSave = true;
+        publish.clearSystemData();
+        publish.setUserId(preferencesUtil.getString(CustomKey.userId));
+        publish.setTitle(data.publishTitle.get());
+        publish.setContent(data.content.get());
+        publish.setStoreId(storeId);
+        publish.setPrizeCount(data.prizeCount.get());
+        publish.setPhotos(photos);
+        model.changePublish(publishId, publish,
+                new BaseObserver<Map<String, String>>(progressDialog.dialog) {
+                    @Override
+                    protected void onSuccess(Map<String, String> map) {
+                        activity.setResult(RESULT_OK);
+                        activity.finish();
+                    }
+                });
     }
 
 }
