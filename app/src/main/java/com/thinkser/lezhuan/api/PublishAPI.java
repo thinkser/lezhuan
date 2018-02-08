@@ -1,7 +1,9 @@
 package com.thinkser.lezhuan.api;
 
+import com.thinkser.lezhuan.entity.Customer;
 import com.thinkser.lezhuan.entity.FileEntity;
 import com.thinkser.lezhuan.entity.Publish;
+import com.thinkser.lezhuan.entity.Store;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * 广告相关API
@@ -59,5 +62,16 @@ public interface PublishAPI {
     @GET("http://www.tietuku.com/{findUrl}.html")
     Observable<ResponseBody> getPid(
             @Path("findUrl") String findUrl
+    );
+
+    @GET
+    Observable<ResponseBody> getFiles(
+            @Url String url
+    );
+
+    @GET("classes/{table}/{id}")
+    Observable<Store> getStore(
+            @Path("table") String table,
+            @Path("id") String id
     );
 }

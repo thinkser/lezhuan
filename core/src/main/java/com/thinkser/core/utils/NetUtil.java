@@ -87,7 +87,16 @@ public class NetUtil {
 
     // 创建一个OkHttpClient进行一些配置
     private OkHttpClient getClient(final Map<String, String> headers) {
-        String cookie = "r_login=1; uid=628457; hm=112a271c02659e6bf501b02dbb1ede25; username=thinkser; ver_t=421d0e1dd675a60e706e986f79a87f4b; default_email=994771336%40qq.com; think_language=zh-CN; PHPSESSID=ppus3c77b98785d7ickc2m2j47; l_ip=1; Hm_lvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=1517988241,1517992107; Hm_lpvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=1517992875";
+        String cookie = "r_login=1; uid=628457;" +
+                " hm=112a271c02659e6bf501b02dbb1ede25; " +
+                "username=thinkser; " +
+                "ver_t=421d0e1dd675a60e706e986f79a87f4b; " +
+                "default_email=994771336%40qq.com; " +
+                "think_language=zh-CN; " +
+                "PHPSESSID=ppus3c77b98785d7ickc2m2j47; " +
+                "l_ip=1; " +
+                "Hm_lvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=2917988241; " +
+                "Hm_lpvt_b3cbf454cf27350fa6bf9cc3e1c94b1d=1517992875";
         return new OkHttpClient.Builder()
                 // 添加通用的Header
                 .addInterceptor(chain -> {

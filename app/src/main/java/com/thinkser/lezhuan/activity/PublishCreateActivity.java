@@ -39,7 +39,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
     private ProgressDialog progressDialog;
 
     private Publish publish;
-    private ArrayList<String> photos, findUrl;//图片链接
+    private ArrayList<String> photos, oldFindUrls, newFindUrls;//图片链接
     private String storeId;//对应店铺的id
     private String publishId;//广告id
     private boolean isSave;//记录数据是否上传
@@ -62,7 +62,8 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         super.initData(intent);
         model = new PublishModel(activity);
         progressDialog = new ProgressDialog(this);
-
+        photos = new ArrayList<>();
+        newFindUrls = new ArrayList<>();
         publish = (Publish) intent.getSerializableExtra(CustomKey.info);
         if (publish == null) {
             publish = new Publish();
@@ -71,8 +72,10 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
             data.content.set(publish.getContent());
             data.prizeCount.set(publish.getPrizeCount());
             publishId = publish.getObjectId();
+            storeId = publish.getStoreId();
+            oldFindUrls = publish.getFindUrls();
             showStore(publish.getStoreId());
-            showPhotos(publish.getPhotos(), publish.getFindUrls());
+            showPhotos(publish.getPhotos());
         }
         data.adapter.set(new RecyclerAdapter(R.layout.item_publish_image, data.photos));
         data.photos.add(getItem(null));
@@ -80,27 +83,44 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     //显示店铺信息
     private void showStore(String storeId) {
-
+        log(storeId);
+        model.getStore(storeId, new BaseObserver<Store>(null) {
+            @Override
+            protected void onSuccess(Store store) {
+                data.storeName.set(store.getStoreName());
+                data.storePhone.set(store.getStorePhone());
+                data.storeAddress.set(store.getStoreAddress());
+                data.showStore.set(true);
+            }
+        });
     }
 
     //显示图片
-    private void showPhotos(ArrayList<String> photos, ArrayList<String> findUrls) {
-        for (int i = 0; i < photos.size(); i++) {
-//        for (String url:photos) {
-//            data.photos.add()
-//        }
-            deletePhoto(findUrls.get(i));
+    private void showPhotos(ArrayList<String> photos) {
+        for (String photo : photos) {
+            model.getFile(this, photo,
+                    new BaseObserver<File>(null) {
+                        @Override
+                        protected void onSuccess(File file) {
+                            int position = data.photos.size() - 1;
+                            data.photos.add(position, getItem(file));
+                        }
+                    });
         }
     }
 
     //删除服务器上的图片
-    private void deletePhoto(String findUrl) {
-        model.deleteFile(findUrl, new BaseObserver<Map<String, String>>(null) {
-            @Override
-            protected void onSuccess(Map<String, String> map) {
-                log(map.get("info"));
-            }
-        });
+    private void deletePhotos() {
+        if (oldFindUrls == null)
+            return;
+        for (String findUrl : oldFindUrls) {
+            model.deleteFile(findUrl, new BaseObserver<Map<String, String>>(null) {
+                @Override
+                protected void onSuccess(Map<String, String> map) {
+                    log(map.get("info"));
+                }
+            });
+        }
     }
 
     //获取图片列表项
@@ -214,9 +234,8 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     //上传图片
     private void savePhotos() {
+        deletePhotos();
         progressDialog.showProgressDialog("请稍候", false);
-        photos = new ArrayList<>();
-        findUrl = new ArrayList<>();
         for (PublishImageItem item : data.photos) {
             File file = item.file.get();
             if (file != null) {
@@ -225,7 +244,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
                             @Override
                             protected void onSuccess(FileEntity fileEntity) {
                                 photos.add(fileEntity.getLinkurl());
-                                findUrl.add(fileEntity.getFindurl());
+                                newFindUrls.add(fileEntity.getFindurl());
                                 if (photos.size() == data.photos.size() - 1) {//图片上传完成
                                     commit();
                                 }
@@ -258,7 +277,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         publish.setStoreId(storeId);
         publish.setPrizeCount(data.prizeCount.get());
         publish.setPhotos(photos);
-        publish.setFindUrls(findUrl);
+        publish.setFindUrls(newFindUrls);
         model.createPublish(publish, new BaseObserver<Publish>(progressDialog.dialog) {
             @Override
             protected void onSuccess(Publish publish) {
@@ -270,7 +289,6 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     //修改广告信息
     private void changePublish() {
-        isSave = true;
         publish.clearSystemData();
         publish.setUserId(preferencesUtil.getString(CustomKey.userId));
         publish.setTitle(data.publishTitle.get());
@@ -278,6 +296,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         publish.setStoreId(storeId);
         publish.setPrizeCount(data.prizeCount.get());
         publish.setPhotos(photos);
+        publish.setFindUrls(newFindUrls);
         model.changePublish(publishId, publish,
                 new BaseObserver<Map<String, String>>(progressDialog.dialog) {
                     @Override

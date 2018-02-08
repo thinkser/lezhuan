@@ -1,6 +1,7 @@
 package com.thinkser.lezhuan.model;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.thinkser.core.base.BaseModel;
@@ -8,8 +9,10 @@ import com.thinkser.core.base.BaseObserver;
 import com.thinkser.lezhuan.api.PublishAPI;
 import com.thinkser.lezhuan.entity.FileEntity;
 import com.thinkser.lezhuan.entity.Publish;
+import com.thinkser.lezhuan.entity.Store;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +69,27 @@ public class PublishModel extends BaseModel {
                 })
                 .flatMap(s -> netUtil.getInstance(headers, PublishAPI.class)
                         .deleteFiles(Integer.valueOf(s)))
+                .compose(netUtil.compose())
+                .subscribe(baseObserver);
+    }
+
+    public void getFile(Context context, String url, BaseObserver<File> baseObserver) {
+        netUtil.getInstance(headers, PublishAPI.class)
+                .getFiles(url)
+                .map(responseBody -> {
+                    File file = new File(context.getCacheDir().getAbsolutePath(), "" + System.currentTimeMillis());
+                    FileOutputStream outputStream = new FileOutputStream(file);
+                    outputStream.write(responseBody.bytes());
+                    outputStream.close();
+                    return file;
+                })
+                .compose(netUtil.compose())
+                .subscribe(baseObserver);
+    }
+
+    public void getStore(String storeId, BaseObserver<Store> baseObserver) {
+        netUtil.getInstance(headers, PublishAPI.class)
+                .getStore(Store.class.getSimpleName(), storeId)
                 .compose(netUtil.compose())
                 .subscribe(baseObserver);
     }
