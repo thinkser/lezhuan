@@ -109,20 +109,6 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         }
     }
 
-    //删除服务器上的图片
-    private void deletePhotos() {
-        if (oldFindUrls == null)
-            return;
-        for (String findUrl : oldFindUrls) {
-            model.deleteFile(findUrl, new BaseObserver<Map<String, String>>(null) {
-                @Override
-                protected void onSuccess(Map<String, String> map) {
-                    log(map.get("info"));
-                }
-            });
-        }
-    }
-
     //获取图片列表项
     private PublishImageItem getItem(File file) {
         PublishImageItem item = new PublishImageItem(file);
@@ -226,45 +212,56 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
     public void pay() {
         //判空操作
         if (data.money.get() == 0) {
-            savePhotos();
+            saveInfo();
         } else {
 
         }
     }
 
-    //上传图片
-    private void savePhotos() {
-        deletePhotos();
+    private void saveInfo() {
         progressDialog.showProgressDialog("请稍候", false);
-        for (PublishImageItem item : data.photos) {
-            File file = item.file.get();
-            if (file != null) {
-                model.uploadFile(preferencesUtil.getString(CustomKey.userId), file,
-                        new BaseObserver<FileEntity>(null) {
-                            @Override
-                            protected void onSuccess(FileEntity fileEntity) {
-                                photos.add(fileEntity.getLinkurl());
-                                newFindUrls.add(fileEntity.getFindurl());
-                                if (photos.size() == data.photos.size() - 1) {//图片上传完成
-                                    commit();
-                                }
-                            }
-                        });
-            }
+        deletePhotos();
+    }
+
+    //删除服务器上的图片
+    private void deletePhotos() {
+        if (oldFindUrls == null) {
+            savePhotos();
+            return;
+        }
+        final int[] deleteCount = {0};
+        for (String findUrl : oldFindUrls) {
+            model.deleteFile(findUrl, new BaseObserver<Map<String, String>>(null) {
+                @Override
+                protected void onSuccess(Map<String, String> map) {
+                    log(map.get("info"));
+                    deleteCount[0]++;
+                    if (deleteCount[0] == oldFindUrls.size())
+                        savePhotos();
+                }
+            });
         }
     }
 
-    //提交数据
-    private void commit() {
-        //避免重复提交
-        synchronized (this) {
-            if (!isSave) {
-                isSave = true;
-                if (publishId == null) {
-                    savePublish();
-                } else {
-                    changePublish();
-                }
+    //上传图片
+    private void savePhotos() {
+        if (data.photos.size() > 1) {
+            File file = data.photos.get(0).file.get();
+            model.uploadFile(preferencesUtil.getString(CustomKey.userId), file,
+                    new BaseObserver<FileEntity>(null) {
+                        @Override
+                        protected void onSuccess(FileEntity fileEntity) {
+                            photos.add(fileEntity.getLinkurl());
+                            newFindUrls.add(fileEntity.getFindurl());
+                            data.photos.remove(0);
+                            savePhotos();
+                        }
+                    });
+        } else {//上传完成
+            if (publishId == null) {
+                savePublish();
+            } else {
+                changePublish();
             }
         }
     }

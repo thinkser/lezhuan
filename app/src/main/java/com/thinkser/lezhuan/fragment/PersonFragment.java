@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.thinkser.core.base.BaseFragment;
 import com.thinkser.core.utils.PreferencesUtil;
+import com.thinkser.core.utils.SrcUtil;
 import com.thinkser.core.view.CustomDialog;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.activity.BeginActivity;
@@ -14,15 +15,14 @@ import com.thinkser.lezhuan.data.CustomKey;
 import com.thinkser.lezhuan.databinding.FragmentPersonBinding;
 import com.thinkser.lezhuan.dialog.HintDialog;
 import com.thinkser.lezhuan.entity.Customer;
-import com.thinkser.lezhuan.model.MainModel;
+
+import java.io.File;
 
 /**
  * 个人中心
  */
 
 public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding> {
-
-    private MainModel model;
 
     @Override
     protected int getLayout() {
@@ -37,7 +37,7 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     @Override
     protected void initData() {
         super.initData();
-        model = new MainModel(getActivity());
+        data.cacheSize.set(SrcUtil.getSize(this.getContext().getCacheDir().getAbsolutePath()));
         showPerson();
     }
 
@@ -96,6 +96,8 @@ public class PersonFragment extends BaseFragment<AppData, FragmentPersonBinding>
     }
 
     public void clear() {
+        SrcUtil.deleteFiles(new File(getContext().getCacheDir().getAbsolutePath()));
+        data.cacheSize.set(SrcUtil.getSize(this.getContext().getCacheDir().getAbsolutePath()));
         toast("缓存已清除");
     }
 

@@ -39,14 +39,21 @@
             app:title="@{presenter.titleText}"
             app:titleColor="@{@color/colorWhite}" />
 
-        <com.thinkser.core.view.MyRecyclerView
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
-            app:adapter="@{data.adapter}"
-            app:decoration="@{null}"
-            app:isLoading="@{true}"
-            app:listener="@{null}" />
+            app:isRefresh="@{data.isRefresh}"
+            app:refreshColor="@{@color/colorTheme}"
+            app:refreshListener="@{presenter}">
 
+            <com.thinkser.core.view.MyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{data.adapter}"
+                app:decoration="@{null}"
+                app:isLoading="@{true}"
+                app:listener="@{null}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

@@ -30,6 +30,7 @@
     <string name="entertainment">休闲娱乐</string>
     <string name="nearby">附近</string>
     <string name="friend_transmit">好友转发</string>
+    <string name="key_word">输入关键字</string>
     <!--person-->
     <string name="setting">设置</string>
     <string name="publish">我的发布</string>

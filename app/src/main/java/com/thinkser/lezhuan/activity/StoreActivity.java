@@ -3,6 +3,7 @@ package com.thinkser.lezhuan.activity;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 
 public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
-        implements StoreItem.OnStoreItemClickListener {
+        implements StoreItem.OnStoreItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private StoreModel model;
     private ObservableList<StoreItem> list;
@@ -48,13 +49,15 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
         model = new StoreModel(this);
         list = new ObservableArrayList<>();
         data.adapter.set(new RecyclerAdapter(R.layout.item_store, list));
+        data.isRefresh.set(true);
         getList();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQUEST_CREATE_STORE && resultCode == RESULT_OK) {
+            data.isRefresh.set(true);
             getList();
         }
     }
@@ -76,6 +79,7 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
                             storeItem.setListener(StoreActivity.this);
                             list.add(storeItem);
                         }
+                        data.isRefresh.set(false);
                     }
                 });
     }
@@ -105,5 +109,11 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
             intent.putExtra(CustomKey.info, store);
             activity.startActivityForResult(intent, REQUEST_CREATE_STORE);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        data.isRefresh.set(true);
+        data.isRefresh.set(false);
     }
 }

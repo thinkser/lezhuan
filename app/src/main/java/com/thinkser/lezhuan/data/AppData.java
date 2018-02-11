@@ -18,8 +18,9 @@ public class AppData {
 
     //通用
     public final ObservableField<RecyclerAdapter> adapter = new ObservableField<>();
-    public final ObservableBoolean isLoading = new ObservableBoolean(false);
-    public final ObservableField<String> district = new ObservableField<>("定位中");
+    public final ObservableBoolean
+            isLoading = new ObservableBoolean(false),
+            isRefresh = new ObservableBoolean(false);
 
     //登录和注册
     public final ObservableBoolean isLogin = new ObservableBoolean(true);
@@ -34,6 +35,11 @@ public class AppData {
     //main
     public final ObservableField<FragmentPagerAdapter> fragmentPagerAdapter = new ObservableField<>();
     public final ObservableInt position = new ObservableInt();
+
+    //home
+    public final ObservableField<String>
+            district = new ObservableField<>("定位中"),
+            keyWord = new ObservableField<>("");
 
     //person
     public final ObservableField<String>
@@ -50,7 +56,8 @@ public class AppData {
     //publish
     public final ObservableField<String>
             publishTitle = new ObservableField<>(""),
-            content = new ObservableField<>("");
+            content = new ObservableField<>(""),
+            cacheSize = new ObservableField<>("");
     public final ObservableInt
             prizeCount = new ObservableInt(),
             money = new ObservableInt();

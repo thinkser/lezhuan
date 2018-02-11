@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.SearchActivity" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorTab"
+            android:orientation="vertical">
+
+            <!--通知栏留白-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <!--返回按钮-->
+                <com.thinkser.core.view.BindingImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:onClickListener="@{()->presenter.back()}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/svg_back"
+                    android:tint="@color/colorTheme" />
+
+                <!--分割线-->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/colorLine" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorTransparent"
+                    android:gravity="center_vertical"
+                    android:hint="@string/key_word"
+                    android:text="@={data.keyWord}"
+                    android:textColor="@color/colorTextDark"
+                    android:textColorHint="@color/colorHint"
+                    android:textSize="15sp" />
+
+                <!--按钮-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->presenter.search()}"
+                    android:paddingRight="13dp"
+                    android:text="@string/search"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            app:isRefresh="@{data.isRefresh}"
+            app:refreshColor="@{@color/colorTheme}"
+            app:refreshListener="@{presenter}">
+
+            <com.thinkser.core.view.MyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{data.adapter}"
+                app:decoration="@{null}"
+                app:isLoading="@{true}"
+                app:listener="@{null}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+</layout>

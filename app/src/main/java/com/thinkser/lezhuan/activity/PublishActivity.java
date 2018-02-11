@@ -3,6 +3,7 @@ package com.thinkser.lezhuan.activity;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -22,7 +23,8 @@ import java.util.List;
  * 我的发布
  */
 
-public class PublishActivity extends BaseActivity<AppData, ActivityPublishBinding> {
+public class PublishActivity extends BaseActivity<AppData, ActivityPublishBinding>
+        implements SwipeRefreshLayout.OnRefreshListener {
 
     private PublishModel model;
     private ObservableList<ADItem> list;
@@ -46,20 +48,22 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
         model = new PublishModel(this);
         list = new ObservableArrayList<>();
         data.adapter.set(new RecyclerAdapter(R.layout.item_ad, list));
+        data.isRefresh.set(true);
         getList();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         //新建或修改信息后返回
         if (requestCode == REQUEST_CREATE && resultCode == RESULT_OK) {
+            data.isRefresh.set(true);
             getList();
         }
     }
 
     //获取我的发布列表数据
-    private void getList() {
+    public void getList() {
         model.getStoreList(preferencesUtil.getString(CustomKey.userId),
                 new BaseObserver<List<Publish>>(null) {
                     @Override
@@ -73,6 +77,7 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
                         for (Publish publish : publishes) {
                             showList(publish);
                         }
+                        data.isRefresh.set(false);
                     }
                 });
     }
@@ -87,6 +92,7 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
             prizes.add(item);
         }
         ADItem adItem = new ADItem(prizes);
+        adItem.url.set(publish.getPhotos().get(0));
         adItem.title.set(publish.getTitle());
         adItem.integral.set("今日积分：" + publish.getIntegral());
         //设置列表项点击事件
@@ -110,4 +116,9 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
                 PublishCreateActivity.class), REQUEST_CREATE);
     }
 
+    @Override
+    public void onRefresh() {
+        data.isRefresh.set(true);
+        data.isRefresh.set(false);
+    }
 }

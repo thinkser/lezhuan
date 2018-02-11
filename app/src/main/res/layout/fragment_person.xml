@@ -224,6 +224,7 @@
                     app:image="@{R.drawable.svg_clear}"
                     app:imageColor="@{0}"
                     app:showEnter="@{true}"
+                    app:value="@{data.cacheSize}"
                     app:title="@{@string/clear}" />
 
                 <include

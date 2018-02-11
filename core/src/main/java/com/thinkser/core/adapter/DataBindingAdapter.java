@@ -2,8 +2,8 @@ package com.thinkser.core.adapter;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -63,18 +63,34 @@ public class DataBindingAdapter {
         viewPager.setCurrentItem(position, false);
     }
 
-    //下拉加载列表
-    @BindingAdapter({"adapter", "isLoading", "decoration", "listener"})
+    //下拉刷新
+    @BindingAdapter({"refreshColor", "refreshListener"})
+    public static void setRefresh(SwipeRefreshLayout refresh, int refreshColor,
+                                  SwipeRefreshLayout.OnRefreshListener refreshListener) {
+        refresh.setColorSchemeColors(refreshColor);
+        refresh.setOnRefreshListener(refreshListener);
+    }
+
+    @BindingAdapter("isRefresh")
+    public static void setRefreshing(SwipeRefreshLayout refresh, boolean isRefresh) {
+        refresh.setRefreshing(isRefresh);
+    }
+
+    //上拉加载列表
+    @BindingAdapter({"adapter", "decoration", "listener"})
     public static void setRecycler(MyRecyclerView recycler,
                                    RecyclerAdapter adapter,
-                                   boolean isLoading,
                                    RecyclerView.ItemDecoration decoration,
                                    MyRecyclerView.OnRecyclerScrollListener listener) {
-        recycler.setLoading(isLoading);
         recycler.setListener(listener);
         recycler.setAdapter(adapter);
         if (decoration != null)
             recycler.addDecoration(decoration);
+    }
+
+    @BindingAdapter("isLoading")
+    public static void setLoading(MyRecyclerView recycler, boolean isLoading) {
+        recycler.setLoading(isLoading);
     }
 
 }

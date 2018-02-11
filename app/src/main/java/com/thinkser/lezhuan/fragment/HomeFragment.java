@@ -5,6 +5,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.thinkser.core.base.BaseFragment;
 import com.thinkser.core.utils.LocationUtil;
 import com.thinkser.lezhuan.R;
+import com.thinkser.lezhuan.activity.SearchActivity;
 import com.thinkser.lezhuan.data.AppData;
 import com.thinkser.lezhuan.databinding.FragmentHomeBinding;
 
@@ -12,7 +13,8 @@ import com.thinkser.lezhuan.databinding.FragmentHomeBinding;
  * 首页
  */
 
-public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> implements AMapLocationListener {
+public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding>
+        implements AMapLocationListener {
 
     private LocationUtil locationUtil;
 
@@ -51,7 +53,7 @@ public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> imp
     }
 
     public void toSearch() {
-
+        skip(SearchActivity.class);
     }
 
     public void toScan() {
@@ -59,6 +61,6 @@ public class HomeFragment extends BaseFragment<AppData, FragmentHomeBinding> imp
     }
 
     public void toClasses(String s) {
-
+//skip();
     }
 }
