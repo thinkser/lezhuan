@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.thinkser.lezhuan.R" />
+
+        <variable
+            name="presenter"
+            type="com.thinkser.lezhuan.activity.WalletActivity" />
+
+        <variable
+            name="data"
+            type="com.thinkser.lezhuan.data.AppData" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--标题栏-->
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:back="@{()->presenter.back()}"
+            app:backColor="@{@color/colorWhite}"
+            app:layoutColor="@{@color/colorTheme}"
+            app:lineColor="@{@color/colorWhite}"
+            app:title="@{@string/wallet}"
+            app:titleColor="@{@color/colorWhite}" />
+
+        <!--显示余额-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTheme"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@string/balance"
+                android:textColor="@color/colorWhite"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@{data.balance}"
+                android:textColor="@color/colorWhite"
+                android:textSize="70sp" />
+        </LinearLayout>
+
+        <!--提现-->
+        <include
+            layout="@layout/item_rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:click="@{()->presenter.toWithdraw()}"
+            app:image="@{R.drawable.svg_feedback}"
+            app:showEnter="@{true}"
+            app:title="@{@string/withdraw}" />
+
+        <!--充值-->
+        <include
+            layout="@layout/item_rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:click="@{()->presenter.toRecharge()}"
+            app:image="@{R.drawable.svg_feedback}"
+            app:showEnter="@{true}"
+            app:title="@{@string/recharge}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5" />
+    </LinearLayout>
+</layout>

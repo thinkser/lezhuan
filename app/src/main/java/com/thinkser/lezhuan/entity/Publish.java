@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Publish extends BaseEntity {
 
-    private String userId, storeId, title, content;
+    private String userId, storeId, title, content, classify;
     private Integer prizeCount = 0, integral = 0;
     private ArrayList<String> photos, findUrls;
 
@@ -44,6 +44,14 @@ public class Publish extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getClassify() {
+        return classify;
+    }
+
+    public void setClassify(String classify) {
+        this.classify = classify;
     }
 
     public Integer getPrizeCount() {

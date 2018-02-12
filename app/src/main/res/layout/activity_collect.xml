@@ -4,17 +4,13 @@
 
     <data>
 
-        <import type="com.thinkser.lezhuan.R" />
-
-        <import type="android.view.View" />
-
         <variable
             name="data"
             type="com.thinkser.lezhuan.data.AppData" />
 
         <variable
             name="presenter"
-            type="com.thinkser.lezhuan.activity.PublishActivity" />
+            type="com.thinkser.lezhuan.activity.CollectActivity" />
     </data>
 
     <LinearLayout
@@ -31,12 +27,9 @@
             android:layout_weight="1"
             app:back="@{()->presenter.back()}"
             app:backColor="@{@color/colorWhite}"
-            app:buttonAction="@{()->presenter.toCreatePublish()}"
-            app:buttonColor="@{@color/colorWhite}"
-            app:buttonText="@{@string/create}"
             app:layoutColor="@{@color/colorTheme}"
             app:lineColor="@{@color/colorWhite}"
-            app:title="@{@string/publish}"
+            app:title="@{@string/collect}"
             app:titleColor="@{@color/colorWhite}" />
 
         <android.support.v4.widget.SwipeRefreshLayout

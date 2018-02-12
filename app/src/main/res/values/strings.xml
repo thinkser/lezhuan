@@ -4,7 +4,6 @@
     <string name="cancel">取 消</string>
     <string name="ensure">确 认</string>
     <string name="create">新建</string>
-
     <!--login-->
     <string name="login">登 录</string>
     <string name="phone">请输入手机号</string>
@@ -31,6 +30,10 @@
     <string name="nearby">附近</string>
     <string name="friend_transmit">好友转发</string>
     <string name="key_word">输入关键字</string>
+    <!--friend-->
+    <string name="search_hint">手机号/昵称</string>
+    <!--info-->
+    <string name="info">广告详情</string>
     <!--person-->
     <string name="setting">设置</string>
     <string name="publish">我的发布</string>
@@ -45,7 +48,8 @@
     <string name="join">加入我们</string>
     <string name="clear">清除缓存</string>
     <string name="exit">退出登录</string>
-
+    <!--setting-->
+    <string name="change_portrait">更换头像</string>
     <!--publish-->
     <string name="AD_publish">广告发布</string>
     <string name="money">金额</string>
@@ -55,7 +59,6 @@
     <string name="AD_content">请输入一段描述性文字</string>
     <string name="AD_store">选择店铺</string>
     <string name="AD_prize">奖品数量：</string>
-
     <!--store-->
     <string name="store_create">店铺入住</string>
     <string name="store_name">店铺名</string>
@@ -63,5 +66,8 @@
     <string name="store_address">请输入店铺详细地址</string>
     <string name="store_hint">系统定位用于显示距离\n请确保当前所在位置为店铺位置</string>
     <string name="save">保 存</string>
-
+    <!--wallet-->
+    <string name="balance">账户余额（元）</string>
+    <string name="recharge">充值</string>
+    <string name="withdraw">提现</string>
 </resources>

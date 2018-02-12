@@ -22,6 +22,7 @@ public class CustomKey {
             district = "district",
             info = "info",
             photos = "photos",
-            findUrls = "findUrls";
+            findUrls = "findUrls",
+            classes = "classes";
 
 }

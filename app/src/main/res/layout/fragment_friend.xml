@@ -18,8 +18,79 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTheme"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
+        <!--标题栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@color/colorTheme"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/friend"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!--搜索框-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search"
+            android:gravity="center"
+            android:onClick="@{()->presenter.toAdd()}"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp">
+
+            <com.thinkser.core.view.BindingImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/svg_search"
+                android:tint="@color/colorTextLight" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/search"
+                android:textColor="@color/colorTextLight"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            app:isRefresh="@{data.isRefresh}"
+            app:refreshColor="@{@color/colorTheme}"
+            app:refreshListener="@{presenter}">
+
+            <com.thinkser.core.view.MyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{data.adapter}"
+                app:decoration="@{null}"
+                app:isLoading="@{data.isLoading}"
+                app:listener="@{presenter}" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

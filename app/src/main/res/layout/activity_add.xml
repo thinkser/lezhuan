@@ -6,7 +6,7 @@
 
         <variable
             name="presenter"
-            type="com.thinkser.lezhuan.activity.SearchActivity" />
+            type="com.thinkser.lezhuan.activity.AddFriendActivity" />
 
         <variable
             name="data"
@@ -16,7 +16,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
         android:orientation="vertical">
 
         <LinearLayout
@@ -64,7 +63,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorTransparent"
                     android:gravity="center_vertical"
-                    android:hint="@string/key_word"
+                    android:hint="@string/search_hint"
                     android:text="@={data.keyWord}"
                     android:textColor="@color/colorTextDark"
                     android:textColorHint="@color/colorHint"
@@ -105,6 +104,5 @@
                 app:isLoading="@{data.isLoading}"
                 app:listener="@{presenter}" />
         </android.support.v4.widget.SwipeRefreshLayout>
-
     </LinearLayout>
 </layout>

@@ -39,7 +39,8 @@ public class AppData {
     //home
     public final ObservableField<String>
             district = new ObservableField<>("定位中"),
-            keyWord = new ObservableField<>("");
+            keyWord = new ObservableField<>(""),
+            classify = new ObservableField<>("");
 
     //person
     public final ObservableField<String>
@@ -63,5 +64,8 @@ public class AppData {
             money = new ObservableInt();
     public final ObservableBoolean showStore = new ObservableBoolean();
     public final ObservableList<PublishImageItem> photos = new ObservableArrayList<>();
+
+    //wallet
+    public final ObservableField<String> balance = new ObservableField<>("");
 
 }

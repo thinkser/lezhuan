@@ -13,7 +13,7 @@ import com.thinkser.lezhuan.data.CustomKey;
 public class Customer extends BaseEntity {
 
     private String username, phone, password,
-            portrait = "", sex = "男", signature = "个性签名";
+            portrait = "", findUrl = "", signature = "个性签名";
 
     public String getPortrait() {
         return portrait;
@@ -21,14 +21,6 @@ public class Customer extends BaseEntity {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public String getUsername() {
@@ -63,6 +55,14 @@ public class Customer extends BaseEntity {
         this.signature = signature;
     }
 
+    public String getFindUrl() {
+        return findUrl;
+    }
+
+    public void setFindUrl(String findUrl) {
+        this.findUrl = findUrl;
+    }
+
     //保存用户信息
     public void saveUser(Activity activity) {
         new PreferencesUtil(activity)
@@ -70,9 +70,9 @@ public class Customer extends BaseEntity {
                 .setString(CustomKey.userId, getObjectId())
                 .setString(CustomKey.username, username)
                 .setString(CustomKey.phone, phone)
-                .setString(CustomKey.sex, sex)
                 .setString(CustomKey.portrait, portrait)
                 .setString(CustomKey.signature, signature)
+                .setString(CustomKey.findUrls, findUrl)
                 .save();
     }
 

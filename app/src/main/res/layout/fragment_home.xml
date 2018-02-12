@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTheme"
+        android:background="@color/colorBackground"
         android:orientation="vertical">
 
         <!--标题栏-->
@@ -54,7 +54,6 @@
 
                 <!--搜索框-->
                 <LinearLayout
-                    android:onClick="@{()->presenter.toSearch()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -62,6 +61,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="5"
                     android:background="@drawable/bg_search"
+                    android:onClick="@{()->presenter.toSearch()}"
                     android:paddingBottom="3dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="3dp">
@@ -85,6 +85,7 @@
                 <!--扫码按钮-->
                 <com.thinkser.core.view.BindingImageView
                     android:layout_width="0dp"
+                    android:onClick="@{()->presenter.toScan()}"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
@@ -163,12 +164,18 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="11">
+            android:layout_weight="11"
+            app:isRefresh="@{data.isRefresh}"
+            app:refreshColor="@{@color/colorTheme}"
+            app:refreshListener="@{presenter}">
 
             <com.thinkser.core.view.MyRecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorBackground" />
+                app:adapter="@{data.adapter}"
+                app:decoration="@{null}"
+                app:isLoading="@{data.isLoading}"
+                app:listener="@{presenter}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>
