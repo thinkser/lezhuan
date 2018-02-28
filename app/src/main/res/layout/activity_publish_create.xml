@@ -103,7 +103,6 @@
                     app:decoration="@{null}"
                     app:isLoading="@{true}"
                     app:listener="@{null}"
-                    app:scrollEnable="false"
                     app:spanCount="4" />
 
                 <!--选择店铺-->

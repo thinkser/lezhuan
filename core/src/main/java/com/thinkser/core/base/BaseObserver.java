@@ -39,12 +39,13 @@ public abstract class BaseObserver<T> implements Observer<T> {
             cancelDialog();
             ResponseBody body = ((HttpException) e).response().errorBody();
             try {
+                if (body == null) return;
                 HashMap map = new Gson().fromJson(body.string(), HashMap.class);
                 String msg = String.valueOf(map.get("error"));
                 String code = String.valueOf(map.get("code"));
                 onFailed(Double.valueOf(code));
                 log(msg);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

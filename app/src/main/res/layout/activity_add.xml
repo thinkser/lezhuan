@@ -101,8 +101,8 @@
                 android:layout_height="match_parent"
                 app:adapter="@{data.adapter}"
                 app:decoration="@{null}"
-                app:isLoading="@{data.isLoading}"
-                app:listener="@{presenter}" />
+                app:isLoading="@{true}"
+                app:listener="@{null}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

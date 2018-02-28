@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
 import com.thinkser.core.R;
 
@@ -19,9 +18,8 @@ import com.thinkser.core.R;
 
 public class MyRecyclerView extends RecyclerView {
 
-    private boolean isLoading;//是否正在加载
     private int spanCount;
-    private boolean scrollEnable;
+    private boolean isLoading;//是否正在加载
 
     public interface OnRecyclerScrollListener {
         void loadMore(MyRecyclerView view);
@@ -41,24 +39,12 @@ public class MyRecyclerView extends RecyclerView {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.MyRecyclerView, defStyle, 0);
         spanCount = typedArray.getInt(R.styleable.MyRecyclerView_spanCount, 1);
-        scrollEnable = typedArray.getBoolean(R.styleable.MyRecyclerView_scrollEnable, true);
         typedArray.recycle();
         RecyclerView.LayoutManager manager;
         if (spanCount > 1) {
-            manager = new GridLayoutManager(getContext(), spanCount) {
-
-                @Override
-                public boolean canScrollVertically() {
-                    return scrollEnable && super.canScrollVertically();
-                }
-            };
+            manager = new GridLayoutManager(getContext(), spanCount);
         } else {
-            manager = new LinearLayoutManager(getContext()) {
-                @Override
-                public boolean canScrollVertically() {
-                    return scrollEnable && super.canScrollVertically();
-                }
-            };
+            manager = new LinearLayoutManager(getContext());
         }
         //设置布局管理器
         setLayoutManager(manager);
@@ -134,9 +120,4 @@ public class MyRecyclerView extends RecyclerView {
         }
     }
 
-    //取消所有点击事件
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        return false;
-    }
 }

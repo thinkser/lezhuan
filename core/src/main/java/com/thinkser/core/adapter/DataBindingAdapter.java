@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.thinkser.core.view.MyRecyclerView;
+import com.thinkser.core.view.RecyclerLayout;
 
 import java.io.File;
 
@@ -78,11 +79,21 @@ public class DataBindingAdapter {
 
     //上拉加载列表
     @BindingAdapter({"adapter", "decoration", "listener"})
-    public static void setRecycler(MyRecyclerView recycler,
-                                   RecyclerAdapter adapter,
-                                   RecyclerView.ItemDecoration decoration,
-                                   MyRecyclerView.OnRecyclerScrollListener listener) {
+    public static void setRecyclerView(MyRecyclerView recycler,
+                                       RecyclerAdapter adapter,
+                                       RecyclerView.ItemDecoration decoration,
+                                       MyRecyclerView.OnRecyclerScrollListener listener) {
         recycler.setListener(listener);
+        recycler.setAdapter(adapter);
+        if (decoration != null)
+            recycler.addDecoration(decoration);
+    }
+
+    //上拉加载列表
+    @BindingAdapter({"adapter", "decoration"})
+    public static void setRecyclerLayout(RecyclerLayout recycler,
+                                         RecyclerAdapter adapter,
+                                         RecyclerView.ItemDecoration decoration) {
         recycler.setAdapter(adapter);
         if (decoration != null)
             recycler.addDecoration(decoration);

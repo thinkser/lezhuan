@@ -92,7 +92,7 @@
                 android:paddingLeft="13dp"
                 android:text="@{title}"
                 android:textColor="@{titleColor}"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
 
             <!--按钮-->
             <TextView

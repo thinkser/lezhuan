@@ -92,6 +92,12 @@ public class SettingActivity extends BaseActivity<AppData, ActivitySettingBindin
                         log(map.get("info"));
                         savePhotos();
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        savePhotos();
+                    }
                 });
     }
 

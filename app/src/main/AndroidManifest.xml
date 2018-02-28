@@ -12,6 +12,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".activity.BeginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BeginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +43,10 @@
 
         <activity
             android:name=".activity.AddFriendActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.NewFriendActivity"
             android:screenOrientation="portrait" />
 
         <activity

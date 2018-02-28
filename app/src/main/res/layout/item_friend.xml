@@ -6,6 +6,8 @@
 
         <import type="com.thinkser.lezhuan.R" />
 
+        <import type="android.view.View" />
+
         <variable
             name="presenter"
             type="com.thinkser.lezhuan.item.FriendItem" />
@@ -39,7 +41,7 @@
                 android:gravity="center_vertical"
                 android:text="@{presenter.name}"
                 android:textColor="@color/colorTextDark"
-                android:textSize="17sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -48,8 +50,22 @@
                 android:gravity="center_vertical"
                 android:text="@{presenter.signature}"
                 android:textColor="@color/colorTextLight"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@{presenter.isFriend?@color/colorDisable:@color/colorTheme}"
+            android:clickable="@{!presenter.isFriend}"
+            android:onClick="@{()->presenter.add()}"
+            android:padding="7dp"
+            android:text="@{presenter.isFriend?@string/added:(presenter.state==1?@string/agree:@string/add)}"
+            android:textColor="@{presenter.isFriend?@color/colorTextLight:@color/colorWhite}"
+            android:textSize="15sp"
+            android:visibility="@{presenter.isFriend&amp;presenter.state==0?View.GONE:View.VISIBLE}" />
 
     </LinearLayout>
 </layout>

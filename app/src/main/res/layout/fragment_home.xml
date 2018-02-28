@@ -85,9 +85,9 @@
                 <!--扫码按钮-->
                 <com.thinkser.core.view.BindingImageView
                     android:layout_width="0dp"
-                    android:onClick="@{()->presenter.toScan()}"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="@{()->presenter.toScan()}"
                     android:scaleType="centerInside"
                     android:src="@drawable/svg_scan"
                     android:tint="@color/colorWhite" />
@@ -98,7 +98,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:background="@color/colorWhite"
+            android:visibility="gone">
 
             <include
                 layout="@layout/item_square"
@@ -159,12 +160,13 @@
             android:gravity="center"
             android:text="@string/friend_transmit"
             android:textColor="@color/colorTextDark"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="11"
+            android:layout_weight="14"
             app:isRefresh="@{data.isRefresh}"
             app:refreshColor="@{@color/colorTheme}"
             app:refreshListener="@{presenter}">

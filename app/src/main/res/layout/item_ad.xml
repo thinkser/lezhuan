@@ -48,14 +48,12 @@
                 android:layout_weight="1">
 
                 <!--奖励-->
-                <com.thinkser.core.view.MyRecyclerView
+                <com.thinkser.core.view.RecyclerLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:adapter="@{presenter.adapter}"
+                    app:clickEnable="false"
                     app:decoration="@{null}"
-                    app:isLoading="@{true}"
-                    app:listener="@{null}"
-                    app:scrollEnable="false"
                     app:spanCount="5" />
 
                 <View

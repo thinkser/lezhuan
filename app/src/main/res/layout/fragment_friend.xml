@@ -41,7 +41,7 @@
                 android:gravity="center"
                 android:text="@string/friend"
                 android:textColor="@color/colorWhite"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
         </LinearLayout>
 
         <!--搜索框-->
@@ -76,6 +76,14 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
+        <include
+            layout="@layout/item_rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:click="@{()->presenter.toNew()}"
+            app:showEnter="@{true}"
+            app:title="@{@string/friend_new}" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -87,10 +95,11 @@
             <com.thinkser.core.view.MyRecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorBackground"
                 app:adapter="@{data.adapter}"
                 app:decoration="@{null}"
-                app:isLoading="@{data.isLoading}"
-                app:listener="@{presenter}" />
+                app:isLoading="@{true}"
+                app:listener="@{null}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

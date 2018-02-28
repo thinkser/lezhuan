@@ -2,13 +2,10 @@
 <resources>
     <declare-styleable name="MyRecyclerView">
         <attr name="spanCount" format="integer" />
-        <attr name="scrollEnable" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="CustomListView">
-        <attr name="count" format="integer" />
-        <attr name="size" format="integer" />
-        <attr name="item" format="integer" />
+    <declare-styleable name="RecyclerLayout">
+        <attr name="clickEnable" format="boolean" />
     </declare-styleable>
 
 </resources>

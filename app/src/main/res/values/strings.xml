@@ -32,6 +32,10 @@
     <string name="key_word">输入关键字</string>
     <!--friend-->
     <string name="search_hint">手机号/昵称</string>
+    <string name="friend_new">新朋友</string>
+    <string name="add">添  加</string>
+    <string name="added">已添加</string>
+    <string name="agree">同  意</string>
     <!--info-->
     <string name="info">广告详情</string>
     <!--person-->

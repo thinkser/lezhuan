@@ -1,6 +1,5 @@
 package com.thinkser.lezhuan.api;
 
-import com.thinkser.lezhuan.entity.Customer;
 import com.thinkser.lezhuan.entity.FileEntity;
 import com.thinkser.lezhuan.entity.Publish;
 import com.thinkser.lezhuan.entity.Store;
