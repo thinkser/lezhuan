@@ -6,6 +6,8 @@ import android.databinding.ObservableList;
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.lezhuan.R;
 
+import java.util.ArrayList;
+
 /**
  * 广告列表项
  */
@@ -22,7 +24,9 @@ public class ADItem {
     public final ObservableField<RecyclerAdapter> adapter = new ObservableField<>();
 
     public ADItem(ObservableList<PrizeItem> data) {
-        adapter.set(new RecyclerAdapter(R.layout.item_prize, data));
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(R.layout.item_prize);
+        adapter.set(recyclerAdapter);
+        recyclerAdapter.refresh((ArrayList) data);
     }
 
     public void click() {

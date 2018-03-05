@@ -21,17 +21,17 @@
         android:orientation="vertical">
 
         <!--标题栏-->
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                layout="@layout/title"
-                app:back="@{()->presenter.back()}"
-                app:backColor="@{@color/colorTheme}"
-                app:layoutColor="@{@color/colorTab}"
-                app:lineColor="@{@color/colorLine}"
-                app:title="@{@string/login}"
-                app:titleColor="@{@color/colorTextDark}" />
+        <include
+            layout="@layout/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:back="@{()->presenter.back()}"
+            app:backColor="@{@color/colorTheme}"
+            app:layoutColor="@{@color/colorTab}"
+            app:lineColor="@{@color/colorLine}"
+            app:title="@{@string/login}"
+            app:titleColor="@{@color/colorTextDark}" />
 
         <View
             android:layout_width="match_parent"

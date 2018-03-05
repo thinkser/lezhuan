@@ -62,6 +62,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.InfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.PublishCreateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -74,6 +78,10 @@
             android:name=".activity.StoreCreateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".activity.CodeActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.TransmitActivity"
@@ -90,6 +98,20 @@
         <activity
             android:name=".activity.WalletActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PayActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.xys.zxing.zxing.activity.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service android:name=".service.BeginService" />
 

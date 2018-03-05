@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
+import com.thinkser.core.base.BaseObserver;
 import com.thinkser.core.view.MyRecyclerView;
 import com.thinkser.lezhuan.R;
 import com.thinkser.lezhuan.data.AppData;
@@ -15,6 +16,9 @@ import com.thinkser.lezhuan.databinding.ActivitySearchBinding;
 import com.thinkser.lezhuan.entity.Publish;
 import com.thinkser.lezhuan.item.ADItem;
 import com.thinkser.lezhuan.item.PrizeItem;
+import com.thinkser.lezhuan.model.MainModel;
+
+import java.util.ArrayList;
 
 /**
  * 搜索界面
@@ -23,7 +27,9 @@ import com.thinkser.lezhuan.item.PrizeItem;
 public class SearchActivity extends BaseActivity<AppData, ActivitySearchBinding>
         implements SwipeRefreshLayout.OnRefreshListener, MyRecyclerView.OnRecyclerScrollListener {
 
+    private MainModel model;
     private ObservableList<ADItem> list;
+    private RecyclerAdapter adapter;
 
     @Override
     protected int getLayout() {
@@ -38,28 +44,41 @@ public class SearchActivity extends BaseActivity<AppData, ActivitySearchBinding>
     @Override
     protected void initData(Intent intent) {
         super.initData(intent);
-        list = new ObservableArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_ad, list));
+        model = new MainModel(this);
+        data.adapter.set(new RecyclerAdapter(R.layout.item_ad));
+        adapter = data.adapter.get();
     }
 
     public void search() {
-        data.isRefresh.set(true);
         getList();
     }
 
     @Override
     public void onRefresh() {
-        data.isRefresh.set(true);
         getList();
     }
 
     //根据关键字获取广告列表
     private void getList() {
-        data.isRefresh.set(false);
+        ArrayList<ADItem> list = new ArrayList<>();
+        model.searchPublish(data.keyWord.get(),
+                new BaseObserver<Publish>(null) {
+                    @Override
+                    protected void onSuccess(Publish publish) {
+                        showList(publish, list);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        adapter.refresh(list);
+                        data.isRefresh.set(false);
+                    }
+                });
     }
 
     //显示发布列表
-    private void showList(Publish publish) {
+    private void showList(Publish publish, ArrayList<ADItem> list) {
         ObservableList<PrizeItem> prizes = new ObservableArrayList<>();
         //显示奖品列表
         for (int i = 0; i < 10; i++) {

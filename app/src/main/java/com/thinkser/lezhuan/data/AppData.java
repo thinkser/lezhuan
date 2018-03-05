@@ -65,7 +65,13 @@ public class AppData {
     public final ObservableBoolean showStore = new ObservableBoolean();
     public final ObservableList<PublishImageItem> photos = new ObservableArrayList<>();
 
+    //info
+    public final ObservableList<String> images = new ObservableArrayList<>();
+
     //wallet
     public final ObservableField<String> balance = new ObservableField<>("");
+
+    //pay
+    public final ObservableField<String> pay = new ObservableField<>("");
 
 }

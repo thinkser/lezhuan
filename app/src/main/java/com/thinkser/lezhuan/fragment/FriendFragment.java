@@ -1,9 +1,8 @@
 package com.thinkser.lezhuan.fragment;
 
 import android.content.Intent;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseFragment;
@@ -28,7 +27,7 @@ public class FriendFragment extends BaseFragment<AppData, FragmentFriendBinding>
         implements SwipeRefreshLayout.OnRefreshListener {
 
     private FriendModel model;
-    private ObservableList<FriendItem> list;
+//    private RecyclerAdapter data.adapter.get();
 
     private ArrayList<Friend> allFriends, newFriends, friends;
 
@@ -45,13 +44,53 @@ public class FriendFragment extends BaseFragment<AppData, FragmentFriendBinding>
     @Override
     protected void initData() {
         super.initData();
-        list = new ObservableArrayList<>();
         model = new FriendModel(getActivity());
         allFriends = new ArrayList<>();
         newFriends = new ArrayList<>();
         friends = new ArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_friend, list));
+        data.adapter.set(new RecyclerAdapter(R.layout.item_friend));
+
         getList();
+    }
+
+    //获取好友列表
+    private void getList() {
+        data.isRefresh.set(true);
+        allFriends.clear();
+        newFriends.clear();
+        friends.clear();
+        ArrayList<FriendItem> items = new ArrayList<>();
+        model.getFriend(preferencesUtil.getString(CustomKey.userId),
+                new BaseObserver<Friend>(null) {
+                    @Override
+                    protected void onSuccess(Friend friend) {
+                        allFriends.add(friend);
+                        if (friend.getState() == 0) {
+                            friends.add(friend);
+                            getItem(friend, items);
+                        } else {
+                            newFriends.add(friend);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        data.adapter.get().refresh(items);
+                        data.isRefresh.set(false);
+                    }
+                });
+    }
+
+    //生成好友列表项
+    private void getItem(Friend friend, ArrayList<FriendItem> items) {
+        FriendItem item = new FriendItem(activity, "");
+        item.portrait.set(friend.getPortrait());
+        item.name.set(friend.getName());
+        item.signature.set(friend.getSignature());
+        item.state.set(friend.getState());
+        item.isFriend.set(true);
+        items.add(item);
     }
 
     //跳转到搜索界面
@@ -75,48 +114,6 @@ public class FriendFragment extends BaseFragment<AppData, FragmentFriendBinding>
 
     @Override
     public void onRefresh() {
-        if (list.size()==0){
-            getList();
-        }else {
-            data.isRefresh.set(true);
-            data.isRefresh.set(false);
-        }
+        getList();
     }
-
-    //获取好友列表
-    private void getList() {
-        data.isRefresh.set(true);
-        allFriends.clear();
-        newFriends.clear();
-        model.getFriend(preferencesUtil.getString(CustomKey.userId),
-                new BaseObserver<Friend>(null) {
-                    @Override
-                    protected void onSuccess(Friend friend) {
-                        allFriends.add(friend);
-                        if (friend.getState() == 0) {
-                            friends.add(friend);
-                            getItem(friend);
-                        } else {
-                            newFriends.add(friend);
-                        }
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        data.isRefresh.set(false);
-                    }
-                });
-    }
-
-    private void getItem(Friend friend) {
-        FriendItem item = new FriendItem(activity, "");
-        item.portrait.set(friend.getPortrait());
-        item.name.set(friend.getName());
-        item.signature.set(friend.getSignature());
-        item.state.set(friend.getState());
-        item.isFriend.set(true);
-        list.add(item);
-    }
-
 }

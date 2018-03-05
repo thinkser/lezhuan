@@ -13,32 +13,47 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_item"
         android:onClick="@{()->presenter.click()}"
-        android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@{presenter.storeName}"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@{presenter.storeName}"
+                android:textColor="@color/colorTextDark"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@{presenter.storePhone}"
+                android:textColor="@color/colorTextLight"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@{presenter.storeAddress}"
+                android:textColor="@color/colorTextLight"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:onClick="@{()->presenter.toCode()}"
+            android:text="@string/code_title"
             android:textColor="@color/colorTextDark"
             android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@{presenter.storePhone}"
-            android:textColor="@color/colorTextLight"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@{presenter.storeAddress}"
-            android:textColor="@color/colorTextLight"
-            android:textSize="13sp" />
 
     </LinearLayout>
 </layout>

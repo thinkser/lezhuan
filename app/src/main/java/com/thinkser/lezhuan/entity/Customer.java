@@ -14,6 +14,7 @@ public class Customer extends BaseEntity {
 
     private String username, phone, password,
             portrait = "", findUrl = "", signature = "个性签名";
+    private Float money = 8000f;
 
     public String getPortrait() {
         return portrait;
@@ -63,6 +64,14 @@ public class Customer extends BaseEntity {
         this.findUrl = findUrl;
     }
 
+    public Float getMoney() {
+        return money;
+    }
+
+    public void setMoney(Float money) {
+        this.money = money;
+    }
+
     //保存用户信息
     public void saveUser(Activity activity) {
         new PreferencesUtil(activity)
@@ -73,6 +82,7 @@ public class Customer extends BaseEntity {
                 .setString(CustomKey.portrait, portrait)
                 .setString(CustomKey.signature, signature)
                 .setString(CustomKey.findUrls, findUrl)
+                .setFloat(CustomKey.money, money)
                 .save();
     }
 

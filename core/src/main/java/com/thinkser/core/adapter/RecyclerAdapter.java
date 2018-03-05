@@ -1,7 +1,6 @@
 package com.thinkser.core.adapter;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +9,10 @@ import android.view.ViewGroup;
 
 import com.thinkser.core.BR;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+
 /**
  * 通用的RecyclerAdapter。
  */
@@ -17,37 +20,22 @@ import com.thinkser.core.BR;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private int layout;
-    private ObservableList data;
+    private ArrayList data;
 
-    public RecyclerAdapter(int layout, ObservableList data) {
+    public RecyclerAdapter(int layout) {
         this.layout = layout;
-        this.data = data;
-        data.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList>() {
-            @Override
-            public void onChanged(ObservableList observableList) {
-                RecyclerAdapter.this.notifyDataSetChanged();
-            }
+        this.data = new ArrayList();
+    }
 
-            @Override
-            public void onItemRangeChanged(ObservableList observableList, int i, int i1) {
-                RecyclerAdapter.this.notifyDataSetChanged();
-            }
+    public void refresh(ArrayList newData) {
+        data.clear();
+        data.addAll(newData);
+        notifyDataSetChanged();
+    }
 
-            @Override
-            public void onItemRangeInserted(ObservableList observableList, int i, int i1) {
-                RecyclerAdapter.this.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onItemRangeMoved(ObservableList observableList, int i, int i1, int i2) {
-                RecyclerAdapter.this.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onItemRangeRemoved(ObservableList observableList, int i, int i1) {
-                RecyclerAdapter.this.notifyDataSetChanged();
-            }
-        });
+    public void loadingMore(ArrayList moreData) {
+        data.addAll(moreData);
+        notifyDataSetChanged();
     }
 
     @Override

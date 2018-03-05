@@ -37,6 +37,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
 
     private PublishModel model;
     private ProgressDialog progressDialog;
+    private RecyclerAdapter adapter;
 
     private Publish publish;
     private ArrayList<String> photos, oldFindUrls, newFindUrls;//图片链接
@@ -77,8 +78,10 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
             showStore(publish.getStoreId());
             showPhotos(publish.getPhotos());
         }
-        data.adapter.set(new RecyclerAdapter(R.layout.item_publish_image, data.photos));
+        data.adapter.set(new RecyclerAdapter(R.layout.item_publish_image));
+        adapter = data.adapter.get();
         data.photos.add(getItem(null));
+        adapter.refresh((ArrayList) data.photos);
     }
 
     //显示店铺信息
@@ -105,6 +108,12 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
                             int position = data.photos.size() - 1;
                             data.photos.add(position, getItem(file));
                         }
+
+                        @Override
+                        public void onComplete() {
+                            super.onComplete();
+                            adapter.refresh((ArrayList) data.photos);
+                        }
                     });
         }
     }
@@ -117,6 +126,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
                 toSelect();
             } else {// 删除图片
                 data.photos.remove(item);
+                adapter.refresh((ArrayList) data.photos);
             }
         });
         return item;
@@ -155,6 +165,7 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
                 String path = SrcUtil.getPath(this, uri);//获取图片地址
                 int position = data.photos.size() - 1;
                 data.photos.add(position, getItem(new File(path)));
+                adapter.refresh((ArrayList) data.photos);
             }
         }
     }

@@ -27,7 +27,7 @@ public class AddFriendActivity extends BaseActivity<AppData, ActivityAddBinding>
 
     private FriendModel model;
     private ArrayList<String> friends;
-    private ObservableList<FriendItem> items;
+    private RecyclerAdapter adapter;
 
     @Override
     protected int getLayout() {
@@ -43,42 +43,44 @@ public class AddFriendActivity extends BaseActivity<AppData, ActivityAddBinding>
     protected void initData(Intent intent) {
         super.initData(intent);
         model = new FriendModel(this);
+        //获取已添加的好友id
         friends = intent.getStringArrayListExtra(CustomKey.info);
-        items = new ObservableArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_friend, items));
+        //过滤掉自己
+        friends.add(preferencesUtil.getString(CustomKey.userId));
+        //初始化列表适配器
+        data.adapter.set(new RecyclerAdapter(R.layout.item_friend));
+        adapter = data.adapter.get();
     }
 
     public void search() {
         data.isRefresh.set(true);
-        items.clear();
+        ArrayList<FriendItem> items = new ArrayList<>();
         model.search(data.keyWord.get(),
                 new BaseObserver<Customer>(null) {
                     @Override
                     protected void onSuccess(Customer customer) {
+                        //检查是否已添加
                         boolean isFriend = false;
-                        if (friends == null) {
-                            getItem(customer, false);
-                            return;
-                        }
                         for (String fiendId : friends) {
                             if (customer.getObjectId().equals(fiendId)) {
                                 isFriend = true;
                                 break;
                             }
                         }
-                        getItem(customer, isFriend);
+                        getItem(customer, isFriend, items);
                     }
 
                     @Override
                     public void onComplete() {
                         super.onComplete();
+                        adapter.refresh(items);
                         data.isRefresh.set(false);
                     }
                 });
     }
 
     //获取好友列表项
-    private void getItem(Customer customer, boolean isFriend) {
+    private void getItem(Customer customer, boolean isFriend, ArrayList<FriendItem> items) {
         FriendItem item = new FriendItem(this, "");
         item.friendId.set(customer.getObjectId());
         item.name.set(customer.getUsername());

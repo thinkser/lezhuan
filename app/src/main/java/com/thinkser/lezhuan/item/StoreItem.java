@@ -1,7 +1,11 @@
 package com.thinkser.lezhuan.item;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.ObservableField;
 
+import com.thinkser.lezhuan.activity.CodeActivity;
+import com.thinkser.lezhuan.data.CustomKey;
 import com.thinkser.lezhuan.entity.Store;
 
 /**
@@ -11,6 +15,7 @@ import com.thinkser.lezhuan.entity.Store;
 public class StoreItem {
 
     private Store store;
+    private Activity activity;
     private OnStoreItemClickListener listener;
 
     public final ObservableField<String>
@@ -18,7 +23,8 @@ public class StoreItem {
             storeAddress = new ObservableField<>(""),
             storePhone = new ObservableField<>("");
 
-    public StoreItem(Store store) {
+    public StoreItem(Activity activity, Store store) {
+        this.activity = activity;
         this.store = store;
         storeName.set(store.getStoreName());
         storePhone.set(store.getStorePhone());
@@ -35,5 +41,11 @@ public class StoreItem {
 
     public void setListener(OnStoreItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void toCode() {
+        Intent intent = new Intent(activity, CodeActivity.class);
+        intent.putExtra(CustomKey.userId, store.getObjectId());
+        activity.startActivity(intent);
     }
 }

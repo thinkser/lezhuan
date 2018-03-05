@@ -36,4 +36,10 @@ public interface StoreAPI {
     Observable<Map<String, List<Store>>> getStoreList(
             @Path("table") String table,
             @Query("where") String where);
+
+    @GET("classes/{table}/{id}")
+    Observable<Store> getStoreInfo(
+            @Path("table") String table,
+            @Path("id") String id
+    );
 }

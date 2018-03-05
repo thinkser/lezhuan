@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.thinkser.lezhuan.R" />
+
         <variable
             name="presenter"
             type="com.thinkser.lezhuan.activity.InfoActivity" />
@@ -33,8 +35,133 @@
 
         <View
             android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine" />
+
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8" />
+            android:layout_weight="8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.thinkser.core.view.BindingImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="fitXY"
+                    app:placeholder="@{R.drawable.img_placeholder}"
+                    app:url="@{data.images.get(0)}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="8dp"
+                    android:text="@{data.publishTitle}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="17sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorWhite">
+
+                    <!--奖励-->
+                    <com.thinkser.core.view.RecyclerLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="8dp"
+                        app:adapter="@{data.adapter}"
+                        app:decoration="@{null}"
+                        app:spanCount="5" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@{presenter.enable?@color/colorTheme:@color/colorDisable}"
+                        android:clickable="@{presenter.enable}"
+                        android:gravity="center"
+                        android:onClick="@{()->presenter.transmit()}"
+                        android:padding="8dp"
+                        android:text="@string/now_transmit"
+                        android:textColor="@{presenter.enable?@color/colorWhite:@color/colorTextLight}"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_underline"
+                    android:padding="8dp"
+                    android:text="@string/store_info"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+
+                <!--店铺信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storeName}"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storePhone}"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@{data.storeAddress}"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_underline"
+                    android:padding="8dp"
+                    android:text="@string/publish_info"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="8dp"
+                    android:text="@{data.content}"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 </layout>

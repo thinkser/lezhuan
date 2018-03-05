@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.google.gson.Gson;
 import com.thinkser.core.base.BaseModel;
 import com.thinkser.core.base.BaseObserver;
+import com.thinkser.lezhuan.activity.StoreActivity;
 import com.thinkser.lezhuan.api.StoreAPI;
 import com.thinkser.lezhuan.entity.Store;
 
@@ -42,6 +43,13 @@ public class StoreModel extends BaseModel {
     public void changeStore(String id, Store store, BaseObserver<Map<String, String>> baseObserver) {
         netUtil.getInstance(headers, StoreAPI.class)
                 .changeStore(Store.class.getSimpleName(), id, getBody(store))
+                .compose(netUtil.compose())
+                .subscribe(baseObserver);
+    }
+
+    public void getStoreInfo(String id, BaseObserver<Store> baseObserver) {
+        netUtil.getInstance(headers, StoreAPI.class)
+                .getStoreInfo(Store.class.getSimpleName(), id)
                 .compose(netUtil.compose())
                 .subscribe(baseObserver);
     }

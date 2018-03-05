@@ -16,6 +16,7 @@ import com.thinkser.lezhuan.entity.Store;
 import com.thinkser.lezhuan.item.StoreItem;
 import com.thinkser.lezhuan.model.StoreModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
         implements StoreItem.OnStoreItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private StoreModel model;
-    private ObservableList<StoreItem> list;
+    private RecyclerAdapter adapter;
 
     private int storeCount = -1;//-1代表未获取到数据
     public String titleText = "";
@@ -47,9 +48,10 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
         super.initData(intent);
         titleText = intent.getStringExtra("titleText");
         model = new StoreModel(this);
-        list = new ObservableArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_store, list));
-        data.isRefresh.set(true);
+        //初始化适配器
+        data.adapter.set(new RecyclerAdapter(R.layout.item_store));
+        adapter = data.adapter.get();
+
         getList();
     }
 
@@ -64,6 +66,8 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
 
     //获取店铺列表信息
     private void getList() {
+        data.isRefresh.set(true);
+        ArrayList<StoreItem> list = new ArrayList<>();
         model.getStoreList(preferencesUtil.getString(CustomKey.userId),
                 new BaseObserver<List<Store>>(null) {
                     @Override
@@ -73,16 +77,17 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
                             return;
                         }
                         storeCount = stores.size();
-                        list.clear();
                         for (Store store : stores) {
-                            StoreItem storeItem = new StoreItem(store);
+                            StoreItem storeItem = new StoreItem(activity,store);
                             storeItem.setListener(StoreActivity.this);
                             list.add(storeItem);
                         }
+                        adapter.refresh(list);
                         data.isRefresh.set(false);
                     }
                 });
     }
+
 
     //点击新建按钮
     public void toCreateStore() {
@@ -113,7 +118,6 @@ public class StoreActivity extends BaseActivity<AppData, ActivityStoreBinding>
 
     @Override
     public void onRefresh() {
-        data.isRefresh.set(true);
-        data.isRefresh.set(false);
+        getList();
     }
 }

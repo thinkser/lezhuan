@@ -17,6 +17,7 @@ import com.thinkser.lezhuan.item.ADItem;
 import com.thinkser.lezhuan.item.PrizeItem;
 import com.thinkser.lezhuan.model.PublishModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
         implements SwipeRefreshLayout.OnRefreshListener {
 
     private PublishModel model;
-    private ObservableList<ADItem> list;
+    private RecyclerAdapter adapter;
 
     private int publishCount = -1;//广告数量
     private static final int REQUEST_CREATE = 1;
@@ -46,9 +47,10 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
     protected void initData(Intent intent) {
         super.initData(intent);
         model = new PublishModel(this);
-        list = new ObservableArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_ad, list));
-        data.isRefresh.set(true);
+        //初始化列表适配器
+        data.adapter.set(new RecyclerAdapter(R.layout.item_ad));
+        adapter = data.adapter.get();
+
         getList();
     }
 
@@ -64,26 +66,29 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
 
     //获取我的发布列表数据
     public void getList() {
+        data.isRefresh.set(true);
         model.getStoreList(preferencesUtil.getString(CustomKey.userId),
                 new BaseObserver<List<Publish>>(null) {
                     @Override
                     protected void onSuccess(List<Publish> publishes) {
                         if (publishes == null || publishes.size() == 0) {
                             publishCount = 0;
+                            data.isRefresh.set(false);
                             return;
                         }
                         publishCount = publishes.size();
-                        list.clear();
+                        ArrayList<ADItem> list = new ArrayList<>();
                         for (Publish publish : publishes) {
-                            showList(publish);
+                            showList(publish, list);
                         }
+                        adapter.refresh(list);
                         data.isRefresh.set(false);
                     }
                 });
     }
 
     //显示发布列表
-    private void showList(Publish publish) {
+    private void showList(Publish publish, ArrayList<ADItem> list) {
         ObservableList<PrizeItem> prizes = new ObservableArrayList<>();
         //显示奖品列表
         for (int i = 0; i < 10; i++) {
@@ -118,7 +123,6 @@ public class PublishActivity extends BaseActivity<AppData, ActivityPublishBindin
 
     @Override
     public void onRefresh() {
-        data.isRefresh.set(true);
-        data.isRefresh.set(false);
+        getList();
     }
 }

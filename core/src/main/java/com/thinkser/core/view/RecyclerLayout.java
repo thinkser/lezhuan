@@ -40,9 +40,19 @@ public class RecyclerLayout extends RecyclerView {
         typedArray.recycle();
         RecyclerView.LayoutManager manager;
         if (spanCount > 1) {
-            manager = new GridLayoutManager(getContext(), spanCount);
+            manager = new GridLayoutManager(getContext(), spanCount) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
         } else {
-            manager = new LinearLayoutManager(getContext());
+            manager = new LinearLayoutManager(getContext()) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
         }
         //设置布局管理器
         setLayoutManager(manager);
@@ -59,23 +69,4 @@ public class RecyclerLayout extends RecyclerView {
             addItemDecoration(decoration);
         }
     }
-
-    @Override
-    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        super.requestDisallowInterceptTouchEvent(disallowIntercept);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent e) {
-        Log.e("onInterceptTouchEvent", "true");
-        Log.e("onInterceptTouchEvent", String.valueOf(clickable));
-        return clickable;
-    }
-
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        Log.e("dispatchTouchEvent", "true");
-//        Log.e("dispatchTouchEvent", clickable + "");
-//        return clickable;
-//    }
 }

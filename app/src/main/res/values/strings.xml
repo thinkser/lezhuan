@@ -38,6 +38,9 @@
     <string name="agree">同  意</string>
     <!--info-->
     <string name="info">广告详情</string>
+    <string name="now_transmit">立即转发</string>
+    <string name="store_info">店铺信息</string>
+    <string name="publish_info">图文详情</string>
     <!--person-->
     <string name="setting">设置</string>
     <string name="publish">我的发布</string>
@@ -74,4 +77,12 @@
     <string name="balance">账户余额（元）</string>
     <string name="recharge">充值</string>
     <string name="withdraw">提现</string>
+    <!--code-->
+    <string name="code_title">收款二维码</string>
+    <string name="code_marked">扫一扫上面的二维码，向我付款</string>
+    <!--pay-->
+    <string name="payment">付款</string>
+    <string name="pay_money">支付金额</string>
+    <string name="pay_ensure">确认支付</string>
+    <string name="success">支付成功</string>
 </resources>

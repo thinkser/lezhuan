@@ -23,6 +23,7 @@ public class CustomKey {
             info = "info",
             photos = "photos",
             findUrls = "findUrls",
-            classes = "classes";
+            classes = "classes",
+            money = "money";
 
 }

@@ -1,8 +1,6 @@
 package com.thinkser.lezhuan.activity;
 
 import android.content.Intent;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
 
 import com.thinkser.core.adapter.RecyclerAdapter;
 import com.thinkser.core.base.BaseActivity;
@@ -21,8 +19,6 @@ import java.util.ArrayList;
 
 public class NewFriendActivity extends BaseActivity<AppData, ActivityNewBinding> {
 
-    private ObservableList<FriendItem> list;
-
     @Override
     protected int getLayout() {
         return R.layout.activity_new;
@@ -36,17 +32,18 @@ public class NewFriendActivity extends BaseActivity<AppData, ActivityNewBinding>
     @Override
     protected void initData(Intent intent) {
         super.initData(intent);
-        list = new ObservableArrayList<>();
-        data.adapter.set(new RecyclerAdapter(R.layout.item_friend, list));
+        data.adapter.set(new RecyclerAdapter(R.layout.item_friend));
         ArrayList<Friend> newFriends = (ArrayList<Friend>) intent.getSerializableExtra(CustomKey.info);
         if (newFriends == null) return;
+        ArrayList<FriendItem> list = new ArrayList<>();
         for (Friend friend : newFriends) {
-            getItem(friend);
+            getItem(friend, list);
         }
+        data.adapter.get().refresh(list);
     }
 
     //获取好友列表项
-    private void getItem(Friend friend) {
+    private void getItem(Friend friend, ArrayList<FriendItem> list) {
         FriendItem item = new FriendItem(this, friend.getObjectId());
         item.friendId.set(friend.getFriendId());
         item.name.set(friend.getName());
