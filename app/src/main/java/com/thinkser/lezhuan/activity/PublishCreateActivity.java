@@ -20,6 +20,7 @@ import com.thinkser.lezhuan.entity.FileEntity;
 import com.thinkser.lezhuan.entity.Publish;
 import com.thinkser.lezhuan.entity.Store;
 import com.thinkser.lezhuan.item.PublishImageItem;
+import com.thinkser.lezhuan.model.PayModel;
 import com.thinkser.lezhuan.model.PublishModel;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -225,7 +226,25 @@ public class PublishCreateActivity extends BaseActivity<AppData, ActivityPublish
         if (data.money.get() == 0) {
             saveInfo();
         } else {
-
+            PayModel payModel = new PayModel(this);
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.showProgressDialog("请稍候", false);
+            //本地操作
+            preferencesUtil.setFloat(CustomKey.money,
+                    preferencesUtil.getFloat(CustomKey.money) - (float) data.money.get())
+                    .save();
+            payModel.reduceMoney(preferencesUtil.getString(CustomKey.userId),
+                    (float) data.money.get(),
+                    new BaseObserver<Map<String, String>>(dialog.dialog) {
+                        @Override
+                        protected void onSuccess(Map<String, String> map) {
+                            Intent intent = new Intent(activity, PaySuccessActivity.class);
+                            intent.putExtra(CustomKey.info, "奖券充值");
+                            intent.putExtra(CustomKey.money, Float.valueOf(data.money.get()));
+                            activity.startActivity(intent);
+                            activity.finish();
+                        }
+                    });
         }
     }
 
